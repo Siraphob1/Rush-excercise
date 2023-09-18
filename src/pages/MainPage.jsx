@@ -9,7 +9,7 @@ export const MainPage = () => {
         <div className="absolute top-0  w-full h-full flex justify-between ">
           <section className="">
 
-            <p class="font-bold text-6xl text-[#BDFF00] mt-20 ml-20">
+            <p className="font-bold text-6xl text-[#BDFF00] mt-20 ml-20">
               Hello, Tang
             </p>
 
