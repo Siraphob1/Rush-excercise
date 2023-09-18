@@ -8,23 +8,27 @@ import {
 } from "react-router-dom";
 
 
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,    
   },
-  {
-    path: "/login",
-    element: <App />,    
-  },
-  {
-    path: "/signup",
-    element: <App />,    
-  },
-  {
-    path: "/profile",
-    element: <App />,    
-  },
+  // fill page to element
+  // {
+  //   path: "/login",
+  //   element: <App/>,    
+  // },
+  
+  // {
+  //   path: "/signup",
+  //   element: <App />,    
+  // },
+
+  // {
+  //   path: "/mainpage",
+  //   element: <App />,    
+  // },
 ]);
 
 
