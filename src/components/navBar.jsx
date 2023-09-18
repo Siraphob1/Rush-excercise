@@ -1,13 +1,19 @@
+import { Link } from "react-router-dom"
+
+
 const NavBar = () => {
     return (
-      <nav className='flex justify-between bg-black p-[20px] ' >
+      <nav className='flex justify-between text-white bg-black p-[20px] ' >
+        {/* Left */}
         <div>
-        <a className="text-white" href="/mainpage">Rush</a>
+          <Link to={'/mainpage'}>Rush</Link>
         </div>
+
+        {/* Right */}
         <div className='flex gap-x-6'>
-        <a className=" text-white" href="/profile">Profile</a>
-        <a className="text-white" href="/signup">Sign up</a>
-        <a className="text-white" href="/login">Log in</a>
+          <Link to={'/profile'}>Profile</Link>
+          <Link to={'/signup'}>Sign up</Link>
+          <Link to={'/login'}>Log in</Link>
         </div>
       </nav>
     )
