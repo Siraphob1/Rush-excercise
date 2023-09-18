@@ -1,8 +1,11 @@
-import React from "react";
+
 import DesktopMain from "../assets/image/Desktop_Main.jpg";
+import NavBar from "../components/navBar";
+
 export const MainPage = () => {
   return (
     <main className="w-full main-screen" data-theme="light">
+      <NavBar/>
       <section className="relative">
         <img src={DesktopMain} alt="DesktopMain" />
 
