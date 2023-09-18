@@ -6,6 +6,8 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import SignupPage from './pages/SignupPage.jsx';
+
 
 
 
@@ -20,10 +22,10 @@ const router = createBrowserRouter([
   //   element: <App/>,    
   // },
   
-  // {
-  //   path: "/signup",
-  //   element: <App />,    
-  // },
+  {
+    path: "/signup",
+    element: <SignupPage />,    
+  },
 
   // {
   //   path: "/mainpage",
