@@ -4,9 +4,9 @@ import NavBar from "../navBar"
 
 const Loginlayout = ({children,image}) => {
   return (
-    <main  data-theme="light">
+    <main className=" w-full min-h-screen" data-theme="light">
         <NavBar/>
-        <div className=" w-full min-h-screen">
+        <div >
             <section className=" relative">
                 <img src={image} alt="image" />
                 <div className=" absolute top-0 left-0 w-full h-full flex">
