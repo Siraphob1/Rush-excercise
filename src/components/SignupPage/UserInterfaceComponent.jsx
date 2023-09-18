@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 const UserInterfaceComponent = () => {
   return (
     <section className=" bg-white py-[1rem] px-[2rem] w-[80%]">
-        <form className=" flex flex-col gap-y-3 border border-black">
+        <form className=" flex flex-col gap-y-3">
             <section>
                 <label htmlFor="signup-username">*Username</label>
                 <input type="text" id="signup-username" placeholder="Mr.xxxxxxx" className="input input-bordered block  w-full  " />
