@@ -7,6 +7,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import SignupPage from './pages/SignupPage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
 
 
 
@@ -17,10 +18,10 @@ const router = createBrowserRouter([
     element: <App />,    
   },
   // fill page to element
-  // {
-  //   path: "/login",
-  //   element: <App/>,    
-  // },
+  {
+    path: "/login",
+    element: <LoginPage/>,    
+  },
   
   {
     path: "/signup",
