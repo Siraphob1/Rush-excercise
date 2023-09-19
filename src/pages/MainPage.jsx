@@ -1,5 +1,5 @@
 
-import DesktopMain from "../assets/image/Desktop_Main.jpg";
+import DesktopMain from "../assets/image/Desktop/Desktop_Main.jpg";
 import NavBar from "../components/navBar";
 
 export const MainPage = () => {
