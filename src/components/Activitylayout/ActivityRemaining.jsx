@@ -1,11 +1,19 @@
-
+import NavBar from "../navBar"
 
 function ActivityRemaining() {
   return (
-    <div>
-        ActivityRemaining
+    <main>
+        <div>
+            <NavBar />
 
-    </div>
+            {/* ใส่นาฬิกา remainning ตรงนี้ */}
+            
+        <section>
+            <button >Click</button>
+        </section>
+            
+        </div>
+    </main>
   )
 }
 

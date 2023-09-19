@@ -3,9 +3,11 @@ import ActivityRemaining from "../../components/Activitylayout/ActivityRemaining
 
 function RunningPage() {
   return (
-    <div>
+    <ActivityRemaining>
+        <h1>Running</h1>
 
-    </div>
+
+    </ActivityRemaining>
   )
 }
 
