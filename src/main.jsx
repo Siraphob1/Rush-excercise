@@ -9,8 +9,7 @@ import {
 import SignupPage from './pages/SignupPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import { MainPage } from './pages/MainPage.jsx';
-
-
+import RunningPage from './pages/Activity/RunningPage.jsx';
 
 
 const router = createBrowserRouter([
@@ -28,11 +27,14 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <SignupPage />,    
   },
-
   {
     path: "/mainpage",
     element: <MainPage />,    
   },
+  // {
+  //   path: "/mainpage",
+  //   element: <RunningPage />,    
+  // },
 ]);
 
 
