@@ -173,7 +173,7 @@ const UserInterfaceComponent = () => {
 
                 
                 {focusConfirmPassword && !validConfirmPassword&& 
-                    <div className=" text-red-500 mt-[0.5rem]">
+                    <div className=" text-red-500 text-[0.9rem] mt-[0.5rem]">
                         <p>you must enter the same as password</p>
                         <p>*at least 8 character</p>
                         <p>*at least 1 uppercase character</p>
