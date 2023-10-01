@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom"
 
 //icon
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
-
 //Regex
 const regexName = /^\w.{7,}/;
 const regexPassword = /[@#*$_]+[A-Z]+.{6,}|[@#*$_]+.+[A-Z]+.{5,}|[A-Z]+.+[@#*$_]+.{5,}|[A-Z]+[@#*$_]+.{6,}|.+[@#*$_]+[A-Z]+.{5,}|.+[A-Z]+[@#*$_]+.{5,}/;
@@ -68,6 +67,7 @@ const UserInterfaceComponent = () => {
         setConfirmpassword('')
         setTogglePassword(false)
         setToggleConfirmPassword(false)
+        setFocusConfirmPassword(false)
     }
     
     const submitForm = (e) =>{
