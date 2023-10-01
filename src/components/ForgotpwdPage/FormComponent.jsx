@@ -42,6 +42,8 @@ const FormComponent = () => {
         <h1 className="font-bold text-[1.2rem]">Forgot your password ?</h1>
         <h2>Please put your email in form. we’ll send you a link to reset your password</h2>
         <form onSubmit={(e)=>sendEmail(e)} className="w-full">
+
+            {/* Email input */}
             <input  type="text" 
                     placeholder="example@gmail.com" 
                     ref={refEmail}
@@ -49,6 +51,8 @@ const FormComponent = () => {
                     onChange={(e)=>{setUserEmail(e.target.value)}}
                     className="input input-bordered w-full " 
             />
+
+            {/* Result when confirm */}
             <div className=" mt-[1rem]">
             {emptyEmail && 
                 <div className="alert drop-shadow-md text-red-600">
@@ -62,6 +66,8 @@ const FormComponent = () => {
                 </div>
             }
             </div>
+
+            {/* Button */}
             <div className="py-[1rem] flex gap-x-[1rem] justify-center ">
                 <button type="button" className="btn  normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>Cancel</button>
                 <button type="submit" className="btn btn-neutral normal-case  w-[100px] h-[30px] ">Confirm</button>
