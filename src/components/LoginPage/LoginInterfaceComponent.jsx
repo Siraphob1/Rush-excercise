@@ -67,7 +67,7 @@ function LoginInterfaceComponent() {
                 {/* Button */}
                 <section className=" flex justify-between py-[1rem] ">
                     <button type='submit' className="btn  normal-case  w-[100px] h-[30px] ">Login</button>
-                    <Link to={'/'} className="self-center">Forgot password?</Link>
+                    <Link to={'/forgotpassword'} className="self-center">Forgot password?</Link>
                     <Link to={'/signup'} className="btn normal-case  w-[100px] h-[30px]">Sign up</Link>
                 </section>
             </form>

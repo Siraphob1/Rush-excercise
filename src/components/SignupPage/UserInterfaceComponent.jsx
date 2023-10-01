@@ -183,7 +183,7 @@ const UserInterfaceComponent = () => {
                 }
             </section>
 
-            <Link to={'/'} className="self-center">Forgot password?</Link>
+            <Link to={'/forgotpassword'} className="self-center">Forgot password?</Link>
             <section className=" flex justify-between py-[1rem]">
                 <button type="button" className="btn normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>cancel</button>
                 <button type="submit" className="btn normal-case  w-[100px] h-[30px] ">confirm</button>
