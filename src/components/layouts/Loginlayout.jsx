@@ -8,7 +8,13 @@ const Loginlayout = ({children,image}) => {
         <NavBar/>
         <div >
             <section className=" relative">
-                <img src={image} alt="image" />
+            <div style={{
+                            backgroundImage:`url(${image})`,
+                            backgroundSize:'cover',
+                            backgroundPosition: 'center'
+                            
+                            }} className=' h-[91.3vh]'>
+            </div>
                 <div className=" absolute top-0 left-0 w-full h-full flex">
 
                     {/* Left */}
