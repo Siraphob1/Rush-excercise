@@ -15,12 +15,19 @@ function LoginInterfaceComponent() {
 
     const Login = (e)=>{
         e.preventDefault();
-        detectEmptyInput();
+        detectEmptyInput();        
     }
 
     const detectEmptyInput = ()=>{
         if(!userEmail) return refEmail.current.focus();
-        if(userEmail && !userPassword) return refPassword.current.focus();        
+        if(userEmail && !userPassword) return refPassword.current.focus();   
+        clearInput();     
+    }
+
+    const clearInput = ()=>{
+        setUserEmail('');
+        setUserPassword('');
+        setTogglePassword(false)
     }
 
   return (
