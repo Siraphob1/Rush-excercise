@@ -13,7 +13,8 @@ const UserInterfaceComponent = () => {
     const [focusName , setFocusName] = useState(false);
     const refUsername = useRef();
 
-    const [email , setEmail] = useState('');
+    const [email , setEmail] = useState('');    
+    const [emailVerify , setEmailVerify] = useState('')
     const refEmail = useRef();
 
     const [password , setPassword] = useState('');
@@ -81,6 +82,7 @@ const UserInterfaceComponent = () => {
 
             //show result text
             setSingupsuccess(true);
+            setEmailVerify(email)
 
             //clear input
             clearForm();
@@ -213,18 +215,24 @@ const UserInterfaceComponent = () => {
                 }
             </section>
 
-            {/* Result success signup */}
+            {/* Result signup successfully */}
             {signupsuccess && 
-            <div className="alert drop-shadow-md text-green-700">
+            <div className="alert drop-shadow-md text-green-700 items-start">
                 <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <div className="flex flex-col">
                 <span>sign up successfully</span>
+                <p>
+                    <span>Please verify email</span>
+                    <span className="ml-[1rem] text-gray-400 font-semibold">{emailVerify}</span>
+                </p>
+                </div>
             </div>
             }
 
             <Link to={'/forgotpassword'} className="self-center">Forgot password?</Link>
-            <section className=" flex justify-between py-[1rem]">
+            <section className=" flex justify-center py-[1rem] gap-x-[1rem]">
                 <button type="button" className="btn normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>cancel</button>
-                <button type="submit" className="btn normal-case  w-[100px] h-[30px] ">confirm</button>
+                <button type="submit" className="btn btn-neutral normal-case  w-[100px] h-[30px] ">confirm</button>
             </section>
         </form>
     </section>
