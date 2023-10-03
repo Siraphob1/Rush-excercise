@@ -120,7 +120,9 @@ const UserInterfaceComponent = () => {
 
   return (
     <section className=" bg-white py-[1rem] px-[2rem] w-[80%] rounded-lg">
-        <form onSubmit={(e)=>submitForm(e)} className=" flex flex-col gap-y-3">
+
+        {/* Form */}
+        <form onSubmit={(e)=>submitForm(e)} className={signupsuccess? "hidden" : " flex flex-col gap-y-3"}>
 
             {/* Username */}
             <section>
@@ -215,19 +217,7 @@ const UserInterfaceComponent = () => {
                 }
             </section>
 
-            {/* Result signup successfully */}
-            {signupsuccess && 
-            <div className="alert drop-shadow-md text-green-700 items-start">
-                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                <div className="flex flex-col">
-                <span>sign up successfully</span>
-                <p>
-                    <span>Please verify email</span>
-                    <span className="ml-[1rem] text-gray-400 font-semibold">{emailVerify}</span>
-                </p>
-                </div>
-            </div>
-            }
+           
 
             <Link to={'/forgotpassword'} className="self-center">Forgot password?</Link>
             <section className=" flex justify-center py-[1rem] gap-x-[1rem]">
@@ -235,6 +225,28 @@ const UserInterfaceComponent = () => {
                 <button type="submit" className="btn btn-neutral normal-case  w-[100px] h-[30px] ">confirm</button>
             </section>
         </form>
+
+        {/* Result signup successfully */}
+        {signupsuccess && 
+            <div className="py-[1rem]">
+                {/* Info  */}
+                <section className="alert rounded-lg drop-shadow-md text-green-700  flex justify-center text-center">
+                    <div className="flex flex-col items-center">
+                        <p className="text-[1.2rem] font-semibold ">Sign up successfully</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-[2rem] w-[2rem] my-[1rem]  " fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <p className="text-[0.9rem]">Please verify email</p>
+                        <p className="text-gray-400 text-[0.9rem]">{emailVerify}</p>
+                        <p className="text-[0.9rem]">If you cannot locate the email, kindly check your Junk or Spam folder.</p>
+                        
+                    </div>
+                </section>
+
+                {/* Button */}
+                <section className="flex justify-center mt-[1rem]">
+                <Link to={'/'} className="btn btn-neutral normal-case">go to MainPage</Link>
+                </section>
+            </div>
+        }
     </section>
   )
 }
