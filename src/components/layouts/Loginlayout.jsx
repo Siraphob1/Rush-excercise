@@ -13,7 +13,7 @@ const Loginlayout = ({children,image}) => {
                             backgroundSize:'cover',
                             backgroundPosition: 'center'
                             
-                            }} className=' h-[91.3vh]'>
+                            }} className=' h-[91.4vh]'>
             </div>
                 <div className=" absolute top-0 left-0 w-full h-full flex">
 
