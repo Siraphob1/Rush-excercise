@@ -39,7 +39,7 @@ const router = createBrowserRouter([
     element: <MainPage />,    
   },
   {
-    path: "/mainpage",
+    path: "/Runningpage",
     element: <RunningPage />,    
   },
 ]);
