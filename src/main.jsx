@@ -38,10 +38,10 @@ const router = createBrowserRouter([
     path: "/mainpage",
     element: <MainPage />,    
   },
-  // {
-  //   path: "/mainpage",
-  //   element: <RunningPage />,    
-  // },
+  {
+    path: "/mainpage",
+    element: <RunningPage />,    
+  },
 ]);
 
 
