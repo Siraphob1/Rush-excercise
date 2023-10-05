@@ -11,18 +11,18 @@ const ProfilePage = () => {
     <h1 className="m-auto" >Tang</h1>
     <h2 className="">Wannee</h2>
     <table>
-    <thead>
-        <tr>
-            <td> age</td>
-            <td>height</td>
-            <td>weight</td>
-        </tr> 
-    </thead>
-    <tbody>
-        
-    </tbody>
+        <thead>
+            <tr>
+                <td> age</td>
+                <td>height</td>
+                <td>weight</td>
+            </tr> 
+        </thead>
+        <tbody>
+            
+        </tbody>
     </table>
-        <br />
+    <br />
     <h2>About</h2>
     </div>
 
