@@ -37,10 +37,10 @@ const router = createBrowserRouter([
     path: "/mainpage",
     element: <MainPage />,    
   },
-  // {
-  //   path: "/mainpage",
-  //   element: <RunningPage />,    
-  // },
+  {
+    path: "/profilepage",
+    element: <RunningPage />,    
+  },
 ]);
 
 
