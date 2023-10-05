@@ -11,7 +11,7 @@ const NavBar = () => {
 
         {/* Right */}
         <div className='flex gap-x-6'>
-          <Link to={'/profile'}>Profile</Link>
+          <Link to={'/profilepage'}>Profile</Link>
           <Link to={'/signup'}>Sign up</Link>
           <Link to={'/login'}>Log in</Link>
         </div>
