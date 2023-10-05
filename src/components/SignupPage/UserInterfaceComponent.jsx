@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 //icon
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
@@ -10,30 +10,31 @@ const regexPassword = /[@#*$_]+[A-Z]+.{6,}|[@#*$_]+.+[A-Z]+.{5,}|[A-Z]+.+[@#*$_]
 
 const UserInterfaceComponent = () => {
     const [username , setUsername] = useState('');
-    const [validName , setValidName] = useState(false)
-    const [focusName , setFocusName] = useState(false)
-    const refUsername = useRef()
+    const [validName , setValidName] = useState(false);
+    const [focusName , setFocusName] = useState(false);
+    const refUsername = useRef();
 
     const [email , setEmail] = useState('');
-    const refEmail = useRef()
+    const refEmail = useRef();
 
     const [password , setPassword] = useState('');
     const [validPassword , setValidPassword] = useState(false);
     const [focusPassword , setFocusPassword] = useState(false);
-    const refPassword = useRef()
+    const refPassword = useRef();
 
     const [confirmpassword , setConfirmpassword] = useState('');
     const [validConfirmPassword , setValidConfirmPassword] = useState(false);
     const [focusConfirmPassword , setFocusConfirmPassword] = useState(false);
-    const refConfirmPassword = useRef()
+    const refConfirmPassword = useRef();
     
-    const [togglePassword , setTogglePassword] = useState(false)
-    const [toggleConfirmPassword , setToggleConfirmPassword] = useState(false)
+    const [togglePassword , setTogglePassword] = useState(false);
+    const [toggleConfirmPassword , setToggleConfirmPassword] = useState(false);
     
+    const navigate = useNavigate();
 
     useEffect(()=>{
         const result = regexName.test(username)
-        setValidName(result)   
+        setValidName(result);   
     },[username])
 
     useEffect(()=>{
@@ -90,7 +91,7 @@ const UserInterfaceComponent = () => {
     
 
   return (
-    <section className=" bg-white py-[1rem] px-[2rem] w-[80%]">
+    <section className=" bg-white py-[1rem] px-[2rem] w-[80%] rounded-lg">
         <form onSubmit={(e)=>submitForm(e)} className=" flex flex-col gap-y-3">
 
             {/* Username */}
@@ -182,10 +183,10 @@ const UserInterfaceComponent = () => {
                 }
             </section>
 
-            <Link to={'/'} className="self-center">Forgot password?</Link>
-            <section className=" flex justify-between">
-                <button type="button" className="btn btn-accent normal-case  w-[100px] h-[30px] ">cancel</button>
-                <button type="submit" className="btn btn-accent normal-case  w-[100px] h-[30px] ">confirm</button>
+            <Link to={'/forgotpassword'} className="self-center">Forgot password?</Link>
+            <section className=" flex justify-between py-[1rem]">
+                <button type="button" className="btn normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>cancel</button>
+                <button type="submit" className="btn normal-case  w-[100px] h-[30px] ">confirm</button>
             </section>
         </form>
     </section>
