@@ -10,7 +10,6 @@ import SignupPage from './pages/SignupPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import { MainPage } from './pages/MainPage.jsx';
 import RunningPage from './pages/Activity/RunningPage.jsx';
-import ForgotpasswordPage from './pages/ForgotpasswordPage.jsx';
 
 
 const router = createBrowserRouter([
@@ -39,7 +38,7 @@ const router = createBrowserRouter([
     element: <MainPage />,    
   },
   {
-    path: "/Runningpage",
+    path: "/profilepage",
     element: <RunningPage />,    
   },
 ]);
