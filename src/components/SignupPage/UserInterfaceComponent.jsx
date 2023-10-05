@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom"
 
 //icon
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
-
 //Regex
 const regexName = /^\w.{7,}/;
 const regexPassword = /[@#*$_]+[A-Z]+.{6,}|[@#*$_]+.+[A-Z]+.{5,}|[A-Z]+.+[@#*$_]+.{5,}|[A-Z]+[@#*$_]+.{6,}|.+[@#*$_]+[A-Z]+.{5,}|.+[A-Z]+[@#*$_]+.{5,}/;
@@ -14,7 +13,8 @@ const UserInterfaceComponent = () => {
     const [focusName , setFocusName] = useState(false);
     const refUsername = useRef();
 
-    const [email , setEmail] = useState('');
+    const [email , setEmail] = useState('');    
+    const [emailVerify , setEmailVerify] = useState('')
     const refEmail = useRef();
 
     const [password , setPassword] = useState('');
@@ -30,6 +30,9 @@ const UserInterfaceComponent = () => {
     const [togglePassword , setTogglePassword] = useState(false);
     const [toggleConfirmPassword , setToggleConfirmPassword] = useState(false);
     
+    const [signupsuccess , setSingupsuccess] = useState(false);
+
+
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -65,34 +68,61 @@ const UserInterfaceComponent = () => {
         setConfirmpassword('')
         setTogglePassword(false)
         setToggleConfirmPassword(false)
+        setFocusConfirmPassword(false)
     }
     
     const submitForm = (e) =>{
-        e.preventDefault()
-        validName ? null : refUsername.current.focus();
-        if(validName){
-            email ? null : refEmail.current.focus(); 
-        }
-        if(validName && email){
-            validPassword ? null : refPassword.current.focus();
-        }
-        if(validName && email && validPassword){
-            validConfirmPassword ? null : refConfirmPassword.current.focus();
-        }
-        if(validName && email && validPassword && validConfirmPassword){
+        e.preventDefault()       
+
+
+        const notEmptyinput = detectEmptyInput()
+        if(notEmptyinput){
             // send obj data
+            sendAPI();
+
+            //show result text
+            setSingupsuccess(true);
+            setEmailVerify(email)
 
             //clear input
             clearForm();
-            
         }
+    }
+
+    const detectEmptyInput = ()=>{
+        if(!validName){
+            refUsername.current.focus();
+            return setSingupsuccess(false);
+        }
+        if(!email){
+            refEmail.current.focus(); 
+            return setSingupsuccess(false);
+        }
+        if(!validPassword){
+            refPassword.current.focus();
+            return setSingupsuccess(false);
+        }
+        if(!validConfirmPassword){
+            refConfirmPassword.current.focus();
+            return setSingupsuccess(false);
+        }
+        return true
+        
+
+
+    }
+
+    const sendAPI = ()=>{
+        //send API singup
     }
 
     
 
   return (
     <section className=" bg-white py-[1rem] px-[2rem] w-[80%] rounded-lg">
-        <form onSubmit={(e)=>submitForm(e)} className=" flex flex-col gap-y-3">
+
+        {/* Form */}
+        <form onSubmit={(e)=>submitForm(e)} className={signupsuccess? "hidden" : " flex flex-col gap-y-3"}>
 
             {/* Username */}
             <section>
@@ -107,9 +137,9 @@ const UserInterfaceComponent = () => {
                         onFocus={()=>setFocusName(true)}
                         onBlur={()=>setFocusName(false)}
                  />
-                {focusName && !validName&& 
-                 <div className=" text-red-500 mt-[0.5rem]">
-                    <p>*at least 8 character</p>
+                {focusName && !validName&&                  
+                <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem]">    
+                    <span>*at least 8 character</span>
                 </div>
                 }                
             </section>
@@ -146,11 +176,13 @@ const UserInterfaceComponent = () => {
                     </button>                            
                 </div>
                 {focusPassword && !validPassword&& 
-                    <div className=" text-red-500 mt-[0.5rem]">
-                        <p>*at least 8 character</p>
-                        <p>*at least 1 uppercase character</p>
-                        <p>*at least 1 special character</p>
+                <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem]">                        
+                    <div className=" flex flex-col">
+                        <span>*at least 8 character</span>
+                        <span>*at least 1 uppercase character</span>
+                        <span>*at least 1 special character</span>
                     </div>
+                </div>
                 }
             </section>
             
@@ -173,22 +205,48 @@ const UserInterfaceComponent = () => {
                 </div>
 
                 
-                {focusConfirmPassword && !validConfirmPassword&& 
-                    <div className=" text-red-500 text-[0.9rem] mt-[0.5rem]">
-                        <p>you must enter the same as password</p>
-                        <p>*at least 8 character</p>
-                        <p>*at least 1 uppercase character</p>
-                        <p>*at least 1 special character</p>
+                {focusConfirmPassword && !validConfirmPassword&&                     
+                     <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem]">                        
+                        <div className=" flex flex-col">
+                            <span>you must enter the same as password</span>
+                            <span>*at least 8 character</span>
+                            <span>*at least 1 uppercase character</span>
+                            <span>*at least 1 special character</span>
+                        </div>
                     </div>
                 }
             </section>
 
+           
+
             <Link to={'/forgotpassword'} className="self-center">Forgot password?</Link>
-            <section className=" flex justify-between py-[1rem]">
+            <section className=" flex justify-center py-[1rem] gap-x-[1rem]">
                 <button type="button" className="btn normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>cancel</button>
-                <button type="submit" className="btn normal-case  w-[100px] h-[30px] ">confirm</button>
+                <button type="submit" className="btn btn-neutral normal-case  w-[100px] h-[30px] ">confirm</button>
             </section>
         </form>
+
+        {/* Result signup successfully */}
+        {signupsuccess && 
+            <div className="py-[1rem]">
+                {/* Info  */}
+                <section className="alert rounded-lg drop-shadow-md text-green-700  flex justify-center text-center">
+                    <div className="flex flex-col items-center">
+                        <p className="text-[1.2rem] font-semibold ">Sign up successfully</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-[2rem] w-[2rem] my-[1rem]  " fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <p className="text-[0.9rem]">Please verify email</p>
+                        <p className="text-gray-400 text-[0.9rem]">{emailVerify}</p>
+                        <p className="text-[0.9rem]">If you cannot locate the email, kindly check your Junk or Spam folder.</p>
+                        
+                    </div>
+                </section>
+
+                {/* Button */}
+                <section className="flex justify-center mt-[1rem]">
+                <Link to={'/'} className="btn btn-neutral normal-case">go to MainPage</Link>
+                </section>
+            </div>
+        }
     </section>
   )
 }

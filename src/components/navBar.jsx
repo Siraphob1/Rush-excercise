@@ -6,7 +6,7 @@ const NavBar = () => {
       <nav className='flex justify-between text-white bg-black p-[20px] ' >
         {/* Left */}
         <div>
-          <Link to={'/mainpage'}>Rush</Link>
+          <Link to={'/mainpage'} className="font-semibold">RUSH</Link>
         </div>
 
         {/* Right */}
