@@ -11,6 +11,13 @@ function ActivityRemaining({image}) {
   const [displayMin , setDisplayMin] = useState(0);
   const [displaySec , setDisplaySec] = useState(0);
 
+  const [activityName , setActivityName] = useState('');
+  const [activityDescriptio , setActivityDescriptio] = useState('');
+  const [activityType , setActivityType] = useState('');
+  const [activityduration , setaAtivityduration] = useState('');
+
+
+
   const [clickDetail , setClickDetail] = useState(false);
   const [isTimeout , SetIsTimeout] = useState(false);
 
@@ -89,6 +96,14 @@ function ActivityRemaining({image}) {
             setDisplayHrs(hours);
             setDisplayMin(mins);
             setDisplaySec(secs);
+
+            // Format for Time remainning in Detail Component
+            const activityday = days > 1 ? `${days}days` : `${days}day`;
+            const activityhour = hours > 1 ? `${hours}hours` : `${hours}hour`;
+            const activitymin = mins > 1 ? `${mins}mins` : `${mins}min`;
+            const activitysec = secs > 1 ? `${secs}secs` : `${secs}sec`;
+            const activityduration = `${activityday} ${activityhour} ${activitymin} ${activitysec}`
+            setaAtivityduration(activityduration)
         }
       }
       
@@ -99,8 +114,13 @@ function ActivityRemaining({image}) {
 
   // Start countdown when first render 
   useEffect(()=>{
+
+      setActivityName(member[0].name);
+      setActivityDescriptio(member[0].description);
+      setActivityType(member[0].type);
+
       const startTime = convertTime(member[0].startingTime).getTime();
-      const endTime = convertTime(member[0].endingTIme).getTime();   
+      const endTime = convertTime(member[0].endingTIme).getTime();         
       startCountdown(startTime , endTime);
   },[])
 
@@ -201,25 +221,25 @@ function ActivityRemaining({image}) {
                   {/* NameActivity  */}
                   <section  className="flex justify-between items-center  w-[40rem]">
                     <label>NameActivity</label>
-                    <input type="text" disabled={true} value={'ss'}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
+                    <input type="text" disabled={true} value={activityName}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
                   </section>
 
                   {/* Description */}
                   <section  className="flex justify-between items-center  w-[40rem]">
                     <label>Description</label>
-                    <input type="text" disabled={true} value={'ss'}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
+                    <input type="text" disabled={true} value={activityDescriptio}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
                   </section>
 
                   {/* Activity type */}
                   <section  className="flex justify-between items-center  w-[40rem]">
                     <label>Activity type</label>
-                    <input type="text" disabled={true} value={'ss'} className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
+                    <input type="text" disabled={true} value={activityType} className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
                   </section>
                   
                   {/* Time remainning  */}
                   <section  className="flex justify-between items-center  w-[40rem]">
                     <label>Time remainning</label>
-                    <input type="text" disabled={true} value={'ss'}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
+                    <input type="text" disabled={true} value={activityduration}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
                   </section>
                   
                   {/* Button */}
