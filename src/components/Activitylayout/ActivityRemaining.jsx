@@ -68,8 +68,8 @@ function ActivityRemaining({image}) {
     myCountdown = setInterval(() => {      
 
       const currentTime = new Date().getTime();
-      const virStart = new Date(2023,9,5,8,0);
-      const virEnd = new Date(2023,9,8,0,0);
+      // const virStart = new Date(2023,9,5,8,0);
+      // const virEnd = new Date(2023,9,8,0,0);
 
       if(currentTime >= startTime  && currentTime < endTime){
         // if(currentTime >= virStart && currentTime < virEnd){
