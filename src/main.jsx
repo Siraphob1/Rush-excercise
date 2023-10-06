@@ -12,6 +12,9 @@ import { MainPage } from './pages/MainPage.jsx';
 import RunningPage from './pages/Activity/RunningPage.jsx';
 import ForgotpasswordPage from './pages/ForgotpasswordPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
+import { MemberProvider } from './context/MemberContext.jsx';
+
+
 
 const router = createBrowserRouter([
   {
@@ -49,8 +52,9 @@ const router = createBrowserRouter([
 ]);
 
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+ReactDOM.createRoot(document.getElementById('root')).render(  
+    <MemberProvider>
+      <RouterProvider router={router} />
+    </MemberProvider>   
+  ,
 )
