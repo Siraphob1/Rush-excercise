@@ -4,7 +4,7 @@ import NavBar from "../navBar";
 import MemberContext from "../../context/MemberContext";
 
 
-function ActivityRemaining({image}) {
+function ActivityRemaining({image , topic , bgPos}) {
 
   const [displayDays , setDisplayDays] = useState(0);
   const [displayHrs , setDisplayHrs] = useState(0);
@@ -15,9 +15,7 @@ function ActivityRemaining({image}) {
   const [activityDescriptio , setActivityDescriptio] = useState('');
   const [activityType , setActivityType] = useState('');
   const [activityduration , setaAtivityduration] = useState('');
-
-
-
+  
   const [clickDetail , setClickDetail] = useState(false);
   const [isTimeout , SetIsTimeout] = useState(false);
 
@@ -72,57 +70,71 @@ function ActivityRemaining({image}) {
   // Countdown 
   const startCountdown = (startTime , endTime) =>{
     
-    myCountdown = setInterval(() => {      
-
-      const currentTime = new Date().getTime();
-      // const virStart = new Date(2023,9,5,8,0);
-      // const virEnd = new Date(2023,9,8,0,0);
-
-      if(currentTime >= startTime  && currentTime < endTime){
-        // if(currentTime >= virStart && currentTime < virEnd){
-        // let deltatime =  virEnd - currentTime;
-        let deltatime =  endTime - currentTime;
-        const days = Math.floor(deltatime / (1000 * 60 * 60 * 24));  
-        const hours = Math.floor(deltatime % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
-        const mins = Math.floor(deltatime % (1000 * 60 * 60) / (1000 * 60));
-        const secs = Math.floor(deltatime % (1000 * 60) / (1000));      
+      myCountdown = setInterval(() => {              
+        const currentTime = new Date().getTime();
         
-        if(deltatime < 0){
-            clearInterval(myCountdown);
-            SetIsTimeout(true);
+        //check overtime activity
+        if(currentTime >= endTime){          
+          SetIsTimeout(true);
+          clearInterval(myCountdown);
+          return
         }
-        else if(deltatime > 0){
-            setDisplayDays(days);
-            setDisplayHrs(hours);
-            setDisplayMin(mins);
-            setDisplaySec(secs);
 
-            // Format for Time remainning in Detail Component
-            const activityday = days > 1 ? `${days}days` : `${days}day`;
-            const activityhour = hours > 1 ? `${hours}hours` : `${hours}hour`;
-            const activitymin = mins > 1 ? `${mins}mins` : `${mins}min`;
-            const activitysec = secs > 1 ? `${secs}secs` : `${secs}sec`;
-            const activityduration = `${activityday} ${activityhour} ${activitymin} ${activitysec}`
-            setaAtivityduration(activityduration)
+        //check in range activity
+        if(currentTime >= startTime  && currentTime < endTime){
+          // if(currentTime >= virStart && currentTime < virEnd){
+          // let deltatime =  virEnd - currentTime;
+          let deltatime =  endTime - currentTime;
+          const days = Math.floor(deltatime / (1000 * 60 * 60 * 24));  
+          const hours = Math.floor(deltatime % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
+          const mins = Math.floor(deltatime % (1000 * 60 * 60) / (1000 * 60));
+          const secs = Math.floor(deltatime % (1000 * 60) / (1000));      
+          
+          
+          if(deltatime < 0){
+              SetIsTimeout(true);
+              clearInterval(myCountdown);              
+          }
+          else if(deltatime > 0){
+              setDisplayDays(days);
+              setDisplayHrs(hours);
+              setDisplayMin(mins);
+              setDisplaySec(secs);
+  
+              // Format for Time remainning in Detail Component
+              const activityday = days > 1 ? `${days}days` : `${days}day`;
+              const activityhour = hours > 1 ? `${hours}hours` : `${hours}hour`;
+              const activitymin = mins > 1 ? `${mins}mins` : `${mins}min`;
+              const activitysec = secs > 1 ? `${secs}secs` : `${secs}sec`;
+              const activityduration = `${activityday} ${activityhour} ${activitymin} ${activitysec}`
+              setaAtivityduration(activityduration)
+          }
         }
-      }
-      
-      
-    }, 1000);
+        
+        
+      }, 1000);
+    
+    
   }
 
 
   // Start countdown when first render 
-  useEffect(()=>{
-
+  useEffect(()=>{     
+      console.log(bgPos)
       setActivityName(member[0].name);
       setActivityDescriptio(member[0].description);
       setActivityType(member[0].type);
 
       const startTime = convertTime(member[0].startingTime).getTime();
       const endTime = convertTime(member[0].endingTIme).getTime();         
+      
       startCountdown(startTime , endTime);
+          
   },[])
+
+  useEffect(()=>{
+    console.log(isTimeout)
+  },[isTimeout])
 
 
   return (
@@ -136,15 +148,15 @@ function ActivityRemaining({image}) {
                 style={{
                   backgroundImage: `url(${image})`,
                   backgroundSize:'cover',
-                  backgroundPosition:'50% 15%',
+                  backgroundPosition:`${bgPos}`,
                   backgroundRepeat:'no-repeat'
                 }}
-      >         
+      >             
 
           {/* Countdown Component */}
           <section className={clickDetail ? 'hidden' : 'flex flex-col items-center' }>
               {/* Title */}
-              <h1 className="text-[8rem] text-white text-center  font-mono [text-shadow:_0px_2.5px_3.5px_rgb(0_0_0_/_60%)]">Running</h1>
+              <h1 className="text-[8rem] text-white text-center  font-mono [text-shadow:_0px_2.5px_3.5px_rgb(0_0_0_/_60%)]">{topic}</h1>
             
               {/* ใส่นาฬิกา remainning ตรงนี้ */}
               <div className="px-[5rem]  pb-[2rem] rounded-xl mt-[8rem] mb-[3rem]">
