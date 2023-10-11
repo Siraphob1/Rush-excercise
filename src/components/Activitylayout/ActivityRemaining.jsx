@@ -15,7 +15,7 @@ function ActivityRemaining({image , topic , bgPos}) {
   const [activityDescriptio , setActivityDescriptio] = useState('');
   const [activityType , setActivityType] = useState('');
   const [activityduration , setaAtivityduration] = useState('');
-  
+
   const [clickDetail , setClickDetail] = useState(false);
   const [isTimeout , SetIsTimeout] = useState(false);
 
@@ -120,7 +120,6 @@ function ActivityRemaining({image , topic , bgPos}) {
 
   // Start countdown when first render 
   useEffect(()=>{     
-      console.log(bgPos)
       setActivityName(member[0].name);
       setActivityDescriptio(member[0].description);
       setActivityType(member[0].type);
@@ -132,9 +131,7 @@ function ActivityRemaining({image , topic , bgPos}) {
           
   },[])
 
-  useEffect(()=>{
-    console.log(isTimeout)
-  },[isTimeout])
+
 
 
   return (
