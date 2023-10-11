@@ -13,9 +13,7 @@ function ActivityPage() {
   const location = useLocation();
   useEffect(()=>{
     console.log(location)
-    console.log(location.pathname)
     const splitlocation = location.pathname.split('/')[2]
-    console.log(splitlocation)
     setCurrentpath(splitlocation)
   },[])
   return (
