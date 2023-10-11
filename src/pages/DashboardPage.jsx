@@ -14,9 +14,10 @@ const DashboardPage = () => {
     <section className='bg-black min-h-screen relative'>
         
         {/* Background white ball */}
-        <div className='w-[20rem] h-[20rem] bg-white bg-opacity-40 blur-[100px] rounded-full mx-auto'>
+        <div className='w-[30rem] h-[30rem] bg-white bg-opacity-40 blur-[100px] rounded-full mx-auto'>
         </div>
 
+        {/* Body */}
         <section className='absolute w-full min-h-screen top-0 left-0 '>
             <NavBar/>   
 

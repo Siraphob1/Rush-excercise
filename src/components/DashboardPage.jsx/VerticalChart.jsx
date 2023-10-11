@@ -45,7 +45,7 @@ const VerticalChart = () => {
       
 
   return (
-    <section className='w-full border'>
+    <section className='w-full '>
         <h1 className='text-black font-semibold mb-[1rem]'>Number of Activities</h1>
         <Bar options={options} data={data}/>
     </section>

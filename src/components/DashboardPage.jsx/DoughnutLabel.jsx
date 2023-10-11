@@ -3,7 +3,7 @@
 const DoughnutLabel = ({bgcolor, type , percent}) => {
    
   return (
-    <div className="flex justify-between border w-[10rem]">
+    <div className="flex justify-between  w-[10rem]">
         {/* Left */}
         <section className="flex items-center gap-x-[0.2rem]">
             <div className={`${bgcolor}`}></div>

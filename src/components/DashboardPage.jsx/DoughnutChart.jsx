@@ -42,7 +42,7 @@ const DoughnutChart = () => {
   return (
     <section className='h-[70%] '>
         <h1 className='text-black font-semibold mb-[1rem]'>Doughnut Chart of Activities</h1>
-        <div className=' h-[100%] border flex items-center gap-x-[3rem]'>
+        <div className=' h-[100%]  flex items-center gap-x-[3rem]'>
             <Doughnut options={options} data={data}  />
             <div className=''>                
                 <DoughnutLabel bgcolor={`bg-[#000000] rounded-full w-[1rem] h-[1rem]`} type={'Biking'}  percent={7}/>              
