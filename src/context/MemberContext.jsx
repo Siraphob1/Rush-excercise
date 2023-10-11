@@ -12,8 +12,8 @@ export const MemberProvider = ({children})=>{
             name:'ว่ายน้ำ 1พันไมล์',
             description:'ว่ายน้ำเพื่อการกุศล',
             type:'swimming',
-            startingTime:'Sun Oct 08 2023 05:00:00 GMT+0700 (เวลาอินโดจีน)',
-            endingTIme:'Sun Oct 08 2023 17:00:00 GMT+0700 (เวลาอินโดจีน)'
+            startingTime:'Sun Oct 07 2023 00:00:00 GMT+0700 (เวลาอินโดจีน)',
+            endingTIme:'Sun Oct 07 2023 17:00:00 GMT+0700 (เวลาอินโดจีน)'
         },
         { id:2,
             username:'John',
