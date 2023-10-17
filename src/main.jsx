@@ -14,6 +14,7 @@ import ForgotpasswordPage from './pages/ForgotpasswordPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
 import { MemberProvider } from './context/MemberContext.jsx';
 import ActivityPage from './pages/Activity/ActivityPage.jsx';
+import DashboardPage from './pages/DashboardPage.jsx';
 
 
 
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
       
     ],    
   },
+  {
+    path: "/dashboard",
+    element: <DashboardPage />,    
+  }, 
 ]);
 
 
