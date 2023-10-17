@@ -9,10 +9,14 @@ import {
 import SignupPage from './pages/SignupPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import { MainPage } from './pages/MainPage.jsx';
-import RunningPage from './pages/Activity/RunningPage.jsx';
+
 import ForgotpasswordPage from './pages/ForgotpasswordPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
 import { MemberProvider } from './context/MemberContext.jsx';
+
+import Firstpage from './pages/Firstpage.jsx';
+import ActivityPage from './pages/Activity/ActivityPage.jsx';
+import DashboardPage from './pages/DashboardPage.jsx';
 
 
 
@@ -44,11 +48,41 @@ const router = createBrowserRouter([
   {
     path: "/profilepage",
     element: <ProfilePage />,    
+  }, 
+  {
+    path: "/activity",
+    children:[
+      {
+        path: "biking",
+        element:<ActivityPage/>
+      },
+      {
+        path: "hiking",
+        element:<ActivityPage/>
+      },
+      {
+        path: "running",
+        element:<ActivityPage/>
+      },
+      {
+        path: "swimming",
+        element:<ActivityPage/>
+      },      
+      {
+        path: "walking",
+        element:<ActivityPage/>
+      },
+      
+    ],    
   },
   {
-    path: "/running",
-    element: <RunningPage />,    
+    path: "/firstpage",
+    element: <Firstpage />,    
   },
+  {
+    path: "/dashboard",
+    element: <DashboardPage />,    
+  }, 
 ]);
 
 
