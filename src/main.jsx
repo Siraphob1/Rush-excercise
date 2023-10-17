@@ -13,7 +13,7 @@ import RunningPage from './pages/Activity/RunningPage.jsx';
 import ForgotpasswordPage from './pages/ForgotpasswordPage.jsx';
 import ProfilePage from './pages/ProfilePage.jsx';
 import { MemberProvider } from './context/MemberContext.jsx';
-
+import Firstpage from './pages/Firstpage.jsx';
 
 
 const router = createBrowserRouter([
@@ -48,6 +48,10 @@ const router = createBrowserRouter([
   {
     path: "/running",
     element: <RunningPage />,    
+  },
+  {
+    path: "/firstpage",
+    element: <Firstpage />,    
   },
 ]);
 
