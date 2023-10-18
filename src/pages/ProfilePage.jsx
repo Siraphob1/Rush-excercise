@@ -37,8 +37,8 @@ const ProfilePage = () => {
         </div>
         <br />
       <h2 className="text-black text-4xl font-bold flex justify-start m-8">About</h2>
-    <div className="container m-8 w-full bg-white border border-black w-full h-52">
-      <div className="p-10 text-3xl font-bold font-black">
+    <div className="container m-8 w-full bg-white border border-black h-52">
+      <div className="p-10 text-3xl font-bold text-black">
         <p>สวัสดีชาวโลก</p>
         <br></br>
         <p>ชอบวิ่ง  ชอบปีนเขา</p>
