@@ -18,26 +18,26 @@ const ProfilePage = () => {
 
         <div className="ml-80 flex justify-center stats stats-vertical lg:stats-horizontal shadow">
             <div className="stat">
-              <div className="stat-title">22</div>
-              <div className="stat-value">Age</div>
+              <div className="stat-value">22</div>
+              <div className="stat-title">Age</div>
                 {/* <div className="stat-desc">Jan 1st - Feb 1st</div> */}
               </div>
           
           <div className="stat">
-              <div className="stat-title">175</div>
-              <div className="stat-value">Height</div>
+              <div className="stat-value">175 cm.</div>
+              <div className="stat-title">Height</div>
                 {/* <div className="stat-desc">↗︎ 400 (22%)</div> */}
               </div>
           
           <div className="stat">
-            <div className="stat-title">67</div>
-            <div className="stat-value">Weight</div>
+            <div className="stat-value">67 kg.</div>
+            <div className="stat-title">Weight</div>
             {/* <div className="stat-desc">↘︎ 90 (14%)</div> */}
           </div>  
         </div>
         <br />
-      <h2 className="text-black text-4xl font-bold flex justify-start m-5">About</h2>
-    <div className="container w-full bg-white border border-black w-full h-52">
+      <h2 className="text-black text-4xl font-bold flex justify-start m-8">About</h2>
+    <div className="container m-8 w-full bg-white border border-black w-full h-52">
       <div className="p-10 text-3xl font-bold font-black">
         <p>สวัสดีชาวโลก</p>
         <br></br>
