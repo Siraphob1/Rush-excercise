@@ -1,5 +1,6 @@
 import NavBar from "../components/navBar";
 import imgProfile from '../assets/image/Desktop/Desktop_BgProfile.jpg'
+import { BiEditAlt } from "react-icons/bi";
 const ProfilePage = () => {
     return (
 <div>
@@ -7,10 +8,11 @@ const ProfilePage = () => {
     <img src ={imgProfile} className="w-full h-52 relative" alt="Profile Page" />
       <div className="relative border border-black w-full h-52">
         <img src="src\assets\image\Desktop\Desktop_Hiking.jpg" className="aspect-square w-[20rem] rounded-full absolute left-[50%] translate-x-[-50%] translate-y-[-50%] justify-self-center" />
+             <BiEditAlt className="absolute right-0 text-[80px]"/>
       </div>
     <div className="w-full  min-h-screen  bg-white">
         <div className="flex justify-center">
-             <h1 className="m-auto text-black text-4xl font-bold m-5" >Tang</h1>
+             <h1 className="m-auto text-black text-4xl font-bold " >Tang</h1>
         </div>
         <div className="text-black text-4xl font-bold flex justify-center m-5">
              <h2 className="">Wannee Mairuukinarai</h2>
