@@ -16,17 +16,27 @@ const ProfilePage = () => {
         <div className="text-black text-4xl font-bold flex justify-center">
              <h2 className="">Wannee Mairuukinarai</h2>
         </div>
-        <table className="table-fixed flex justify-center">
-            <thead>
-                <tr>
-                    <td> age</td>
-                    <td>height</td>
-                    <td>weight</td>
-                </tr> 
-            </thead>
-            <tbody>            
-            </tbody>
-        </table>
+        <div className="justify-center stats stats-vertical lg:stats-horizontal shadow">
+  
+  <div className="stat">
+    <div className="stat-title">22</div>
+    <div className="stat-value">Age</div>
+    {/* <div className="stat-desc">Jan 1st - Feb 1st</div> */}
+  </div>
+  
+  <div className="stat">
+    <div className="stat-title">175</div>
+    <div className="stat-value">Height</div>
+    {/* <div className="stat-desc">↗︎ 400 (22%)</div> */}
+  </div>
+  
+  <div className="stat">
+    <div className="stat-title">67</div>
+    <div className="stat-value">Weight</div>
+    {/* <div className="stat-desc">↘︎ 90 (14%)</div> */}
+  </div>
+  
+</div>
         <br />
         <h2 className="text-black text-4xl font-bold flex justify-start">About</h2>
     </div>
