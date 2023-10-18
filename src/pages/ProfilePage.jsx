@@ -10,9 +10,9 @@ const ProfilePage = () => {
       </div>
     <div className="w-full  min-h-screen  bg-white">
         <div className="flex justify-center">
-             <h1 className="m-auto text-black text-4xl font-bold" >Tang</h1>
+             <h1 className="m-auto text-black text-4xl font-bold m-5" >Tang</h1>
         </div>
-        <div className="text-black text-4xl font-bold flex justify-center">
+        <div className="text-black text-4xl font-bold flex justify-center m-5">
              <h2 className="">Wannee Mairuukinarai</h2>
         </div>
 
@@ -36,7 +36,7 @@ const ProfilePage = () => {
           </div>  
         </div>
         <br />
-      <h2 className="text-black text-4xl font-bold flex justify-start">About</h2>
+      <h2 className="text-black text-4xl font-bold flex justify-start m-5">About</h2>
     <div className="container w-full bg-white border border-black w-full h-52">
       <div className="p-10 text-3xl font-bold font-black">
         <p>สวัสดีชาวโลก</p>
