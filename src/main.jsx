@@ -1,6 +1,4 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
 import './index.css'
 import {
   createBrowserRouter,
@@ -23,7 +21,7 @@ import DashboardPage from './pages/DashboardPage.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,         //First page  
+    element: <Firstpage />,         //First page  
   },
   // fill page to element
   {
@@ -74,10 +72,6 @@ const router = createBrowserRouter([
       },
       
     ],    
-  },
-  {
-    path: "/firstpage",
-    element: <Firstpage />,    
   },
   {
     path: "/dashboard",
