@@ -3,9 +3,16 @@ import { Link, useNavigate } from "react-router-dom"
 
 //icon
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
+
+//Axios
+import axiosPublic from "../../api/axios";
+const SIGNUP_URL = '/signup';
 //Regex
 const regexName = /^\w.{7,}/;
 const regexPassword = /[@#*$_]+[A-Z]+.{6,}|[@#*$_]+.+[A-Z]+.{5,}|[A-Z]+.+[@#*$_]+.{5,}|[A-Z]+[@#*$_]+.{6,}|.+[@#*$_]+[A-Z]+.{5,}|.+[A-Z]+[@#*$_]+.{5,}/;
+
+
+
 
 const UserInterfaceComponent = () => {
     const [username , setUsername] = useState('');
@@ -71,14 +78,63 @@ const UserInterfaceComponent = () => {
         setFocusConfirmPassword(false)
     }
     
-    const submitForm = (e) =>{
+    const detectEmptyInput = ()=>{
+        if(!validName){
+            refUsername.current.focus();
+            setSingupsuccess(false);
+            return true; 
+        }
+        if(!email){
+            refEmail.current.focus(); 
+            setSingupsuccess(false);
+            return true; 
+        }
+        if(!validPassword){
+            refPassword.current.focus();
+            setSingupsuccess(false);
+            return true; 
+        }
+        if(!validConfirmPassword){
+            refConfirmPassword.current.focus();
+            setSingupsuccess(false);
+            return true; 
+        }
+        return false;
+    }
+
+    const createSignupData = () =>{
+
+        //generate data for  create Date
+        const createDate = new Date().toString();
+
+        //format input to  object data
+        const signupData = {
+            username:username,
+            email:email,
+            password:password,
+            createDate:createDate
+        }
+
+        return signupData;
+    }
+
+    const submitForm = async (e) =>{
         e.preventDefault()       
 
+        //check username , email , password and confirmpassword not empty
+        const isEmptyinput = detectEmptyInput()
+        if(isEmptyinput) return 
 
-        const notEmptyinput = detectEmptyInput()
-        if(notEmptyinput){
-            // send obj data
-            sendAPI();
+        //generate signup data
+        const signupData = createSignupData();       
+       
+        
+        
+        // send obj data
+        try {
+            const response = await axiosPublic.post(SIGNUP_URL ,signupData);
+            console.log('ok')
+            console.log(response)
 
             //show result text
             setSingupsuccess(true);
@@ -86,36 +142,32 @@ const UserInterfaceComponent = () => {
 
             //clear input
             clearForm();
-        }
-    }
 
-    const detectEmptyInput = ()=>{
-        if(!validName){
-            refUsername.current.focus();
-            return setSingupsuccess(false);
+
+        } catch (error) {
+
+            if(!error.response){
+                console.log('No Server Response')
+                return
+            }
+
+            if(error.response.status === 400){
+                console.log(error.response.data.message)
+            }
+            else if(error.response.status === 409){
+                console.log(error.response.data.message)
+            }
+            
+            
         }
-        if(!email){
-            refEmail.current.focus(); 
-            return setSingupsuccess(false);
-        }
-        if(!validPassword){
-            refPassword.current.focus();
-            return setSingupsuccess(false);
-        }
-        if(!validConfirmPassword){
-            refConfirmPassword.current.focus();
-            return setSingupsuccess(false);
-        }
-        return true
+
+            
         
-
-
     }
 
-    const sendAPI = ()=>{
-        //send API singup
-    }
+    
 
+   
     
 
   return (
