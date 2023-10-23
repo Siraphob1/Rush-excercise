@@ -34,10 +34,11 @@ export const MemberProvider = ({children})=>{
     ]
 
     const [member , setMember] = useState(usermock);
+    const [auth , setAuth] = useState({});
 
     //export to use in another component
     return(
-        <MemberContext.Provider value={{member , setMember}}>
+        <MemberContext.Provider value={{member , setMember , auth ,setAuth}}>
             {children}
         </MemberContext.Provider>
     )
