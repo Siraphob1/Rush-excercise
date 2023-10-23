@@ -5,6 +5,7 @@ const App = () => {
      <div data-theme="light" className=" min-h-screen w-full ">
       <ProfilePage />
      </div>
+
   )
 }
 
