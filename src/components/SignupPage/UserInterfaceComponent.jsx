@@ -126,38 +126,44 @@ const UserInterfaceComponent = () => {
         if(isEmptyinput) return 
 
         //generate signup data
-        const signupData = createSignupData();       
-       
+        const signupData = createSignupData();    
         
-        
-        // send obj data
+        // send obj data to Backend
         try {
-            const response = await axiosPublic.post(SIGNUP_URL ,signupData);
-            console.log('ok')
-            console.log(response)
+            const response = await axiosPublic.post(SIGNUP_URL ,signupData);            
 
-            //show result text
-            setSingupsuccess(true);
-            setEmailVerify(email)
+            if(response.status === 201){
 
-            //clear input
-            clearForm();
+                console.log('ok')
+                console.log(response)
+
+                //show result text
+                setSingupsuccess(true);
+                setEmailVerify(email)
+
+                //clear input
+                clearForm();
+            }
+            
 
 
         } catch (error) {
 
+            //this error cannot handle
             if(!error.response){
                 console.log('No Server Response')
                 return
             }
-
-            if(error.response.status === 400){
-                console.log(error.response.data.message)
-            }
-            else if(error.response.status === 409){
-                console.log(error.response.data.message)
-            }
             
+            //this error can handle 
+            if(error.response.status === 400){
+                //miss username or email or password
+                console.log(error.response.data.message)
+            }            
+            else if(error.response.status === 409){
+                //username or email  has already been signup
+                console.log(error.response.data.message)
+            }
             
         }
 
@@ -270,11 +276,13 @@ const UserInterfaceComponent = () => {
             </section>
 
            
-
+            {/* Link Forgotpassword */}
             <Link to={'/forgotpassword'} className="self-center">Forgot password?</Link>
+
+            {/* Button Cancel and Confirm */}
             <section className=" flex justify-center py-[1rem] gap-x-[1rem]">
-                <button type="button" className="btn normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>cancel</button>
-                <button type="submit" className="btn btn-neutral normal-case  w-[100px] h-[30px] ">confirm</button>
+                <button type="button" className="btn normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>Cancel</button>
+                <button type="submit" className="btn btn-neutral normal-case  w-[100px] h-[30px] ">Confirm</button>
             </section>
         </form>
 
