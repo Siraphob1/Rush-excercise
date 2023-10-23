@@ -1,9 +1,18 @@
 
 import { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
+import useAuth from '../../hooks/useAuth';
 
+
+//Axios
+import axiosPublic from "../../api/axios";
+const LOGIN_URL = '/login';
 function LoginInterfaceComponent() {
+    const {setAuth} = useAuth();
+
+    const navigate = useNavigate();
+
     const [userEmail , setUserEmail] = useState('');
     const refEmail = useRef();
 
@@ -12,16 +21,16 @@ function LoginInterfaceComponent() {
     const refPassword = useRef();
     const [togglePassword , setTogglePassword] = useState(false);
     
-
-    const Login = (e)=>{
-        e.preventDefault();
-        detectEmptyInput();        
-    }
-
     const detectEmptyInput = ()=>{
-        if(!userEmail) return refEmail.current.focus();
-        if(userEmail && !userPassword) return refPassword.current.focus();   
-        clearInput();     
+        if(!userEmail){
+            refEmail.current.focus();
+            return true;
+        }
+        if(!userPassword){
+            refPassword.current.focus();   
+            return true;
+        }
+        return false
     }
 
     const clearInput = ()=>{
@@ -29,6 +38,68 @@ function LoginInterfaceComponent() {
         setUserPassword('');
         setTogglePassword(false)
     }
+
+    const createLoginData = () =>{        
+
+        //format input to  object data
+        const signupData = {
+            email:userEmail,
+            password:userPassword,
+        }
+
+        return signupData;
+    }
+
+    const Login = async (e)=>{
+        e.preventDefault();
+
+        //check email and password not empty
+        const isEmptyinput = detectEmptyInput();
+        if(isEmptyinput) return
+
+        //generate signup data
+        const loginData = createLoginData();  
+
+        // send obj data to Backend
+        try {
+            const response = await axiosPublic.post(LOGIN_URL ,loginData);  
+            
+            if(response.status === 200){
+                // console.log(response) 
+                const accessToken = response?.data?.accessToken;                
+                setAuth({accessToken});
+                clearInput(); 
+
+                //redirect to mainpage after login success
+                navigate('/mainpage');
+            }
+        } catch (error) {
+            //this error cannot handle
+            if(!error?.response){
+                console.log('No Server Response')
+                return
+            }
+            
+            //this error can handle 
+            else if(error.response?.status === 400){
+                //miss email or password
+                console.log(error.response.data.message)
+            }            
+            else if(error.response?.status === 401){
+                //user is not verify email yet 
+                console.log(error.response.data.message)
+            }
+            else if(error.response?.status === 404){
+                //this email  is not signup 
+                console.log(error.response.data.message)
+            }
+        }
+        
+    }
+
+    
+
+    
 
   return (
         <section className=" bg-white py-[1rem] px-[2rem] w-[80%] rounded-lg">
