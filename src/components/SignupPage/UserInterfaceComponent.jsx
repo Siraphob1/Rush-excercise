@@ -150,17 +150,17 @@ const UserInterfaceComponent = () => {
         } catch (error) {
 
             //this error cannot handle
-            if(!error.response){
+            if(!error?.response){
                 console.log('No Server Response')
                 return
             }
             
             //this error can handle 
-            if(error.response.status === 400){
+            else if(error.response?.status === 400){
                 //miss username or email or password
                 console.log(error.response.data.message)
             }            
-            else if(error.response.status === 409){
+            else if(error.response?.status === 409){
                 //username or email  has already been signup
                 console.log(error.response.data.message)
             }
