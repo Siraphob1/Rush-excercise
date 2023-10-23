@@ -1,4 +1,4 @@
-import imgDesktopSignup from '../assets/image/Desktop_Signup.jpg'
+import imgDesktopSignup from '../assets/image/Desktop/Desktop_Signup.jpg'
 import Loginlayout from '../components/layouts/Loginlayout'
 
 import UserInterfaceComponent from '../components/SignupPage/UserInterfaceComponent'

@@ -1,6 +1,6 @@
 
 import Loginlayout from '../components/layouts/Loginlayout'
-import imgDesktopLogin from '../assets/image/Desktop_Login.jpg'
+import imgDesktopLogin from '../assets/image/Desktop/Desktop_Login.jpg'
 import LoginInterfaceComponent from '../components/LoginPage/LoginInterfaceComponent'
 
 function LoginPage() {
