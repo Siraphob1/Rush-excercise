@@ -34,6 +34,7 @@ export const MainPage = () => {
   const rawactivityList  = activity?.activityList || [];
   const [activitiesList , setActivityList] = useState([]);
   const [updateFinished , setUpdateFinished] = useState(false);
+  const [created , setCreated] = useState(false);
   const onAddNewCard = (newItem) => {
     setItems((prevItems) => {
       return [newItem, ...prevItems];
@@ -64,7 +65,7 @@ export const MainPage = () => {
       
       
       
-  },[activity])
+  },[created])
 
   useEffect(()=>{
     const filterActivity = rawactivityList.filter((e)=> e.status === "inprogress");
@@ -93,7 +94,7 @@ export const MainPage = () => {
             {/* กรอกข้อมูลและแสดงผล */}
             <div>
               <div className="flex justify-center my-5">
-                <From onAddItem={onAddNewCard} API_URL ={ACTIVITY_URL} location={location} />
+                <From onAddItem={onAddNewCard} API_URL ={ACTIVITY_URL} location={location} created={created} setCreated={setCreated} />
               </div>
               <div className=" grid grid-cols-4 gap-4 mx-10">
                 {activitiesList.map((element) => {
