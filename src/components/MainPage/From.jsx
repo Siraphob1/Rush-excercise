@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 export const From = (props) => {
-  const {API_URL , location , created , setCreated} = props;
+  const {API_URL , location} = props;
 
   const {auth} = useAuth();
   const navigate = useNavigate();
@@ -132,8 +132,8 @@ export const From = (props) => {
           const response = await axiosPrivate.post(API_URL,newCard, {
             headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
         });
-        console.log(response.data);       
-        setCreated(!created)
+        console.log(response.data);
+        window.location.reload();
       } catch (error) {
         console.error(error.response);
         navigate('/login' , {state: {from:location} , replace:true})
