@@ -1,6 +1,6 @@
 
-import { useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
 import useAuth from '../../hooks/useAuth';
 
@@ -9,9 +9,12 @@ import useAuth from '../../hooks/useAuth';
 import axiosPublic from "../../api/axios";
 const LOGIN_URL = '/login';
 function LoginInterfaceComponent() {
-    const {setAuth} = useAuth();
+    const {setAuth , persist, setPersist} = useAuth();
 
     const navigate = useNavigate();
+    const location = useLocation();
+    //route before redirect to this route
+    const from = location.state?.from?.pathname || "/";
 
     const [userEmail , setUserEmail] = useState('');
     const refEmail = useRef();
@@ -47,10 +50,11 @@ function LoginInterfaceComponent() {
             password:userPassword,
         }
 
-        return signupData;
+        //The result will be a string following the JSON notation.
+        return  JSON.stringify(signupData);
     }
 
-    const Login = async (e)=>{
+    const submitLogin = async (e)=>{
         e.preventDefault();
 
         //check email and password not empty
@@ -70,8 +74,8 @@ function LoginInterfaceComponent() {
                 setAuth({accessToken});
                 clearInput(); 
 
-                //redirect to mainpage after login success
-                navigate('/mainpage');
+                //redirect to  lastest page    if login success
+                navigate(from , {replace:true});
             }
         } catch (error) {
             //this error cannot handle
@@ -97,13 +101,17 @@ function LoginInterfaceComponent() {
         
     }
 
+    useEffect(() => {
+        console.log(persist)
+    },[])
+
     
 
     
 
   return (
         <section className=" bg-white py-[1rem] px-[2rem] w-[80%] rounded-lg">
-            <form onSubmit={(e)=> Login(e)} className=" flex flex-col gap-y-3 ">
+            <form onSubmit={(e)=> submitLogin(e)} className=" flex flex-col gap-y-3 ">
 
                 {/* Email input */}
                 <section>
