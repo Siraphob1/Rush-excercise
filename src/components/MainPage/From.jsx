@@ -1,7 +1,15 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
+import { axiosPrivate } from "../../api/axios";
+import useAuth from "../../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export const From = (props) => {
+  const {API_URL , location} = props;
+
+  const {auth} = useAuth();
+  const navigate = useNavigate();
+
   // useState
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -42,8 +50,6 @@ export const From = (props) => {
       setEndMinute("min");
   }
 
-  
-
   //check startDate   < endDate
   //check currentDate < endDate
   //check current min < end min atleast 5 minutes
@@ -53,81 +59,44 @@ export const From = (props) => {
     const startmonth = startDate.split("-")[1];
     const startyear = startDate.split("-")[0];
 
-    //split end date 
-    const endday = endDate.split("-")[2];
-    const endmonth = endDate.split("-")[1];
-    const endyear = endDate.split("-")[0];
-   
     //convert start date to num
     const startDaynum = parseInt(startday);
     const startMonthnum = parseInt(startmonth);
     const startYearnum = parseInt(startyear);
     const startHrnum = parseInt(startHour);
     const startMinnum = parseInt(startMinute);
+    const start = new Date(startYearnum , startMonthnum-1 , startDaynum,startHrnum ,startMinnum ).getTime();
+    console.log(`start:${start}`)
+    
+
+    //split end date 
+    const endday = endDate.split("-")[2];
+    const endmonth = endDate.split("-")[1];
+    const endyear = endDate.split("-")[0];  
 
     //convert end date to num
     const endDaynum = parseInt(endday);
     const endMonthnum = parseInt(endmonth);
     const endYearnum = parseInt(endyear);
     const endHrnum = parseInt(endHour);
-    const endMinnum = parseInt(endMinute);     
+    const endMinnum = parseInt(endMinute); 
     
+    const end = new Date(endYearnum , endMonthnum-1 , endDaynum,endHrnum ,endMinnum ).getTime();
+    console.log(`end:${end}`)
+    
+    const current = new Date().getTime();
+
    // Start date VS End date
-   if(startYearnum > endYearnum){
-      alert("start year must <= end year");
-      return false;
+   if(start > end){
+    alert ('start time activity  must < end time activity ');  
+    return false;
    }
-   if(startMonthnum > endMonthnum){
-      alert("start month must <= end month");
-      return false;   
-   }
-   if(startDaynum > endDaynum){
-      alert("start day must <= end day");
-      return false;   
-   }
-   if(startHrnum > endHrnum){
-      alert("start hour must <= end hour");
-      return false;   
-   }
-   if(startMinnum > endMinnum){
-    alert("start min must < end min");
-    return false;   
-  }
 
-
-   //conver current date to num
-   const currentDate = new Date();
-   const currentDaynum = currentDate.getDate();
-   const currentMonthnum = currentDate.getMonth()+1;
-   const currentYearnum = currentDate.getFullYear();
-   const currentHrnum = currentDate.getHours();
-   const currentMinnum = currentDate.getMinutes();
-
-  // current date VS End date
-    if(currentYearnum > endYearnum){
-        alert("current year must <= end year");
-        return false;
-    }
-    if(currentMonthnum > endMonthnum){
-        alert("current month must <= end month");
-        return false;   
-    }
-    if(currentDaynum > endDaynum){
-        alert("current day must <= end day");
-        return false;   
-    }    
-    if(currentHrnum > endHrnum){
-        alert("current hour must <= end hour");
-        return false;   
-    }
-    if(currentMinnum > endMinnum){
-      alert("current min must < end min");
-      return false;   
-    }
-    if(endMinnum - currentMinnum < 5){
-      alert("current min must < end min  at least 5 minutes");
-      return false;   
-    }
+   // Current date VS End date
+   if(current > end){
+    alert ('current time activity  must < end time activity');  
+    return false;
+   }  
 
 
     //date is OK  can createCard
@@ -135,7 +104,7 @@ export const From = (props) => {
   }
 
   //Data
-  const createCard = (e) => {
+  const createCard = async (e) => {
     e.preventDefault();
     if (!name) return alert("please enter  name");
     if (!description) return alert("please enter  description");
@@ -150,8 +119,7 @@ export const From = (props) => {
     const canCreated = dateCheck();
     if(!canCreated) return
      
-      const newCard = {
-        id: Math.floor(Math.random() * 1000),
+      const newCard = {       
         name: name,
         description: description,
         type: type,
@@ -159,6 +127,17 @@ export const From = (props) => {
         endDate: formatDate(endDate, endHour, endMinute),
         createDate: new Date().toString()
       };
+
+      try {
+          const response = await axiosPrivate.post(API_URL,newCard, {
+            headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
+        });
+        console.log(response.data);
+        window.location.reload();
+      } catch (error) {
+        console.error(error.response);
+        navigate('/login' , {state: {from:location} , replace:true})
+      }
       props.onAddItem(newCard);     
       clearInput(); 
     
