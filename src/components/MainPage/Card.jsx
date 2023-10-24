@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 export const Card = (props) => {
-const {name,about,activity,startDate,endDate} = props
+const {about,activity,} = props
 
   return (
     <div>
@@ -13,10 +13,8 @@ const {name,about,activity,startDate,endDate} = props
         </figure>
         <div className="card-body">
           <h1 className="card-title text-cyan-950"> {activity} </h1>
-          <h2 className="card-title text-cyan-950">{name} </h2>
           <p className="text-cyan-950"> {about}</p>
-          <p className="text-cyan-950"> {"Start : "} {startDate}</p>
-          <p className="text-cyan-950"> {"End : "} {endDate}</p>
+
         </div>
       </div>
     </div>

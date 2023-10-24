@@ -13,38 +13,35 @@ export const From = (props) => {
   const [endHour, setEndHour] = useState("hr");
   const [endMinute, setEndMinute] = useState("min");
 
-  const formatDate = (date,hour,minute) => {  
+  const formatDate = (date, hour, minute) => {
     const day = date.split("-")[2];
     const month = date.split("-")[1];
     const year = date.split("-")[0];
-    const dateGMT = new Date(year,month,day,hour,minute);
+    const dateGMT = new Date(year, month, day, hour, minute);
     return dateGMT.toString();
   };
 
   //Data
   const createCard = (e) => {
     e.preventDefault();
-    if (
-      !name ||
-      !about ||
-      !activity ||
-      !startDate ||
-      !startHour ||
-      !startMinute ||
-      !endDate ||
-      !endHour ||
-      !endMinute
-    ) {
-      alert("กรุณาป้อนข้อมูล");
-    } else {
+    if (!name) return alert("กรุณาป้อนข้อมูล ชื่อรายการ");
+    if (!about) return alert("กรุณาป้อนข้อมูล คำอธิบาย");
+    if (!activity) return alert("กรุณาป้อนข้อมูล Activity");
+    if (!startDate) return alert("กรุณาป้อนข้อมูล StartDate");
+    if (!startHour) return alert("กรุณาป้อนข้อมูล StartHour");
+    if (!startMinute) return alert("กรุณาป้อนข้อมูล StartMinute");
+    if (!endDate) return alert("กรุณาป้อนข้อมูล EndDate");
+    if (!endHour) return alert("กรุณาป้อนข้อมูล EndHour");
+    if (!endMinute) return alert("กรุณาป้อนข้อมูล EndMinute");
+    else {
       console.log(startDate);
       const newCard = {
         id: Math.floor(Math.random() * 1000),
         name: name,
         about: about,
         activity: activity,
-        startDate: formatDate(startDate,startHour,startMinute),
-        endDate: formatDate(endDate,endHour,endMinute),
+        startDate: formatDate(startDate, startHour, startMinute),
+        endDate: formatDate(endDate, endHour, endMinute),
       };
       props.onAddItem(newCard);
       setName("");
@@ -78,7 +75,7 @@ export const From = (props) => {
               {/* placeholder ชื่อ */}
               <section className="mb-3 text-[#000000]">
                 <input
-                  placeholder="ชื่อ"
+                  placeholder="ชื่อรายการ"
                   type="text"
                   // name = "name"
                   value={name}
@@ -110,7 +107,7 @@ export const From = (props) => {
                   Activity
                 </option>
                 <option>Running</option>
-                <option>Bicycle ride</option>
+                <option>Biking</option>
                 <option>Swimming</option>
                 <option>Hiking</option>
                 <option>Walking</option>
