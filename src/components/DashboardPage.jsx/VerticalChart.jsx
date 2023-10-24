@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,7 +21,7 @@ ChartJS.register(
 
 
 
-const VerticalChart = () => {
+const VerticalChart = ({countBiking , countHiking , countRunning , countSwimming , countWalking}) => {
     const options = {
         responsive: true,         
         plugins: {
@@ -37,7 +38,7 @@ const VerticalChart = () => {
         datasets: [
           {
             label: 'count',
-            data: [10,1,2,3,5],
+            data: [countBiking,countHiking,countRunning,countSwimming,countWalking],
             backgroundColor: ['rgba(0, 0, 0)','rgba(189, 255, 0)' ,'rgba(204, 204, 204)' , 'rgba(189, 252, 165)' , 'rgba(255, 235, 165)']
           },        
         ],

@@ -1,11 +1,28 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import DoughnutLabel from './DoughnutLabel';
+import { useEffect, useState } from 'react';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DoughnutChart = () => {
+const DoughnutChart = ({countBiking , countHiking , countRunning , countSwimming , countWalking}) => {
 
+  const [pBikging ,setPBiking] = useState(0);
+  const [pHikging ,setPHiking] = useState(0);
+  const [pRunning,setPRunning] = useState(0);
+  const [pSwimming,setPSwimming] = useState(0);
+  const [pWalking ,setPWalking] = useState(0);
+
+  useEffect(()=>{
+    const total = countBiking + countHiking + countRunning + countSwimming + countWalking;
+    setPBiking(100/total*countBiking);
+    setPHiking(100/total*countHiking);
+    setPRunning(100/total*countRunning);
+    setPSwimming(100/total*countSwimming);
+    setPWalking(100/total*countWalking);
+  },[countBiking , countHiking , countRunning , countSwimming , countWalking])
     const bgcolor = {
         biking: '#000000',
         hiking:'#BDFF00',
@@ -30,7 +47,7 @@ const DoughnutChart = () => {
         datasets: [
           {
             label: 'count',
-            data: [10,1,2,3,5],
+            data: [countBiking,countHiking,countRunning,countSwimming,countWalking],
             backgroundColor: [bgcolor.biking, bgcolor.hiking , bgcolor.running , bgcolor.swimming , bgcolor.walking],
             borderColor: [
               'rgba(255, 255, 255, 1)',
@@ -45,11 +62,11 @@ const DoughnutChart = () => {
         <div className=' h-[100%]  flex items-center gap-x-[3rem]'>
             <Doughnut options={options} data={data}  />
             <div className=''>                
-                <DoughnutLabel bgcolor={`bg-[#000000] rounded-full w-[1rem] h-[1rem]`} type={'Biking'}  percent={7}/>              
-                <DoughnutLabel bgcolor={`bg-[#BDFF00] rounded-full w-[1rem] h-[1rem]`} type={'Hiking'}  percent={7}/>              
-                <DoughnutLabel bgcolor={`bg-[#CCCCCC] rounded-full w-[1rem] h-[1rem]`} type={'Running'}  percent={7}/>              
-                <DoughnutLabel bgcolor={`bg-[#C6FCA5] rounded-full w-[1rem] h-[1rem]`} type={'Swimming'}  percent={7}/>              
-                <DoughnutLabel bgcolor={`bg-[#FFEBA3] rounded-full w-[1rem] h-[1rem]`} type={'Walking'}  percent={7}/>     
+                <DoughnutLabel bgcolor={`bg-[#000000] rounded-full w-[1rem] h-[1rem]`} type={'Biking'}  percent={pBikging}/>              
+                <DoughnutLabel bgcolor={`bg-[#BDFF00] rounded-full w-[1rem] h-[1rem]`} type={'Hiking'}  percent={pHikging}/>              
+                <DoughnutLabel bgcolor={`bg-[#CCCCCC] rounded-full w-[1rem] h-[1rem]`} type={'Running'}  percent={pRunning}/>              
+                <DoughnutLabel bgcolor={`bg-[#C6FCA5] rounded-full w-[1rem] h-[1rem]`} type={'Swimming'}  percent={pSwimming}/>              
+                <DoughnutLabel bgcolor={`bg-[#FFEBA3] rounded-full w-[1rem] h-[1rem]`} type={'Walking'}  percent={pWalking}/>     
             </div>
         </div>
     </section>
