@@ -3,9 +3,16 @@ import { Link, useNavigate } from "react-router-dom"
 
 //icon
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
+
+//Axios
+import axiosPublic from "../../api/axios";
+const SIGNUP_URL = '/signup';
 //Regex
 const regexName = /^\w.{7,}/;
 const regexPassword = /[@#*$_]+[A-Z]+.{6,}|[@#*$_]+.+[A-Z]+.{5,}|[A-Z]+.+[@#*$_]+.{5,}|[A-Z]+[@#*$_]+.{6,}|.+[@#*$_]+[A-Z]+.{5,}|.+[A-Z]+[@#*$_]+.{5,}/;
+
+
+
 
 const UserInterfaceComponent = () => {
     const [username , setUsername] = useState('');
@@ -71,51 +78,102 @@ const UserInterfaceComponent = () => {
         setFocusConfirmPassword(false)
     }
     
-    const submitForm = (e) =>{
-        e.preventDefault()       
-
-
-        const notEmptyinput = detectEmptyInput()
-        if(notEmptyinput){
-            // send obj data
-            sendAPI();
-
-            //show result text
-            setSingupsuccess(true);
-            setEmailVerify(email)
-
-            //clear input
-            clearForm();
-        }
-    }
-
     const detectEmptyInput = ()=>{
         if(!validName){
             refUsername.current.focus();
-            return setSingupsuccess(false);
+            setSingupsuccess(false);
+            return true; 
         }
         if(!email){
             refEmail.current.focus(); 
-            return setSingupsuccess(false);
+            setSingupsuccess(false);
+            return true; 
         }
         if(!validPassword){
             refPassword.current.focus();
-            return setSingupsuccess(false);
+            setSingupsuccess(false);
+            return true; 
         }
         if(!validConfirmPassword){
             refConfirmPassword.current.focus();
-            return setSingupsuccess(false);
+            setSingupsuccess(false);
+            return true; 
         }
-        return true
+        return false;
+    }
+
+    const createSignupData = () =>{
+
+        //generate data for  create Date
+        const createDate = new Date().toString();
+
+        //format input to  object data
+        const signupData = {
+            username:username,
+            email:email,
+            password:password,
+            createDate:createDate
+        }
+
+        return signupData;
+    }
+
+    const submitForm = async (e) =>{
+        e.preventDefault()       
+
+        //check username , email , password and confirmpassword not empty
+        const isEmptyinput = detectEmptyInput()
+        if(isEmptyinput) return 
+
+        //generate signup data
+        const signupData = createSignupData();    
         
+        // send obj data to Backend
+        try {
+            const response = await axiosPublic.post(SIGNUP_URL ,signupData);            
+
+            if(response.status === 201){
+
+                console.log('ok')
+                console.log(response)
+
+                //show result text
+                setSingupsuccess(true);
+                setEmailVerify(email)
+
+                //clear input
+                clearForm();
+            }
+            
 
 
+        } catch (error) {
+
+            //this error cannot handle
+            if(!error?.response){
+                console.log('No Server Response')
+                return
+            }
+            
+            //this error can handle 
+            else if(error.response?.status === 400){
+                //miss username or email or password
+                console.log(error.response.data.message)
+            }            
+            else if(error.response?.status === 409){
+                //username or email  has already been signup
+                console.log(error.response.data.message)
+            }
+            
+        }
+
+            
+        
     }
 
-    const sendAPI = ()=>{
-        //send API singup
-    }
+    
 
+   
     
 
   return (
@@ -218,11 +276,13 @@ const UserInterfaceComponent = () => {
             </section>
 
            
-
+            {/* Link Forgotpassword */}
             <Link to={'/forgotpassword'} className="self-center">Forgot password?</Link>
+
+            {/* Button Cancel and Confirm */}
             <section className=" flex justify-center py-[1rem] gap-x-[1rem]">
-                <button type="button" className="btn normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>cancel</button>
-                <button type="submit" className="btn btn-neutral normal-case  w-[100px] h-[30px] ">confirm</button>
+                <button type="button" className="btn normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>Cancel</button>
+                <button type="submit" className="btn btn-neutral normal-case  w-[100px] h-[30px] ">Confirm</button>
             </section>
         </form>
 

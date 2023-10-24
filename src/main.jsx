@@ -15,15 +15,17 @@ import { MemberProvider } from './context/MemberContext.jsx';
 import Firstpage from './pages/Firstpage.jsx';
 import ActivityPage from './pages/Activity/ActivityPage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx';
+import RequireAuth from './components/RequireAuth';
 
 
 
 const router = createBrowserRouter([
+
+  // Public routes
   {
     path: "/",
-    element: <Firstpage />,         //First page  
+    element: <Firstpage />,         
   },
-  // fill page to element
   {
     path: "/login",
     element: <LoginPage/>,    
@@ -45,43 +47,61 @@ const router = createBrowserRouter([
     path: "/forgotpassword/reset",
     element: <ForgotpasswordPage />,      
   },
+
+  // Private routes
   {
     path: "/mainpage",
-    element: <MainPage />,    
+    element:  <RequireAuth>
+                <MainPage />
+              </RequireAuth>,    
   },
   {
     path: "/profilepage",
-    element: <ProfilePage />,    
+    element:  <RequireAuth>
+                <ProfilePage />
+              </RequireAuth>,    
   }, 
   {
     path: "/activity",
     children:[
       {
         path: "biking",
-        element:<ActivityPage/>
+        element:<RequireAuth>
+                  <ActivityPage/>
+                </RequireAuth>
       },
       {
         path: "hiking",
-        element:<ActivityPage/>
+        element:<RequireAuth>
+                  <ActivityPage/>
+                </RequireAuth>
       },
       {
         path: "running",
-        element:<ActivityPage/>
+        element:<RequireAuth>
+                  <ActivityPage/>
+                </RequireAuth>
       },
       {
         path: "swimming",
-        element:<ActivityPage/>
+        element:<RequireAuth>
+                  <ActivityPage/>
+                </RequireAuth>
       },      
       {
         path: "walking",
-        element:<ActivityPage/>
+        element:<RequireAuth>
+                  <ActivityPage/>
+                </RequireAuth>
       },
       
     ],    
   },
   {
     path: "/dashboard",
-    element: <DashboardPage />,    
+    element:  <RequireAuth>
+                <DashboardPage />
+              </RequireAuth>,    
   }, 
 ]);
 
