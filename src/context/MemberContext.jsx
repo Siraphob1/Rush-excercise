@@ -35,11 +35,12 @@ export const MemberProvider = ({children})=>{
 
     const [member , setMember] = useState(usermock);
     const [auth , setAuth] = useState({});
-    //auth = {accessToken}
+    const [persist , setPersist] = useState(JSON.parse(localStorage.getItem("persist"))|| false);
+    
 
     //export to use in another component
     return(
-        <MemberContext.Provider value={{member , setMember , auth ,setAuth}}>
+        <MemberContext.Provider value={{member , setMember , auth ,setAuth , persist ,setPersist}}>
             {children}
         </MemberContext.Provider>
     )
