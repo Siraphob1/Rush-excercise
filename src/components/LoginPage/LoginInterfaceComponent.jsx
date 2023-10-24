@@ -1,12 +1,13 @@
 
 import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
 import useAuth from '../../hooks/useAuth';
 
 
 //Axios
 import axiosPublic from "../../api/axios";
+import jwtDecode from 'jwt-decode';
 const LOGIN_URL = '/login';
 function LoginInterfaceComponent() {
     const {setAuth , persist, setPersist} = useAuth();
@@ -67,8 +68,10 @@ function LoginInterfaceComponent() {
             
             if(response.status === 200){
                 // console.log(response) 
-                const accessToken = response?.data?.accessToken;                
-                setAuth({accessToken});
+                const accessToken = response?.data?.accessToken;   
+                const decoded = jwtDecode(accessToken);                                        
+                const userID = decoded?.userID;     
+                setAuth({accessToken, userID});
                 clearInput(); 
 
                 //redirect to  mainpage    if login success
