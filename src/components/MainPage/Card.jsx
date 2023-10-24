@@ -61,7 +61,7 @@ export const Card = (props) => {
           }}
       >
         
-        <div className={`card-body  flex flex-col items-end ${classtopic} hover:bg-black hover:bg-opacity-40 hover:cursor-pointer`}>
+        <div className={`card-body  flex flex-col items-end ${classtopic}  rounded-3xl hover:bg-black hover:bg-opacity-40 hover:cursor-pointer`}>
           <h1 className="card-title uppercase font-bold pt-[0.5rem] "> {activity} </h1>
           <p className=""> {about}</p>
 
