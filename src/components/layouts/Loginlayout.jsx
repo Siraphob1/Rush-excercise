@@ -24,8 +24,8 @@ const Loginlayout = ({children,image}) => {
 
                     {/* Right */}
                     <section className="  w-[50%] h-full flex flex-col items-center justify-center text-white">
-                        <h1 className="  text-[4rem] font-bold">RUSH</h1>
-                        <p className=" text-[1.8rem] text-center opacity-80 w-[480px]">Exercise not only changes your body, it changes your mind.</p>
+                        <h1 className="  text-[4rem] font-bold drop-shadow-lg [text-shadow:_0px_2.5px_3.5px_rgb(0_0_0_/_30%)]">RUSH</h1>
+                        <p className=" text-[1.8rem] text-center opacity-80 w-[480px] drop-shadow-lg [text-shadow:_0px_2.5px_3.5px_rgb(0_0_0_/_30%)]">Exercise not only changes your body, it changes your mind.</p>
                     </section>
                 </div>
             </section>

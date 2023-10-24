@@ -16,7 +16,8 @@ import Firstpage from './pages/Firstpage.jsx';
 import ActivityPage from './pages/Activity/ActivityPage.jsx';
 import DashboardPage from './pages/DashboardPage.jsx';
 import RequireAuth from './components/RequireAuth';
-
+import Reset from './pages/Forgotpassword/Reset'
+import Verify from './pages/Signup/Verify'
 
 
 const router = createBrowserRouter([
@@ -36,7 +37,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/signup/verify",    
-    element:<SignupPage/>,
+    element:<Verify/>,
   },
 
   {
@@ -45,7 +46,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/forgotpassword/reset",
-    element: <ForgotpasswordPage />,      
+    element: <Reset />,      
   },
 
   // Private routes
