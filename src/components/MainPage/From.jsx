@@ -133,10 +133,10 @@ export const From = (props) => {
             headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
         });
         console.log(response.data);
-        window.location.reload();
+        // window.location.reload();
       } catch (error) {
         console.error(error.response);
-        navigate('/login' , {state: {from:location} , replace:true})
+        // navigate('/login' , {state: {from:location} , replace:true})
       }
       props.onAddItem(newCard);     
       clearInput(); 

@@ -55,7 +55,7 @@ export const MainPage = () => {
             
         } catch (err) {
             console.error(err.response);
-            navigate('/login' , {state: {from:location} , replace:true})
+            // navigate('/login' , {state: {from:location} , replace:true})
         }
       }
 
