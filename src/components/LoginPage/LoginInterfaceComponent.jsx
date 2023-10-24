@@ -12,9 +12,6 @@ function LoginInterfaceComponent() {
     const {setAuth , persist, setPersist} = useAuth();
 
     const navigate = useNavigate();
-    const location = useLocation();
-    //route before redirect to this route
-    const from = location.state?.from?.pathname || "/";
 
     const [userEmail , setUserEmail] = useState('');
     const refEmail = useRef();
@@ -74,8 +71,8 @@ function LoginInterfaceComponent() {
                 setAuth({accessToken});
                 clearInput(); 
 
-                //redirect to  lastest page    if login success
-                navigate(from , {replace:true});
+                //redirect to  mainpage    if login success
+                navigate('/mainpage');
             }
         } catch (error) {
             //this error cannot handle
@@ -101,9 +98,13 @@ function LoginInterfaceComponent() {
         
     }
 
+    const togglePersist = () => {
+        setPersist(!persist);
+    }
+
     useEffect(() => {
-        console.log(persist)
-    },[])
+        localStorage.setItem("persist" , persist);
+    },[persist])
 
     
 
@@ -141,6 +142,12 @@ function LoginInterfaceComponent() {
                         <button type="button" className=" absolute right-[1rem] bottom-[1rem]"
                             onClick={()=>setTogglePassword(!togglePassword)}>{togglePassword ?<IoEyeOutline/>:<IoEyeOffOutline/>}</button> 
                     </div>
+                </section>
+
+                {/* Persist checkbox */}
+                <section className='flex items-center'>
+                    <input type="checkbox" name="" id="persist" checked={persist} className="checkbox mr-[1rem]" onChange={togglePersist} />
+                    <label htmlFor="persist">remember my account</label>
                 </section>
 
                 {/* Button */}
