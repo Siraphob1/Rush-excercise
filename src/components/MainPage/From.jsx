@@ -4,8 +4,8 @@ import { useState } from "react";
 export const From = (props) => {
   // useState
   const [name, setName] = useState("");
-  const [about, setAbout] = useState("");
-  const [activity, setActivity] = useState("Activity");
+  const [description, setDescription] = useState("");
+  const [type, setType] = useState("Activity");
   const [startDate, setStartDate] = useState("");
   const [startHour, setStartHour] = useState("hr");
   const [startMinute, setStartMinute] = useState("min");
@@ -13,47 +13,155 @@ export const From = (props) => {
   const [endHour, setEndHour] = useState("hr");
   const [endMinute, setEndMinute] = useState("min");
 
+  
+  // format day to  unit GMT
   const formatDate = (date, hour, minute) => {
     const day = date.split("-")[2];
     const month = date.split("-")[1];
     const year = date.split("-")[0];
-    const dateGMT = new Date(year, month, day, hour, minute);
+
+    //convert type to number
+    const numday = parseInt(day);
+    const nummonth = parseInt(month)-1;
+    const numyear = parseInt(year);
+
+    //generate day unit GMT
+    const dateGMT = new Date(numyear, nummonth, numday, hour, minute);
     return dateGMT.toString();
   };
+
+  const clearInput = () =>{
+      setName("");
+      setDescription("");
+      setType("Activity");
+      setStartDate("");
+      setStartHour("hr");
+      setStartMinute("min");
+      setEndDate("");
+      setEndHour("hr");
+      setEndMinute("min");
+  }
+
+  
+
+  //check startDate   < endDate
+  //check currentDate < endDate
+  //check current min < end min atleast 5 minutes
+  const dateCheck = () =>{
+    //split start date  
+    const startday = startDate.split("-")[2];
+    const startmonth = startDate.split("-")[1];
+    const startyear = startDate.split("-")[0];
+
+    //split end date 
+    const endday = endDate.split("-")[2];
+    const endmonth = endDate.split("-")[1];
+    const endyear = endDate.split("-")[0];
+   
+    //convert start date to num
+    const startDaynum = parseInt(startday);
+    const startMonthnum = parseInt(startmonth);
+    const startYearnum = parseInt(startyear);
+    const startHrnum = parseInt(startHour);
+    const startMinnum = parseInt(startMinute);
+
+    //convert end date to num
+    const endDaynum = parseInt(endday);
+    const endMonthnum = parseInt(endmonth);
+    const endYearnum = parseInt(endyear);
+    const endHrnum = parseInt(endHour);
+    const endMinnum = parseInt(endMinute);     
+    
+   // Start date VS End date
+   if(startYearnum > endYearnum){
+      alert("start year must <= end year");
+      return false;
+   }
+   if(startMonthnum > endMonthnum){
+      alert("start month must <= end month");
+      return false;   
+   }
+   if(startDaynum > endDaynum){
+      alert("start day must <= end day");
+      return false;   
+   }
+   if(startHrnum > endHrnum){
+      alert("start hour must <= end hour");
+      return false;   
+   }
+   if(startMinnum > endMinnum){
+    alert("start min must < end min");
+    return false;   
+  }
+
+
+   //conver current date to num
+   const currentDate = new Date();
+   const currentDaynum = currentDate.getDate();
+   const currentMonthnum = currentDate.getMonth()+1;
+   const currentYearnum = currentDate.getFullYear();
+   const currentHrnum = currentDate.getHours();
+   const currentMinnum = currentDate.getMinutes();
+
+  // current date VS End date
+    if(currentYearnum > endYearnum){
+        alert("current year must <= end year");
+        return false;
+    }
+    if(currentMonthnum > endMonthnum){
+        alert("current month must <= end month");
+        return false;   
+    }
+    if(currentDaynum > endDaynum){
+        alert("current day must <= end day");
+        return false;   
+    }    
+    if(currentHrnum > endHrnum){
+        alert("current hour must <= end hour");
+        return false;   
+    }
+    if(currentMinnum > endMinnum){
+      alert("current min must < end min");
+      return false;   
+    }
+    if(endMinnum - currentMinnum < 5){
+      alert("current min must < end min  at least 5 minutes");
+      return false;   
+    }
+
+
+    //date is OK  can createCard
+   return true;   
+  }
 
   //Data
   const createCard = (e) => {
     e.preventDefault();
-    if (!name) return alert("กรุณาป้อนข้อมูล ชื่อรายการ");
-    if (!about) return alert("กรุณาป้อนข้อมูล คำอธิบาย");
-    if (!activity) return alert("กรุณาป้อนข้อมูล Activity");
-    if (!startDate) return alert("กรุณาป้อนข้อมูล StartDate");
-    if (!startHour) return alert("กรุณาป้อนข้อมูล StartHour");
-    if (!startMinute) return alert("กรุณาป้อนข้อมูล StartMinute");
-    if (!endDate) return alert("กรุณาป้อนข้อมูล EndDate");
-    if (!endHour) return alert("กรุณาป้อนข้อมูล EndHour");
-    if (!endMinute) return alert("กรุณาป้อนข้อมูล EndMinute");
-    else {
-      console.log(startDate);
+    if (!name) return alert("please enter  name");
+    if (!description) return alert("please enter  description");
+    if (type === "Activity" || !type) return alert("please enter  Activity");
+    if (!startDate) return alert("please enter  StartDate");
+    if (startHour === "hr") return alert("please enter  StartHour");
+    if (startMinute === "min") return alert("please enter  StartMinute");
+    if (!endDate) return alert("please enter  EndDate");
+    if (endHour === "hr") return alert("please enter  EndHour");
+    if (endMinute === "min") return alert("please enter  EndMinute");
+    
+    const canCreated = dateCheck();
+    if(!canCreated) return
+     
       const newCard = {
         id: Math.floor(Math.random() * 1000),
         name: name,
-        about: about,
-        activity: activity,
+        description: description,
+        type: type,
         startDate: formatDate(startDate, startHour, startMinute),
         endDate: formatDate(endDate, endHour, endMinute),
+        createDate: new Date().toString()
       };
-      props.onAddItem(newCard);
-      setName("");
-      setAbout("");
-      setActivity("");
-      setStartDate("");
-      setStartHour("");
-      setStartMinute("");
-      setEndDate("");
-      setEndHour("");
-      setEndMinute("");
-    }
+      props.onAddItem(newCard);     
+      clearInput(); 
+    
   };
 
   return (
@@ -63,7 +171,7 @@ export const From = (props) => {
         tabIndex={0}
         className="btn m-1  text-[#ffffff]  btn-wide btn-lg btn-ghost btn-outline rounded-full "
       >
-        + add activity
+        + add Activity
       </label>
       <div
         tabIndex={0}
@@ -90,16 +198,16 @@ export const From = (props) => {
                   placeholder="คำอธิบาย"
                   type="text"
                   // name = "name"
-                  value={about}
-                  onChange={(e) => setAbout(e.target.value)}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   className="input input-bordered block  w-full  "
                 />
               </section>
 
               {/* select เลือกประเภทการออกกำลังกาย */}
               <select
-                value={activity}
-                onChange={(e) => setActivity(e.target.value)}
+                value={type}
+                onChange={(e) => setType(e.target.value)}
                 className="select select-bordered w-full   text-[#000000] mb-3 "
                 placeholder="Activity"
               >
@@ -169,6 +277,7 @@ export const From = (props) => {
                     min
                   </option>
                   <option>00</option>
+                  <option>05</option>
                   <option>10</option>
                   <option>15</option>
                   <option>20</option>
@@ -238,6 +347,7 @@ export const From = (props) => {
                     min
                   </option>
                   <option>00</option>
+                  <option>05</option>
                   <option>10</option>
                   <option>15</option>
                   <option>20</option>
