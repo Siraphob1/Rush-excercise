@@ -5,13 +5,15 @@ import imgHiking from '../../assets/image/Desktop/Desktop_Hiking.jpg'
 import imgSwimming from '../../assets/image/Desktop/Desktop_Swimming.jpg'
 import imgRunning from '../../assets/image/Desktop/Desktop_Running.jpeg'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 export const Card = (props) => {
-  const {id , name , description,type, startDate , endDate , createDate} = props
+  const {activityID , name , description,type, startDate , endDate , createDate} = props
 
   const [imgBG , setImgBG] = useState('');
   const [pos, setPos] = useState('');
   const [size, setSize] = useState('');
   const [classtopic , setClassTopic] = useState('');
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const typeActivty = type;
@@ -47,11 +49,10 @@ export const Card = (props) => {
         break;
     }
 
-    console.log(imgBG)
   },[])
 
-  const showData = () =>{
-    console.log(`${id} / ${name} / ${description} / ${type} / ${startDate} / ${endDate} / ${createDate}`)
+  const moveToCard = () =>{
+    navigate(`/activity/${type}/${activityID}`)
   }
 
   return (
@@ -66,7 +67,7 @@ export const Card = (props) => {
       >
         
         <div className={`card-body  flex flex-col items-end ${classtopic}  rounded-3xl hover:bg-black hover:bg-opacity-40 hover:cursor-pointer`}
-        onClick={showData}
+        onClick={moveToCard}
         >
           <h1 className="card-title uppercase font-bold pt-[0.5rem] "> {type} </h1>
           <p className=""> {description}</p>
