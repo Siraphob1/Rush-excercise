@@ -7,10 +7,9 @@ const useRefreshToken = () => {
   //fetch API for get new accessToken
   const refresh = async () =>{
         const response = await axiosPublic.get('/refresh');
-        if(response.status === 200){
-            setAuth({...auth ,accessToken:response.data.accessToken})
-            return response.data.accessToken;
-        }
+          setAuth({...auth ,accessToken:response.data.accessToken})
+          return response.data.accessToken;
+        
         
   }
 
