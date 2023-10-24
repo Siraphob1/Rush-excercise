@@ -1,27 +1,20 @@
 import { Link, useNavigate } from "react-router-dom"
 import icon4 from '../assets/image/Icon/Rush logo white.png'
 import useAuth from "../hooks/useAuth"
-import axiosPublic from "../api/axios"
+import useLogout from "../hooks/useLogout"
 
-const LOGOUT_URL = '/logout'
 
 const NavBar = () => {
-  const {auth , setAuth} = useAuth();
+  const {auth} = useAuth();
   const navigate = useNavigate();
+  const logout = useLogout();
 
-  const submitLogout = async () =>{
+  const signOut = async () =>{
 
     //send API logout
-    try {
-      const response = await axiosPublic.get(LOGOUT_URL);  
-      //clear data
-      setAuth({...auth, accessToken:""})
-
-      //redirect to login page
-      navigate('/login');
-    } catch (error) {
-      console.log(error.response)
-    }
+    await logout();
+    //redirect to first page
+    navigate('/');
   }
 
 
@@ -40,7 +33,7 @@ const NavBar = () => {
           <Link to={'/profilepage'}>Profile</Link>
           <Link to={'/signup'}>Sign up</Link>
           {
-            auth?.accessToken ? <button onClick={submitLogout}>Log out</button>
+            auth?.accessToken ? <button onClick={signOut}>Log out</button>
                               : <Link to={'/login'}>Log in</Link>
           }
         </div>
