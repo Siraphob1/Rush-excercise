@@ -1,79 +1,24 @@
 import NavBar from "../components/navBar";
 import imgProfile from '../assets/image/Desktop/Desktop_BgProfile.jpg'
 import { BiEditAlt } from "react-icons/bi";
-import { useEffect, useState } from "react";
-import useAuth from "../hooks/useAuth";
-import { axiosPrivate } from "../api/axios";
+import { useState } from "react";
 const ProfilePage = () => {
-
-  const {auth} = useAuth();
-  const PROFILEAPI_URL = `/api/profile/${auth?.userID}`
   const [editAble , setEditAble] = useState(false);
   const [name, setName] = useState('Piti');
-  const [displayname, setDisplayname] = useState('Likitwattanapaisarn')
+  const [fullname, setFullname] = useState('Likitwattanapaisarn')
   const [age , setAge] = useState(22);
   const [height , setHeight] = useState(175);
   const [weight , setWeight] = useState(67);
   const [caption ,setCaption] = useState('สวัสดีชาวโลก ชอบวิ่ง ชอบปีนเขา')
 
-  const checkEmptyInput = () =>{
-    if(!name) return false;
-    if(!displayname)return false;
-    if(!age) return false;
-    if(!height) return false;
-    if(!weight) return false; 
-    if(!caption) return false;
-
-    return true;
-  }
-
-  const updateData = async () =>{
-   
-    const canSendAPI = checkEmptyInput();
-    if(!canSendAPI) return;
-    setEditAble(!editAble);
-    
-
-    const newData = {
-      imageURL: "",
-      username:name,
-      displayName:displayname,
-      age:age,
-      height:height,
-      weight:weight,
-      caption:caption
-    }
+  const updateData = () =>{
 
     //send API to Backend
-    try {
-      const response = await axiosPrivate.put(PROFILEAPI_URL ,newData);
-      console.log(response)
-    } catch (error) {
-      console.log(error.response)
-    }
+
+    setEditAble(!editAble);
     
   }
 
-  useEffect(()=>{
-    const getData = async () =>{
-      try {
-        const response = await axiosPrivate.get(PROFILEAPI_URL,{
-          headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
-        })
-        console.log(response)
-        setName(response.data.userProfile.username);
-        setDisplayname(response.data.userProfile.displayName);
-        setAge(response.data.userProfile.age);
-        setHeight(response.data.userProfile.height);
-        setWeight(response.data.userProfile.weight);
-        setCaption(response.data.userProfile.weight);
-      } catch (error) {
-        console.log(error.response)
-      }
-    }
-
-    getData();
-  },[PROFILEAPI_URL])
 
 
     return (
@@ -96,7 +41,7 @@ const ProfilePage = () => {
               
           </div>
           <div className="text-black text-4xl font-bold flex justify-center m-5">
-          <input type="text" className="bg-white border text-black w-auto text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={displayname} onChange={(e)=>setDisplayname(e.target.value)} disabled={!editAble}/>
+          <input type="text" className="bg-white border text-black w-auto text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={fullname} onChange={(e)=>setFullname(e.target.value)} disabled={!editAble}/>
               
           </div>
 
@@ -106,7 +51,7 @@ const ProfilePage = () => {
             {/* Age */}
             <div className="stat flex flex-col items-center">
               {/* Input */}
-              <input type="number" className="bg-white border  w-[4rem] text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={age} onChange={(e)=>setAge(e.target.value)} disabled={!editAble}/>
+              <input type="text" className="bg-white border  w-[4rem] text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={age} onChange={(e)=>setAge(e.target.value)} disabled={!editAble}/>
               {/* Unit */}
               <div className="stat-title">Age</div>
             </div>
@@ -114,8 +59,8 @@ const ProfilePage = () => {
             {/* Height */}
             <div className="stat flex flex-col items-center">
               {/* Input */}
-              <div className="flex gap-x-[0.2rem]">              
-                <input type="number" className="bg-white border w-[4rem] text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={height} onChange={(e)=>setHeight(e.target.value) } disabled={!editAble}/>
+              <div className="flex gap-x-[0.5rem]">              
+                <input type="text" className="bg-white border w-[4rem] text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={height} onChange={(e)=>setHeight(e.target.value) } disabled={!editAble}/>
                 <span className="stat-value inline-block">cm.</span>
               </div>
               {/* Unit */}
@@ -126,7 +71,7 @@ const ProfilePage = () => {
             <div className="stat flex flex-col items-center">
               {/* Input */}
               <div className="flex gap-x-[0.1rem]">              
-                <input type="number" className="bg-white border w-[4rem] text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={weight} onChange={(e)=>setWeight(e.target.value) } disabled={!editAble}/>
+                <input type="text" className="bg-white border w-[4rem] text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={weight} onChange={(e)=>setWeight(e.target.value) } disabled={!editAble}/>
                 <span className="stat-value inline-block">kg.</span>
               </div>
               {/* Unit */}
