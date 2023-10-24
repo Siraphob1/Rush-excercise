@@ -11,10 +11,6 @@ const useRefreshToken = () => {
             setAuth({...auth ,accessToken:response.data.accessToken})
             return response.data.accessToken;
         }
-        else{
-            setAuth({...auth ,accessToken:undefined})
-            return undefined;
-        }
         
   }
 
