@@ -1,9 +1,30 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import icon4 from '../assets/image/Icon/Rush logo white.png'
 import useAuth from "../hooks/useAuth"
+import axiosPublic from "../api/axios"
+
+const LOGOUT_URL = '/logout'
 
 const NavBar = () => {
-  const {auth} = useAuth();
+  const {auth , setAuth} = useAuth();
+  const navigate = useNavigate();
+
+  const submitLogout = async () =>{
+
+    //send API logout
+    try {
+      const response = await axiosPublic.get(LOGOUT_URL);  
+      //clear data
+      setAuth({...auth, accessToken:""})
+
+      //redirect to login page
+      navigate('/login');
+    } catch (error) {
+      console.log(error.response)
+    }
+  }
+
+
     return (
       <nav className='flex justify-between items-center text-white bg-black px-[20px] pr-[30px] py-[15px]' >
         {/* Left */}
@@ -18,7 +39,10 @@ const NavBar = () => {
         <div className='flex gap-x-6'>
           <Link to={'/profilepage'}>Profile</Link>
           <Link to={'/signup'}>Sign up</Link>
-          <Link to={'/login'}>Log in</Link>
+          {
+            auth?.accessToken ? <button onClick={submitLogout}>Log out</button>
+                              : <Link to={'/login'}>Log in</Link>
+          }
         </div>
       </nav>
     )
