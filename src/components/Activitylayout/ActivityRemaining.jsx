@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import NavBar from "../navBar";
-import MemberContext from "../../context/MemberContext";
+import useAuth from "../../hooks/useAuth";
+import { axiosPrivate } from "../../api/axios";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
-function ActivityRemaining({image , topic , bgPos}) {
+function ActivityRemaining({image , topic , bgPos , activityID}) {
 
   const [displayDays , setDisplayDays] = useState(0);
   const [displayHrs , setDisplayHrs] = useState(0);
@@ -19,9 +21,12 @@ function ActivityRemaining({image , topic , bgPos}) {
   const [clickDetail , setClickDetail] = useState(false);
   const [isTimeout , SetIsTimeout] = useState(false);
 
-  const {member} = useContext(MemberContext)
+  const {auth ,activity} = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
 
- 
+  const API_URL = `/api/activity/${auth?.userID}?activityID=${activityID}`;
+
 
 
   let myCountdown;
@@ -73,6 +78,7 @@ function ActivityRemaining({image , topic , bgPos}) {
       myCountdown = setInterval(() => {              
         const currentTime = new Date().getTime();
         
+        
         //check overtime activity
         if(currentTime >= endTime){          
           SetIsTimeout(true);
@@ -88,7 +94,8 @@ function ActivityRemaining({image , topic , bgPos}) {
           const days = Math.floor(deltatime / (1000 * 60 * 60 * 24));  
           const hours = Math.floor(deltatime % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
           const mins = Math.floor(deltatime % (1000 * 60 * 60) / (1000 * 60));
-          const secs = Math.floor(deltatime % (1000 * 60) / (1000));      
+          const secs = Math.floor(deltatime % (1000 * 60) / (1000));  
+             
           
           
           if(deltatime < 0){
@@ -117,15 +124,36 @@ function ActivityRemaining({image , topic , bgPos}) {
     
   }
 
+  const deleteActivity = async () =>{
+    try {
+      const response = await axiosPrivate.delete(API_URL, {
+        headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
+    });
+    // console.log(response.data);
+    if(response.status === 200 ){
+      navigate('/mainpage');
+    }
+  } catch (error) {
+    console.error(error.response);
+    navigate('/login' , {state: {from:location} , replace:true})
+  }
+  }
 
   // Start countdown when first render 
   useEffect(()=>{     
-      setActivityName(member[0].name);
-      setActivityDescriptio(member[0].description);
-      setActivityType(member[0].type);
+      const activityList= activity?.activityList
+      const currentActivity = activityList.find((e)=> e.activityID === activityID);
+      console.log(currentActivity)
 
-      const startTime = convertTime(member[0].startingTime).getTime();
-      const endTime = convertTime(member[0].endingTIme).getTime();         
+    
+      setActivityName(currentActivity.name);
+      setActivityDescriptio(currentActivity.description);
+      setActivityType(currentActivity.type);
+      console.log(`sart:${currentActivity.startDate}`)
+
+      const startTime = convertTime(currentActivity.startDate).getTime();          
+      const endTime = convertTime(currentActivity.endDate).getTime();    
+        
       
       startCountdown(startTime , endTime);
           
@@ -253,8 +281,8 @@ function ActivityRemaining({image , topic , bgPos}) {
                   
                   {/* Button */}
                   <section className="flex justify-between">
-                    <button className="btn bg-black bg-opacity-10 text-white hover:bg-black hover:bg-opacity-100 w-[8rem] normal-case" >Delete</button>
-                    <button className="btn  w-[8rem] normal-case mr-[1rem]" onClick={()=>setClickDetail(false)} >Back</button>
+                    <button type="button" className="btn bg-black bg-opacity-10 text-white hover:bg-black hover:bg-opacity-100 w-[8rem] normal-case" onClick={deleteActivity} >Delete</button>
+                    <button type="button" className="btn  w-[8rem] normal-case mr-[1rem]" onClick={()=>setClickDetail(false)} >Back</button>
                   </section>
                 </form>
 
