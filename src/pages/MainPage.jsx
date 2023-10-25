@@ -26,8 +26,8 @@ export const MainPage = () => {
     //   endMinute: "60",
     // },
   ];
-
-  const {auth , activity , setActivity } = useAuth();
+  
+  const {auth, activity , setActivity , persist } = useAuth();
   const ACTIVITY_URL = `/api/activity/${auth?.userID}`
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,7 +50,7 @@ export const MainPage = () => {
       return [newItem, ...prevItems];
     });
   };
-
+ 
 
   useEffect(()=>{
       
@@ -68,7 +68,8 @@ export const MainPage = () => {
             setToggleUpdate(!toggleUpdate);                
         } catch (err) {
             console.error(err.response);
-            navigate('/login' , {state: {from:location} , replace:true})
+            if(!persist) navigate('/login' , {state: {from:location} , replace:true})
+            navigate('/')
         }
       }
 
@@ -77,7 +78,7 @@ export const MainPage = () => {
       
       
       
-  },[activity , toggleUpdate])
+  },[activity , toggleUpdate ,])
 
   
   useEffect(()=>{
