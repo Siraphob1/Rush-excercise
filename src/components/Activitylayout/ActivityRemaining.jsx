@@ -140,7 +140,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
         navigate('/mainpage');
       
     } catch (error) {
-      console.error(error.response);
+      // console.error(error.response);
       if(!persist) navigate('/login' , {state: {from:location} , replace:true})
       await refresh();
       navigate('/')
@@ -168,7 +168,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
         setEditing(false);
         // console.log(response)
       } catch (error) {
-        console.error(error.response);
+        // console.error(error.response);
         if(!persist) navigate('/login' , {state: {from:location} , replace:true})
         navigate('/')
       }
@@ -192,7 +192,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
         navigate('/mainpage');
       }
     } catch (error) {
-      console.error(error.response);
+      // console.error(error.response);
       if(!persist) navigate('/login' , {state: {from:location} , replace:true})
       navigate('/')
     }

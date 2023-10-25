@@ -134,7 +134,7 @@ export const From = (props) => {
         setToggleUpdate(!toggleUpdate);        
         navigate('/')
       } catch (error) {
-        console.error(error.response);
+        // console.error(error.response);
         if(!persist) navigate('/login' , {state: {from:location} , replace:true})
         navigate('/')
       }
