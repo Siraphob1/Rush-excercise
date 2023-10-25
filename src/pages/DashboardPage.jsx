@@ -85,8 +85,8 @@ const DashboardPage = () => {
                 
             } catch (err) {
                 console.error(err.response);
-                if(!persist) navigate('/login' , {state: {from:location} , replace:true})
-                navigate('/' , {state: {from:location} , replace:true})
+                // if(!persist) navigate('/login' , {state: {from:location} , replace:true})
+                // navigate('/' , {state: {from:location} , replace:true})
             }
           }
           getActivities();
@@ -103,27 +103,26 @@ const DashboardPage = () => {
 
   
   return (
-    <section className='bg-black min-h-screen relative'>
-        
+    <section className='bg-gray-950 min-h-screen relative'>
+      <NavBar/> 
         {/* Background white ball */}
-        <div className='w-[30rem] h-[30rem] bg-white bg-opacity-40 blur-[100px] rounded-full mx-auto'>
-        </div>
-
+        <div className='w-[70rem] h-[30rem] bg-opacity-30 bg-slate-600 blur-[100px] rounded-full mx-auto'>
+        </div> 
+        
         {/* Body */}
-        <section className='absolute w-full min-h-screen top-0 left-0 '>
-            <NavBar/>   
+        <section className='absolute w-full top-0 left-0  mt-20 flex justify-center'> 
 
-            <main className='py-[2rem] px-[4rem]'>
+            <main className=' m-5'>
                 {/* Count */}
-                <section className='flex gap-x-[2rem]'>
+                <section className='flex gap-x-[2rem] justify-center'>
                     <DashboardCard topic={'Total Activities'} count={countAll} percent={'100%'}/>
                     <DashboardCard topic={'Finished Activities'} count={countFinished} percent={`${percentFinished}%`}/>
-                    <DashboardCard topic={'Canceled Activities'} count={countCancel} percent={`${percentCancel}%`}/>
+                    <DashboardCard topic={'Deleted Activities'} count={countCancel} percent={`${percentCancel}%`}/>
                     <DashboardCard topic={'Activities in Progress'} count={countInprogress} percent={`${percentInprogress}%`}/>
                 </section>
                 
                 {/* Chart */}
-                <section className='flex gap-x-[2rem] mt-[2rem]'>  
+                <section className='flex gap-x-[2rem] mt-[2rem] justify-center'>  
                     {/* VerticalChart*/}
                     <div className='w-[30rem] h-[20rem] bg-white rounded-lg flex justify-center  px-[1rem] pt-[2rem]'>
                         <VerticalChart countBiking={countBiking} countHiking={countHiking} countRunning={countRunning} countSwimming={countSwimming} countWalking={countWalking}/>
@@ -134,7 +133,7 @@ const DashboardPage = () => {
                     </div>
                 </section>
 
-                <button className="btn btn-outline text-white hover:text-black hover:bg-white w-[8rem] normal-case mt-[2rem]" onClick={()=> navigate(-1)} >Back</button>
+                <button className="btn btn-outline text-white hover:text-black hover:bg-white w-[8rem] normal-case mt-[2rem] -ml-40" onClick={()=> navigate(-1)} >Back</button>
             </main>
         </section>
 
