@@ -32,8 +32,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
   const location = useLocation();
   const refresh = useRefreshToken();
 
-  const API_URL = `/api/activity/${auth?.userID}?activityID=${activityID}`;
-
+  const API_URL = `/api/activity/?userID=${auth?.userID}&activityID=${activityID}`;
 
 
   let myCountdown;

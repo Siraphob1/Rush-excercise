@@ -28,7 +28,7 @@ export const MainPage = () => {
   ];
   
   const {auth, activity , setActivity , persist } = useAuth();
-  const ACTIVITY_URL = `/api/activity/${auth?.userID}`
+  const ACTIVITY_URL = `/api/activity?userID=${auth?.userID}`
   const navigate = useNavigate();
   const location = useLocation();
   const [items, setItems] = useState(initdata);
@@ -56,7 +56,6 @@ export const MainPage = () => {
       
       const getActivities = async () => {
         try {
-            
             const response = await axiosPrivate.get(ACTIVITY_URL, {
                 headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
             });

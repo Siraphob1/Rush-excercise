@@ -71,7 +71,7 @@ const DashboardPage = () => {
   }
 
   useEffect(()=>{
-    const ACTIVITY_URL = `/api/activity/${auth?.userID}`
+    const ACTIVITY_URL = `/api/activity?userID=${auth?.userID}`
         const getActivities = async () => {
             try {
                 

@@ -26,7 +26,7 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const refresh = useRefreshToken();
   const {auth , persist} = useAuth();
-  const API_URL = `/api/profile/${auth?.userID}`;
+  const API_URL = `/api/profile/?userID=${auth?.userID}`;
 
   const submitUpdate = async () =>{
     //check data has update if not force exit
