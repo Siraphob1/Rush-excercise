@@ -299,7 +299,6 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
                 {!isTimeout ? null
                             : <button className="btn btn-outline w-[10rem] text-white text-[1.1rem] normal-case tracking-[0.09em] hover:bg-white hover:text-black" onClick={finishActivity}  >Finished</button>
                 }
-                <button className="btn btn-outline w-[10rem] text-white text-[1.1rem] normal-case tracking-[0.09em] hover:bg-white hover:text-black" onClick={finishActivity}  >Finished</button>
               </div>
           </section>
 
