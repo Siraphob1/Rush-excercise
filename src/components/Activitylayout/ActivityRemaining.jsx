@@ -163,7 +163,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
         })
         
         setEditing(false);
-        console.log(response)
+        // console.log(response)
       } catch (error) {
         console.error(error.response);
       }
@@ -182,7 +182,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
         const response = await axiosPrivate.put(API_URL, updateData, {
           headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
     });
-      console.log(response.data);
+      // console.log(response.data);
       if(response.status === 200 ){
         navigate('/mainpage');
       }

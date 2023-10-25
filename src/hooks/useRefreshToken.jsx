@@ -1,3 +1,4 @@
+import jwtDecode from "jwt-decode";
 import axiosPublic from "../api/axios";
 import useAuth from "./useAuth";
 
@@ -6,8 +7,10 @@ const useRefreshToken = () => {
   
   //fetch API for get new accessToken
   const refresh = async () =>{
-        const response = await axiosPublic.get('/refresh');
-          setAuth({...auth ,accessToken:response.data.accessToken})
+        const response = await axiosPublic.get('/refresh');        
+        const decoded = jwtDecode(response.data.accessToken);
+        const userID = decoded?.userID;     
+          setAuth({...auth ,accessToken:response.data.accessToken , userID})      
           return response.data.accessToken;
         
         

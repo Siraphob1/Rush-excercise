@@ -66,7 +66,6 @@ export const From = (props) => {
     const startHrnum = parseInt(startHour);
     const startMinnum = parseInt(startMinute);
     const start = new Date(startYearnum , startMonthnum-1 , startDaynum,startHrnum ,startMinnum ).getTime();
-    console.log(`start:${start}`)
     
 
     //split end date 
@@ -82,7 +81,6 @@ export const From = (props) => {
     const endMinnum = parseInt(endMinute); 
     
     const end = new Date(endYearnum , endMonthnum-1 , endDaynum,endHrnum ,endMinnum ).getTime();
-    console.log(`end:${end}`)
     
     const current = new Date().getTime();
 
@@ -132,8 +130,7 @@ export const From = (props) => {
           const response = await axiosPrivate.post(API_URL,newCard, {
             headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
         });
-        setToggleUpdate(!toggleUpdate);
-        console.log(`toggleUpdate:${toggleUpdate}`)
+        setToggleUpdate(!toggleUpdate);        
         navigate('/')
         // window.location.reload();
       } catch (error) {

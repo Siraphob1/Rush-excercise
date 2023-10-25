@@ -13,11 +13,9 @@ function Firstpage() {
 
   useEffect(()=>{    
     const verifyRfreshToken = async () =>{
-      try {
-        console.log('before persist')
+      try {       
         await refresh();       
         navigate('/mainpage')
-        console.log('after')
       } catch (error) {
         console.log(error.response)
       }
