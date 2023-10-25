@@ -130,18 +130,18 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
   }
 
   const deleteActivity = async () =>{
-    try {
-      const response = await axiosPrivate.delete(API_URL, {
-        headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
-    });
-    // console.log(response.data);
-    if(response.status === 200 ){
-      navigate('/mainpage');
+      try {
+        const response = await axiosPrivate.delete(API_URL, {
+          headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
+      });
+      // console.log(response.data);
+      if(response.status === 200 ){
+        navigate('/mainpage');
+      }
+    } catch (error) {
+      console.error(error.response);
+      navigate('/login' , {state: {from:location} , replace:true})
     }
-  } catch (error) {
-    console.error(error.response);
-    navigate('/login' , {state: {from:location} , replace:true})
-  }
   }
 
   const updateActivity = async () =>{
@@ -171,11 +171,32 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
 
   }
 
+  const finishActivity = async ()=>{
+      // finished
+      const updateData = {
+        name:activityName,
+        description:activityDescriptio,
+        status:"finished"
+      }
+    try {      
+        const response = await axiosPrivate.put(API_URL, updateData, {
+          headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
+    });
+      console.log(response.data);
+      if(response.status === 200 ){
+        navigate('/mainpage');
+      }
+    } catch (error) {
+      console.error(error.response);
+      // navigate('/login' , {state: {from:location} , replace:true})
+    }
+  }
+
   // Start countdown when first render 
   useEffect(()=>{     
       const activityList= activity?.activityList
       const currentActivity = activityList.find((e)=> e.activityID === activityID);
-      console.log(currentActivity)
+      // console.log(currentActivity)
 
     
       setActivityName(currentActivity.name);
@@ -276,8 +297,9 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
               <div className="flex gap-x-[1rem]">
                 <button className="btn btn-outline w-[9rem] text-white text-[1.1rem] normal-case tracking-[0.09em] hover:bg-white hover:text-black" onClick={()=> setClickDetail(true)}>Detail</button>
                 {!isTimeout ? null
-                            : <button className="btn btn-outline w-[10rem] text-white text-[1.1rem] normal-case tracking-[0.09em] hover:bg-white hover:text-black">Finished</button>
+                            : <button className="btn btn-outline w-[10rem] text-white text-[1.1rem] normal-case tracking-[0.09em] hover:bg-white hover:text-black" onClick={finishActivity}  >Finished</button>
                 }
+                <button className="btn btn-outline w-[10rem] text-white text-[1.1rem] normal-case tracking-[0.09em] hover:bg-white hover:text-black" onClick={finishActivity}  >Finished</button>
               </div>
           </section>
 
