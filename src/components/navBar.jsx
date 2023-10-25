@@ -30,11 +30,22 @@ const NavBar = () => {
 
         {/* Right */}
         <div className='flex gap-x-6'>
-          <Link to={'/profilepage'}>Profile</Link>
-          <Link to={'/signup'}>Sign up</Link>
-          {
+          {/* <Link to={'/profilepage'}>Profile</Link> */}
+          {/* <Link to={'/signup'}>Sign up</Link> */}
+          {/* {
             auth?.accessToken ? <button onClick={signOut}>Log out</button>
                               : <Link to={'/login'}>Log in</Link>
+          } */}
+          {
+            auth?.accessToken ? <div className='flex gap-x-6'>
+                                  <Link to={'/profilepage'}>Profile</Link>
+                                  <button onClick={signOut}>Log out</button>
+                                </div>
+                              : <div className='flex gap-x-6'>
+                                  <Link to={'/signup'}>Sign up</Link>
+                                  <Link to={'/login'}>Log in</Link>
+                                </div>                                
+                           
           }
         </div>
       </nav>
