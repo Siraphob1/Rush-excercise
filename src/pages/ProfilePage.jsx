@@ -99,7 +99,7 @@ const ProfilePage = () => {
             {/* Age */}
             <div className="stat flex flex-col items-center">
               {/* Input */}
-              <input type="text" className="bg-white border  w-[4rem] text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={age} onChange={(e)=>setAge(e.target.value)} disabled={!editAble}/>
+              <input type="number" className="bg-white border  w-[4rem] text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={age} onChange={(e)=>setAge(e.target.value)} disabled={!editAble}/>
               {/* Unit */}
               <div className="stat-title">Age</div>
             </div>
@@ -108,7 +108,7 @@ const ProfilePage = () => {
             <div className="stat flex flex-col items-center">
               {/* Input */}
               <div className="flex gap-x-[0.5rem]">              
-                <input type="text" className="bg-white border w-[4rem] text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={height} onChange={(e)=>setHeight(e.target.value) } disabled={!editAble}/>
+                <input type="number" className="bg-white border w-[4rem] text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={height} onChange={(e)=>setHeight(e.target.value) } disabled={!editAble}/>
                 <span className="stat-value inline-block">cm.</span>
               </div>
               {/* Unit */}
@@ -119,7 +119,7 @@ const ProfilePage = () => {
             <div className="stat flex flex-col items-center">
               {/* Input */}
               <div className="flex gap-x-[0.1rem]">              
-                <input type="text" className="bg-white border w-[4rem] text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={weight} onChange={(e)=>setWeight(e.target.value) } disabled={!editAble}/>
+                <input type="number" className="bg-white border w-[4rem] text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={weight} onChange={(e)=>setWeight(e.target.value) } disabled={!editAble}/>
                 <span className="stat-value inline-block">kg.</span>
               </div>
               {/* Unit */}
