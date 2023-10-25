@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import  { axiosPrivate } from "../api/axios";
+import useRefreshToken from "../hooks/useRefreshToken";
 
 export const MainPage = () => {
   const initdata = [
@@ -32,7 +33,7 @@ export const MainPage = () => {
   const location = useLocation();
   const [items, setItems] = useState(initdata);
   const [rawactivityList, setRawactivityLies] = useState([]);
-  const [activitiesList , setActivityList] = useState([]);
+  // const [activitiesList , setActivityList] = useState([]);
   const [updateFinished , setUpdateFinished] = useState(false);
   const [toggleUpdate ,setToggleUpdate] = useState(false);
 
@@ -41,15 +42,15 @@ export const MainPage = () => {
   const [selectRunning ,setSelectRunning] = useState(false);
   const [selectSwimming ,setSelectSwimming] = useState(false);
   const [selectWalking,setSelectWalking] = useState(false);
-
+  const [isrefresh , setIsrefresh] = useState(false);
   const [showData , setShowData] = useState([]);
-
+  
+  const refresh = useRefreshToken();
   const onAddNewCard = (newItem) => {
     setItems((prevItems) => {
       return [newItem, ...prevItems];
     });
   };
-
 
 
   useEffect(()=>{
@@ -60,8 +61,7 @@ export const MainPage = () => {
             const response = await axiosPrivate.get(ACTIVITY_URL, {
                 headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
             });
-            console.log("response")
-            console.log(response.data);
+            // console.log(response.data);
             setActivity({...activity , activityList:response.data.activitiesList})
             setRawactivityLies(response.data.activitiesList)
             setUpdateFinished(true)
@@ -79,13 +79,7 @@ export const MainPage = () => {
       
   },[activity , toggleUpdate])
 
-  useEffect(()=>{    
-    console.log('activity inprogress')          
-    // console.log(activity)
-    const filterActivity = activity.activityList ?  activity?.activityList.filter((e)=> e.status === "inprogress") : [];
-    setActivityList(filterActivity);
-  },[toggleUpdate])
-
+  
   useEffect(()=>{
     // console.log(activitiesList)
     const filterActivity =  rawactivityList.filter((e)=> e.status === "inprogress");
