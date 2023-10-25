@@ -1,10 +1,13 @@
 /* eslint-disable react/prop-types */
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import NavBar from "../navBar";
-import MemberContext from "../../context/MemberContext";
+import useAuth from "../../hooks/useAuth";
+import { axiosPrivate } from "../../api/axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FaRegEdit } from "react-icons/fa";
+import useRefreshToken from "../../hooks/useRefreshToken";
 
-
-function ActivityRemaining({image , topic , bgPos}) {
+function ActivityRemaining({image , topic , bgPos , activityID}) {
 
   const [displayDays , setDisplayDays] = useState(0);
   const [displayHrs , setDisplayHrs] = useState(0);
@@ -19,9 +22,18 @@ function ActivityRemaining({image , topic , bgPos}) {
   const [clickDetail , setClickDetail] = useState(false);
   const [isTimeout , SetIsTimeout] = useState(false);
 
-  const {member} = useContext(MemberContext)
+  const [editing , setEditing] = useState(false);
+  const [prevActivityName , setPrevActivityName] = useState(false);
+  const [prevActivityDescription , setPrevActivityDescription] = useState(false);
+  
 
- 
+  const {auth ,activity} = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const refresh = useRefreshToken();
+
+  const API_URL = `/api/activity/${auth?.userID}?activityID=${activityID}`;
+
 
 
   let myCountdown;
@@ -73,6 +85,7 @@ function ActivityRemaining({image , topic , bgPos}) {
       myCountdown = setInterval(() => {              
         const currentTime = new Date().getTime();
         
+        
         //check overtime activity
         if(currentTime >= endTime){          
           SetIsTimeout(true);
@@ -88,7 +101,8 @@ function ActivityRemaining({image , topic , bgPos}) {
           const days = Math.floor(deltatime / (1000 * 60 * 60 * 24));  
           const hours = Math.floor(deltatime % (1000 * 60 * 60 * 24) / (1000 * 60 * 60));
           const mins = Math.floor(deltatime % (1000 * 60 * 60) / (1000 * 60));
-          const secs = Math.floor(deltatime % (1000 * 60) / (1000));      
+          const secs = Math.floor(deltatime % (1000 * 60) / (1000));  
+             
           
           
           if(deltatime < 0){
@@ -117,15 +131,85 @@ function ActivityRemaining({image , topic , bgPos}) {
     
   }
 
+  const deleteActivity = async () =>{
+      try {
+        const response = await axiosPrivate.delete(API_URL, {
+          headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
+      });
+      // console.log(response.data);      
+        navigate('/mainpage');
+      
+    } catch (error) {
+      console.error(error.response);
+      navigate('/login' , {state: {from:location} , replace:true})
+    }
+  }
+
+  const updateActivity = async () =>{
+      if(!activityName) return alert("please enter NameActivity");
+      if(!activityDescriptio) return alert("please enter Description");
+
+      //check not update
+      if(activityName === prevActivityName && activityDescriptio === prevActivityDescription)  return setEditing(false);
+
+      //fotmat data
+      const updateData = {
+        name:activityName,
+        description:activityDescriptio
+      }
+
+      try {
+        const response = await axiosPrivate.put(API_URL , updateData ,{
+          headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
+        })
+        await refresh();    
+        setEditing(false);
+        // console.log(response)
+      } catch (error) {
+        console.error(error.response);
+      }
+
+
+  }
+
+  const finishActivity = async ()=>{
+      // finished
+      const updateData = {
+        name:activityName,
+        description:activityDescriptio,
+        status:"finished"
+      }
+    try {      
+        const response = await axiosPrivate.put(API_URL, updateData, {
+          headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
+    });
+      // console.log(response.data);
+      if(response.status === 200 ){
+        navigate('/mainpage');
+      }
+    } catch (error) {
+      console.error(error.response);
+      navigate('/login' , {state: {from:location} , replace:true})
+    }
+  }
 
   // Start countdown when first render 
   useEffect(()=>{     
-      setActivityName(member[0].name);
-      setActivityDescriptio(member[0].description);
-      setActivityType(member[0].type);
+      const activityList= activity?.activityList
+      const currentActivity = activityList.find((e)=> e.activityID === activityID);
+      // console.log(currentActivity)
 
-      const startTime = convertTime(member[0].startingTime).getTime();
-      const endTime = convertTime(member[0].endingTIme).getTime();         
+    
+      setActivityName(currentActivity.name);
+      setPrevActivityName(currentActivity.name);
+      setActivityDescriptio(currentActivity.description);
+      setPrevActivityDescription(currentActivity.description);
+      setActivityType(currentActivity.type);
+      console.log(`sart:${currentActivity.startDate}`)
+
+      const startTime = convertTime(currentActivity.startDate).getTime();          
+      const endTime = convertTime(currentActivity.endDate).getTime();    
+        
       
       startCountdown(startTime , endTime);
           
@@ -214,7 +298,7 @@ function ActivityRemaining({image , topic , bgPos}) {
               <div className="flex gap-x-[1rem]">
                 <button className="btn btn-outline w-[9rem] text-white text-[1.1rem] normal-case tracking-[0.09em] hover:bg-white hover:text-black" onClick={()=> setClickDetail(true)}>Detail</button>
                 {!isTimeout ? null
-                            : <button className="btn btn-outline w-[10rem] text-white text-[1.1rem] normal-case tracking-[0.09em] hover:bg-white hover:text-black">Finished</button>
+                            : <button className="btn btn-outline w-[10rem] text-white text-[1.1rem] normal-case tracking-[0.09em] hover:bg-white hover:text-black" onClick={finishActivity}  >Finished</button>
                 }
               </div>
           </section>
@@ -223,20 +307,22 @@ function ActivityRemaining({image , topic , bgPos}) {
           <section className={clickDetail ? 'flex flex-col  justify-center items-center bg-black bg-opacity-50 border border-black w-full min-h-[91.5vh] ' : 'hidden'}>
             
             <section className="bg-black bg-opacity-40 w-[60%] flex flex-col items-center py-[1rem] rounded-3xl">
-                <h2 className="text-center text-[1.5rem] text-white mb-[1rem]">Details</h2>
-                for
-                <form className=' text-white px-[2rem] py-[1rem] flex flex-col gap-y-[1rem] '>
-              
+                <h2 className="text-center text-[1.5rem] text-white mb-[1rem] border">Details</h2>                
+                {/* for */}
+                <form className='relative text-white px-[2rem] py-[1rem] flex flex-col gap-y-[1rem] '>
+                  {/* Edit */}
+                  <div className="absolute right-[2rem] top-[-3.5rem] text-white hover:cursor-pointer" onClick={()=>{setEditing(!editing)}}><FaRegEdit className="text-[2rem]"/></div>
+
                   {/* NameActivity  */}
                   <section  className="flex justify-between items-center  w-[40rem]">
                     <label>NameActivity</label>
-                    <input type="text" disabled={true} value={activityName}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
+                    <input type="text" disabled={!editing} value={activityName} onChange={(e)=>{setActivityName(e.target.value)}} className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
                   </section>
 
                   {/* Description */}
                   <section  className="flex justify-between items-center  w-[40rem]">
                     <label>Description</label>
-                    <input type="text" disabled={true} value={activityDescriptio}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
+                    <input type="text" disabled={!editing} value={activityDescriptio} onChange={(e)=>{setActivityDescriptio(e.target.value)}}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
                   </section>
 
                   {/* Activity type */}
@@ -253,8 +339,11 @@ function ActivityRemaining({image , topic , bgPos}) {
                   
                   {/* Button */}
                   <section className="flex justify-between">
-                    <button className="btn bg-black bg-opacity-10 text-white hover:bg-black hover:bg-opacity-100 w-[8rem] normal-case" >Delete</button>
-                    <button className="btn  w-[8rem] normal-case mr-[1rem]" onClick={()=>setClickDetail(false)} >Back</button>
+                    <button type="button" className="btn bg-black bg-opacity-10 text-white hover:bg-black hover:bg-opacity-100 w-[8rem] normal-case" onClick={deleteActivity} >Delete</button>
+                    <div>
+                      <button type="button" className="btn  w-[8rem] normal-case mr-[1rem]" onClick={()=>setClickDetail(false)} >Back</button>
+                      <button type="button" className="btn  w-[8rem] normal-case mr-[1rem]" onClick={updateActivity} >Update</button>
+                    </div>
                   </section>
                 </form>
 

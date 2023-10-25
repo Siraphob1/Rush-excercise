@@ -1,15 +1,20 @@
 
-import { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Link,useLocation,useNavigate } from 'react-router-dom'
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
+import useAuth from '../../hooks/useAuth';
+
 
 //Axios
 import axiosPublic from "../../api/axios";
+import jwtDecode from 'jwt-decode';
 const LOGIN_URL = '/login';
 function LoginInterfaceComponent() {
-    const {setAuth} = useAuth();
+    const {setAuth , persist, setPersist} = useAuth();
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const prevpage = location.state?.from?.pathname || "/mainpage"
 
     const [userEmail , setUserEmail] = useState('');
     const refEmail = useRef();
@@ -45,10 +50,11 @@ function LoginInterfaceComponent() {
             password:userPassword,
         }
 
-        return signupData;
+        //The result will be a string following the JSON notation.
+        return  JSON.stringify(signupData);
     }
 
-    const Login = async (e)=>{
+    const submitLogin = async (e)=>{
         e.preventDefault();
 
         //check email and password not empty
@@ -64,12 +70,14 @@ function LoginInterfaceComponent() {
             
             if(response.status === 200){
                 // console.log(response) 
-                const accessToken = response?.data?.accessToken;                
-                setAuth({accessToken});
+                const accessToken = response?.data?.accessToken;   
+                const decoded = jwtDecode(accessToken);                                        
+                const userID = decoded?.userID;     
+                setAuth({accessToken, userID});
                 clearInput(); 
 
-                //redirect to mainpage after login success
-                navigate('/mainpage');
+                //redirect to  mainpage    if login success
+                navigate(prevpage , {replace:true});
             }
         } catch (error) {
             //this error cannot handle
@@ -95,15 +103,21 @@ function LoginInterfaceComponent() {
         
     }
 
+    const togglePersist = () => {
+        setPersist(!persist);
+    }
+
+    useEffect(() => {
+        localStorage.setItem("persist" , persist);
+    },[persist])
+
     
 
     
 
   return (
-        <section className=" bg-white py-[2rem] px-[2.3rem] w-[75%] rounded-lg bg-opacity-90">
-            <form onSubmit={(e)=> Login(e)} className=" flex flex-col gap-y-3 ">
-
-                <p className='font-bold text-[2.9rem] mb-4'>Join us and become strong, be fast, be<span className='bg-gradient-to-r from-lime-400 to-lime-600 bg-clip-text text-transparent'> RUSH ―</span></p>
+        <section className=" bg-white py-[1rem] px-[2rem] w-[80%] rounded-lg">
+            <form onSubmit={(e)=> submitLogin(e)} className=" flex flex-col gap-y-3 ">
 
                 {/* Email input */}
                 <section>
@@ -133,6 +147,12 @@ function LoginInterfaceComponent() {
                         <button type="button" className=" absolute right-[1rem] bottom-[1rem]"
                             onClick={()=>setTogglePassword(!togglePassword)}>{togglePassword ?<IoEyeOutline/>:<IoEyeOffOutline/>}</button> 
                     </div>
+                </section>
+
+                {/* Persist checkbox */}
+                <section className='flex items-center'>
+                    <input type="checkbox" name="" id="persist" checked={persist} className="checkbox mr-[1rem]" onChange={togglePersist} />
+                    <label htmlFor="persist">remember my account</label>
                 </section>
 
                 {/* Button */}

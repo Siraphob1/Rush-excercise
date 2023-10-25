@@ -66,31 +66,31 @@ const router = createBrowserRouter([
     path: "/activity",
     children:[
       {
-        path: "biking",
+        path: "Biking/:activityID",
         element:<RequireAuth>
                   <ActivityPage/>
                 </RequireAuth>
       },
       {
-        path: "hiking",
+        path: "Hiking/:activityID",
         element:<RequireAuth>
                   <ActivityPage/>
                 </RequireAuth>
       },
       {
-        path: "running",
+        path: "Running/:activityID",
         element:<RequireAuth>
                   <ActivityPage/>
                 </RequireAuth>
       },
       {
-        path: "swimming",
+        path: "Swimming/:activityID",
         element:<RequireAuth>
                   <ActivityPage/>
                 </RequireAuth>
       },      
       {
-        path: "walking",
+        path: "Walking/:activityID",
         element:<RequireAuth>
                   <ActivityPage/>
                 </RequireAuth>

@@ -130,10 +130,7 @@ const UserInterfaceComponent = () => {
             const response = await axiosPublic.post(SIGNUP_URL ,signupData);            
 
             if(response.status === 201){
-
-                console.log('ok')
-                console.log(response)
-
+                
                 //show result text
                 setSingupsuccess(true);
                 setEmailVerify(email)

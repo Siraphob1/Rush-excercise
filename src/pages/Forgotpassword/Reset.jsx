@@ -1,4 +1,3 @@
-import React from 'react'
 import Newpass from '../../components/layouts/Newpass'
 import imgForgotpassword from '../../assets/image/Desktop/Desktop_Forgotpassword.jpg'
 import Navbar from '../../components/navBar'
@@ -13,7 +12,6 @@ function Reset() {
     >
       <Navbar />
       <Newpass />
-      {/* <img src={imgForgotpassword} alt="" /> */}
     </div>
   )
 }

@@ -5,11 +5,11 @@ import useAuth from "../hooks/useAuth"
 const RequireAuth = ({children}) => {
     const {auth} = useAuth();
     const location = useLocation();
+   
   return (
     <>
-        {
-            auth?.accessToken   ? children
-                                : <Navigate to="/login" state={{ from: location }} replace />
+        {auth?.accessToken  ? children
+                            : <Navigate to="/login" state={{ from: location }} replace />
         }
     </>
   )

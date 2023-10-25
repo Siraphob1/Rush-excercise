@@ -7,30 +7,31 @@ import imgSwimming  from '../../assets/image/Desktop/Desktop_Swimming.jpg'
 import imgWalking  from '../../assets/image/Desktop/Desktop_Walking1.jpg'
 
 import { useEffect, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { useLocation, useParams } from "react-router-dom"
 function ActivityPage() {
   const [currentpath , setCurrentpath] = useState()
   const location = useLocation();
+  const {activityID} = useParams();
   useEffect(()=>{
-    console.log(location)
+    // console.log(location)
     const splitlocation = location.pathname.split('/')[2]
     setCurrentpath(splitlocation)
   },[])
   return (
     <div>
-      {currentpath === 'biking'  ? <ActivityRemaining image ={imgBiking} topic={'Biking'} bgPos={'50% 48%'}/>
+      {currentpath === 'Biking'  ? <ActivityRemaining image ={imgBiking} topic={'Biking'} bgPos={'50% 48%'} activityID={activityID}/>
                                  : null
       }
-      {currentpath === 'hiking'  ? <ActivityRemaining image ={imgHiking} topic={'Hiking'} bgPos={'50% 40%'}/>
+      {currentpath === 'Hiking'  ? <ActivityRemaining image ={imgHiking} topic={'Hiking'} bgPos={'50% 40%'} activityID={activityID}/>
                                  : null
       }      
-      {currentpath === 'running' ? <ActivityRemaining image ={imgRunning} topic={'Running'} bgPos={'50% 15%'}/>
+      {currentpath === 'Running' ? <ActivityRemaining image ={imgRunning} topic={'Running'} bgPos={'50% 15%'} activityID={activityID}/>
                                  : null
       }
-      {currentpath === 'swimming'? <ActivityRemaining image ={imgSwimming} topic={'Swimming'} bgPos={'50% 80%'}/>
+      {currentpath === 'Swimming'? <ActivityRemaining image ={imgSwimming} topic={'Swimming'} bgPos={'50% 80%'} activityID={activityID}/>
                                  : null
       }
-      {currentpath === 'walking' ? <ActivityRemaining image ={imgWalking} topic={'Walking'} bgPos={'50% 50%'}/>
+      {currentpath === 'Walking' ? <ActivityRemaining image ={imgWalking} topic={'Walking'} bgPos={'50% 50%'} activityID={activityID}/>
                                  : null
       }
 
