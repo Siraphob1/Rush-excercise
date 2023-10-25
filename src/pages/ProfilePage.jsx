@@ -103,13 +103,13 @@ const ProfilePage = () => {
       <img src ={imgProfile} className="w-full h-52 relative" alt="Profile Page" />
 
       {/* Profile image */}
-      <div className="relative border border-black w-full h-52">
+      <div className="relative  w-full h-52">
           <img src="src\assets\image\Desktop\Desktop_Hiking.jpg" className="aspect-square w-[20rem] rounded-full absolute left-[50%] translate-x-[-50%] translate-y-[-50%] justify-self-center" />
           <div className="absolute right-[1rem] top-[1rem] hover:cursor-pointer w-[3rem] " onClick={()=>{setEditAble(!editAble)}}><BiEditAlt className="text-[3.1rem]"/></div>
       </div>
       
       {/* Profile Information */}
-      <div className="border border-black flex flex-col items-center w-full  min-h-screen  bg-white">
+      <div className=" flex flex-col items-center w-full  min-h-screen  bg-white">
           <div className="flex justify-center">
           <input type="text" className="bg-white border text-black w-auto text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={name} onChange={(e)=>setName(e.target.value)} disabled={!editAble}/>
               
