@@ -134,6 +134,7 @@ export const From = (props) => {
         });
         setToggleUpdate(!toggleUpdate);
         console.log(`toggleUpdate:${toggleUpdate}`)
+        navigate('/')
         // window.location.reload();
       } catch (error) {
         console.error(error.response);
