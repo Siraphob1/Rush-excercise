@@ -1,6 +1,6 @@
 
 import { useEffect, useRef, useState } from 'react'
-import { Link,useNavigate } from 'react-router-dom'
+import { Link,useLocation,useNavigate } from 'react-router-dom'
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
 import useAuth from '../../hooks/useAuth';
 
@@ -13,6 +13,8 @@ function LoginInterfaceComponent() {
     const {setAuth , persist, setPersist} = useAuth();
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const prevpage = location.state?.from?.pathname || "/mainpage"
 
     const [userEmail , setUserEmail] = useState('');
     const refEmail = useRef();
@@ -75,7 +77,7 @@ function LoginInterfaceComponent() {
                 clearInput(); 
 
                 //redirect to  mainpage    if login success
-                navigate('/mainpage');
+                navigate(prevpage , {replace:true});
             }
         } catch (error) {
             //this error cannot handle
