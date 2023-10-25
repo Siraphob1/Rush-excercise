@@ -3,13 +3,14 @@ import { Navigate, useLocation } from "react-router";
 import useAuth from "../hooks/useAuth"
 
 const RequireAuth = ({children}) => {
-    const {auth} = useAuth();
-    const location = useLocation();
+    const {auth , persist} = useAuth();
+    const location = useLocation();   
    
   return (
     <>
-        {auth?.accessToken  ? children
-                            : <Navigate to="/login" state={{ from: location }} replace />
+        {auth?.accessToken  ? children 
+                            : persist ? children
+                                      : <Navigate to="/login" state={{ from: location }} replace />
         }
     </>
   )
