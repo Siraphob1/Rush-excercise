@@ -25,7 +25,7 @@ const ProfilePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const refresh = useRefreshToken();
-  const {auth} = useAuth();
+  const {auth , persist} = useAuth();
   const API_URL = `/api/profile/${auth?.userID}`;
 
   const submitUpdate = async () =>{
@@ -57,7 +57,8 @@ const ProfilePage = () => {
       setEditAble(false);
     } catch (error) {
       console.log(error.response)
-      navigate('/login' , {state: {from:location} , replace:true})
+      if(!persist) navigate('/login' , {state: {from:location} , replace:true})
+      navigate('/')
     }
 
    
@@ -94,7 +95,8 @@ const ProfilePage = () => {
         setPrevCaption(response.data.userProfile.caption);   
       } catch (error) {
         console.log(error.response)
-        navigate('/login' , {state: {from:location} , replace:true})
+        if(!persist) navigate('/login' , {state: {from:location} , replace:true})
+        navigate('/', {state: {from:location} , replace:true})
       }
     }
 

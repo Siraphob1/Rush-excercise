@@ -27,7 +27,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
   const [prevActivityDescription , setPrevActivityDescription] = useState(false);
   
 
-  const {auth ,activity} = useAuth();
+  const {auth ,activity , persist} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const refresh = useRefreshToken();
@@ -141,7 +141,9 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
       
     } catch (error) {
       console.error(error.response);
-      navigate('/login' , {state: {from:location} , replace:true})
+      if(!persist) navigate('/login' , {state: {from:location} , replace:true})
+      await refresh();
+      navigate('/')
     }
   }
 
@@ -167,6 +169,8 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
         // console.log(response)
       } catch (error) {
         console.error(error.response);
+        if(!persist) navigate('/login' , {state: {from:location} , replace:true})
+        navigate('/')
       }
 
 
@@ -189,7 +193,8 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
       }
     } catch (error) {
       console.error(error.response);
-      navigate('/login' , {state: {from:location} , replace:true})
+      if(!persist) navigate('/login' , {state: {from:location} , replace:true})
+      navigate('/')
     }
   }
 

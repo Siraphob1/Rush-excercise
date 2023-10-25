@@ -12,7 +12,7 @@ import useRefreshToken from '../hooks/useRefreshToken';
 
 const DashboardPage = () => {   
   const navigate = useNavigate();
-  const {auth , activity , setActivity} = useAuth();
+  const {auth , activity , setActivity , persist} = useAuth();
 
   const [countFinished , setCountFinished] = useState(0);
   const [countCancel , setCountCancel] = useState(0);
@@ -33,6 +33,7 @@ const DashboardPage = () => {
   const refresh = useRefreshToken();
 
   const filterData = () =>{
+    console.log(activity.activityList)
     const countBike = activity.activityList.filter((e)=> e.type === "Biking").length;
     const countHike = activity.activityList.filter((e)=> e.type === "Hiking").length;
     const countRun = activity.activityList.filter((e)=> e.type === "Running").length;
@@ -42,8 +43,8 @@ const DashboardPage = () => {
     const countfinish =  activity.activityList.filter((e)=> e.status === "finished").length;
     const countcancel =  activity.activityList.filter((e)=> e.status === "canceled").length;
     const countinprogress =  activity.activityList.filter((e)=> e.status === "inprogress").length;    
-     const countall = parseInt(countfinish) + parseInt(countcancel) + parseInt(countinprogress);
-    
+    const countall = parseInt(countfinish) + parseInt(countcancel) + parseInt(countinprogress);
+    console.log(countall)
     setCountBiking(countBike);
     setCountHiking(countHike);
     setCountRunning(countRun);
@@ -53,14 +54,16 @@ const DashboardPage = () => {
     setCountCancel(countcancel);
     setCountInprogress(countinprogress);
     setCountAll(countall);
+
+    calPercent(countall , countfinish , countcancel , countinprogress)
+
   }
 
-  const calPercent = () =>{
-    const numall = parseInt(countAll)
-    const pfinish = (100/numall) * parseInt(countFinished);
-    const pcancel = (100/numall) * parseInt(countCancel);
-    const pinprogress = (100/numall) * parseInt(countInprogress);
-
+  const calPercent = (countall , countfinish , countcancel , countinprogress) =>{
+    const numall = countall
+    const pfinish = (100/numall) * parseInt(countfinish);
+    const pcancel = (100/numall) * parseInt(countcancel);
+    const pinprogress = (100/numall) * parseInt(countinprogress);
     setPercenFinished(pfinish.toFixed(2));
     setPercenCancel(pcancel.toFixed(2));
     setInprogress(pinprogress.toFixed(2));
@@ -82,7 +85,8 @@ const DashboardPage = () => {
                 
             } catch (err) {
                 console.error(err.response);
-                navigate('/login' , {state: {from:location} , replace:true})
+                // if(!persist) navigate('/login' , {state: {from:location} , replace:true})
+                // navigate('/' , {state: {from:location} , replace:true})
             }
           }
           getActivities();
@@ -91,33 +95,34 @@ const DashboardPage = () => {
   },[])
 
   useEffect(()=>{
-    filterData();
-    calPercent(); 
+    if(activity.activityList){
+      filterData();
+      // calPercent();
+    } 
   },[firstRender])
 
   
   return (
-    <section className='bg-black min-h-screen relative'>
-        
+    <section className='bg-gray-950 min-h-screen relative'>
+      <NavBar/> 
         {/* Background white ball */}
-        <div className='w-[30rem] h-[30rem] bg-white bg-opacity-40 blur-[100px] rounded-full mx-auto'>
-        </div>
-
+        <div className='w-[70rem] h-[30rem] bg-opacity-30 bg-slate-600 blur-[100px] rounded-full mx-auto'>
+        </div> 
+        
         {/* Body */}
-        <section className='absolute w-full min-h-screen top-0 left-0 '>
-            <NavBar/>   
+        <section className='absolute w-full top-0 left-0  mt-20 flex justify-center'> 
 
-            <main className='py-[2rem] px-[4rem]'>
+            <main className=' m-5'>
                 {/* Count */}
-                <section className='flex gap-x-[2rem]'>
+                <section className='flex gap-x-[2rem] justify-center'>
                     <DashboardCard topic={'Total Activities'} count={countAll} percent={'100%'}/>
                     <DashboardCard topic={'Finished Activities'} count={countFinished} percent={`${percentFinished}%`}/>
-                    <DashboardCard topic={'Canceled Activities'} count={countCancel} percent={`${percentCancel}%`}/>
+                    <DashboardCard topic={'Deleted Activities'} count={countCancel} percent={`${percentCancel}%`}/>
                     <DashboardCard topic={'Activities in Progress'} count={countInprogress} percent={`${percentInprogress}%`}/>
                 </section>
                 
                 {/* Chart */}
-                <section className='flex gap-x-[2rem] mt-[2rem]'>  
+                <section className='flex gap-x-[2rem] mt-[2rem] justify-center'>  
                     {/* VerticalChart*/}
                     <div className='w-[30rem] h-[20rem] bg-white rounded-lg flex justify-center  px-[1rem] pt-[2rem]'>
                         <VerticalChart countBiking={countBiking} countHiking={countHiking} countRunning={countRunning} countSwimming={countSwimming} countWalking={countWalking}/>
@@ -128,7 +133,7 @@ const DashboardPage = () => {
                     </div>
                 </section>
 
-                <button className="btn btn-outline text-white hover:text-black hover:bg-white w-[8rem] normal-case mt-[2rem]" onClick={()=> navigate(-1)} >Back</button>
+                <button className="btn btn-outline text-white hover:text-black hover:bg-white w-[8rem] normal-case mt-[2rem] -ml-40" onClick={()=> navigate(-1)} >Back</button>
             </main>
         </section>
 

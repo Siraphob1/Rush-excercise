@@ -108,7 +108,7 @@ function LoginInterfaceComponent() {
     }
 
     useEffect(() => {
-        localStorage.setItem("persist" , persist);
+        localStorage.setItem("persist" , persist);        
     },[persist])
 
     
@@ -116,8 +116,11 @@ function LoginInterfaceComponent() {
     
 
   return (
-        <section className=" bg-white py-[1rem] px-[2rem] w-[80%] rounded-lg">
+        <section className=" bg-white py-[1rem] px-[2.1rem] w-[75%] rounded-lg">
             <form onSubmit={(e)=> submitLogin(e)} className=" flex flex-col gap-y-3 ">
+
+                <p className='font-bold text-[2.9rem]'>Join us and become strong, be fast,</p> 
+                <p className='font-bold text-[2.9rem] -mt-2 text-lime-400'> be RUSH ―</p>
 
                 {/* Email input */}
                 <section>
@@ -128,7 +131,7 @@ function LoginInterfaceComponent() {
                             placeholder="example@gmail.com" 
                             value={userEmail} 
                             onChange={(e)=>{setUserEmail(e.target.value)}}
-                            className="input input-bordered block w-full " 
+                            className="input input-bordered block w-full text-gray-900" 
                     />
                 </section>
 
