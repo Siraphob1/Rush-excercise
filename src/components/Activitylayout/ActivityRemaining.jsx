@@ -188,7 +188,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
       }
     } catch (error) {
       console.error(error.response);
-      // navigate('/login' , {state: {from:location} , replace:true})
+      navigate('/login' , {state: {from:location} , replace:true})
     }
   }
 

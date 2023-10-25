@@ -2,7 +2,7 @@ import NavBar from '../components/navBar';
 import DashboardCard from '../components/DashboardPage.jsx/DashboardCard';
 import VerticalChart from '../components/DashboardPage.jsx/VerticalChart';
 import DoughnutChart from '../components/DashboardPage.jsx/DoughnutChart';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import { axiosPrivate } from '../api/axios';
@@ -28,6 +28,7 @@ const DashboardPage = () => {
   const [percentInprogress , setInprogress] = useState(0);
 
   const [firstRender , setFirstRender] = useState(false);
+  const location = useLocation();
 
   const filterData = () =>{
     const countBike = activity.activityList.filter((e)=> e.type === "Biking").length;
@@ -84,7 +85,7 @@ const DashboardPage = () => {
           getActivities();
           
 
-  },[])
+  },[activity])
 
   useEffect(()=>{
     filterData();

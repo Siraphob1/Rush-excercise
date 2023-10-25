@@ -132,10 +132,9 @@ export const From = (props) => {
         });
         setToggleUpdate(!toggleUpdate);        
         navigate('/')
-        // window.location.reload();
       } catch (error) {
         console.error(error.response);
-        // navigate('/login' , {state: {from:location} , replace:true})
+        navigate('/login' , {state: {from:location} , replace:true})
       }
       props.onAddItem(newCard);     
       clearInput(); 

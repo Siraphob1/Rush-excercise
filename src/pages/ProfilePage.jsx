@@ -4,6 +4,7 @@ import { BiEditAlt } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { axiosPrivate } from "../api/axios";
 import useAuth from "../hooks/useAuth";
+import { useLocation, useNavigate } from "react-router-dom";
 const ProfilePage = () => {
   const [editAble , setEditAble] = useState(false);
   const [name, setName] = useState('Piti');
@@ -19,7 +20,9 @@ const ProfilePage = () => {
   const [prevHeight , setPrevHeight] = useState('');
   const [prevWeight , setPrevWeight] = useState('');
   const [prevCaption , setPrevCaption] = useState('');
-
+  
+  const location = useLocation();
+  const navigate = useNavigate();
   const {auth} = useAuth();
   const API_URL = `/api/profile/${auth?.userID}`;
 
@@ -51,6 +54,7 @@ const ProfilePage = () => {
       setEditAble(false);
     } catch (error) {
       console.log(error.response)
+      navigate('/login' , {state: {from:location} , replace:true})
     }
 
    
@@ -86,6 +90,7 @@ const ProfilePage = () => {
         setPrevCaption(response.data.userProfile.caption);   
       } catch (error) {
         console.log(error.response)
+        navigate('/login' , {state: {from:location} , replace:true})
       }
     }
 
