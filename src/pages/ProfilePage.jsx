@@ -47,7 +47,7 @@ const ProfilePage = () => {
       const response = await axiosPrivate.put(API_URL , updateData ,{
         headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
       })
-      console.log(response);
+      // console.log(response);
       setEditAble(false);
     } catch (error) {
       console.log(error.response)
@@ -65,7 +65,7 @@ const ProfilePage = () => {
         const response = await axiosPrivate.get(API_URL, {
           headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
         })
-        console.log(response)  
+        // console.log(response)  
         //save to state
         setName(response.data.userProfile.username); 
         setPrevName(response.data.userProfile.username); 
