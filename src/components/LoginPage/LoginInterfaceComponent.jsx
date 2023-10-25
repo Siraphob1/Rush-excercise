@@ -75,6 +75,7 @@ function LoginInterfaceComponent() {
             
             if(response.status === 200){
                 // console.log(response) 
+                setIsSending(false)
                 const accessToken = response?.data?.accessToken;   
                 const decoded = jwtDecode(accessToken);                                        
                 const userID = decoded?.userID;     
@@ -86,15 +87,16 @@ function LoginInterfaceComponent() {
             }
         } catch (error) {
             //this error cannot handle
+            setIsSending(false)
+
             if(!error?.response){
                 setErrMessage("No Server Response")
                 return
-            }            
-            
+            }           
 
             setErrMessage(error.response.data.message)
         }
-        setIsSending(false)
+        
         
     }
 
