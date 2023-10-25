@@ -3,16 +3,13 @@ import { Link, useNavigate } from "react-router-dom"
 
 //icon
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
-
+//Regex
 //Axios
 import axiosPublic from "../../api/axios";
 const SIGNUP_URL = '/signup';
-//Regex
+
 const regexName = /^\w.{7,}/;
 const regexPassword = /[@#*$_]+[A-Z]+.{6,}|[@#*$_]+.+[A-Z]+.{5,}|[A-Z]+.+[@#*$_]+.{5,}|[A-Z]+[@#*$_]+.{6,}|.+[@#*$_]+[A-Z]+.{5,}|.+[A-Z]+[@#*$_]+.{5,}/;
-
-
-
 
 const UserInterfaceComponent = () => {
     const [username , setUsername] = useState('');
@@ -177,19 +174,21 @@ const UserInterfaceComponent = () => {
     
 
   return (
-    <section className=" bg-white py-[1rem] px-[2rem] w-[80%] rounded-lg">
+    <section className=" bg-white py-[1rem] px-[2.3rem] w-[75%] rounded-lg bg-opacity-90">
 
         {/* Form */}
         <form onSubmit={(e)=>submitForm(e)} className={signupsuccess? "hidden" : " flex flex-col gap-y-3"}>
 
+            <p className="font-bold text-[2.0rem] mt-4 mb-2 text-center ">Sign up</p>
+
             {/* Username */}
             <section>
-                <label  htmlFor="signup-username">*Username</label>
+                <label  htmlFor="signup-username" className="font-medium">Username</label>
                 <input  id="signup-username" 
                         className="input input-bordered block  w-full"
                         type="text"                         
                         ref={refUsername}
-                        placeholder="Mr.xxxxxxx"                         
+                        placeholder="Mr.Tangza007"                         
                         value={username} 
                         onChange={(e)=>{setUsername(e.target.value)}}
                         onFocus={()=>setFocusName(true)}
@@ -204,7 +203,7 @@ const UserInterfaceComponent = () => {
 
             {/* Email */}
             <section>
-                <label  htmlFor="signup-useremail">*Email</label>
+                <label  htmlFor="signup-useremail" className="font-medium">Email</label>
                 <input  id="signup-useremail" 
                         className="input input-bordered block w-full" 
                         type="text"                  
@@ -217,7 +216,7 @@ const UserInterfaceComponent = () => {
 
             {/* Password */}
             <section>
-                <label  htmlFor="signup-userpassword">*Password</label>
+                <label  htmlFor="signup-userpassword" className="font-medium">Password</label>
                 <div className=" relative">
                     <input  id="signup-userpassword"
                             className="input input-bordered block w-full" 
@@ -246,7 +245,7 @@ const UserInterfaceComponent = () => {
             
             {/* Confirm Password */}
             <section>
-                <label  htmlFor="signup-userconfirmpassword">*Confirm Password</label>
+                <label  htmlFor="signup-userconfirmpassword" className="font-medium">Confirm Password</label>
                 <div className=" relative">
                     <input  id="signup-userconfirmpassword" 
                             className="input input-bordered block w-full" 
@@ -264,9 +263,9 @@ const UserInterfaceComponent = () => {
 
                 
                 {focusConfirmPassword && !validConfirmPassword&&                     
-                     <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem]">                        
+                     <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem] ">                        
                         <div className=" flex flex-col">
-                            <span>you must enter the same as password</span>
+                            <span>must enter the same as password</span>
                             <span>*at least 8 character</span>
                             <span>*at least 1 uppercase character</span>
                             <span>*at least 1 special character</span>
@@ -277,12 +276,12 @@ const UserInterfaceComponent = () => {
 
            
             {/* Link Forgotpassword */}
-            <Link to={'/forgotpassword'} className="self-center">Forgot password?</Link>
+            <Link to={'/forgotpassword'} className="self-center">Forgot Password?</Link>
 
             {/* Button Cancel and Confirm */}
             <section className=" flex justify-center py-[1rem] gap-x-[1rem]">
                 <button type="button" className="btn normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>Cancel</button>
-                <button type="submit" className="btn btn-neutral normal-case  w-[100px] h-[30px] ">Confirm</button>
+                <button type="submit" className="btn btn-neutral normal-case hover:bg-gray-500 w-[100px] h-[30px] ">Confirm</button>
             </section>
         </form>
 
@@ -290,7 +289,7 @@ const UserInterfaceComponent = () => {
         {signupsuccess && 
             <div className="py-[1rem]">
                 {/* Info  */}
-                <section className="alert rounded-lg drop-shadow-md text-green-700  flex justify-center text-center">
+                <section className="alert rounded-lg drop-shadow-md text-lime-700  flex justify-center text-center">
                     <div className="flex flex-col items-center">
                         <p className="text-[1.2rem] font-semibold ">Sign up successfully</p>
                         <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-[2rem] w-[2rem] my-[1rem]  " fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>

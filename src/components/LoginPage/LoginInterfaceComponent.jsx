@@ -1,9 +1,7 @@
 
 import { useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
-import useAuth from '../../hooks/useAuth';
-
 
 //Axios
 import axiosPublic from "../../api/axios";
@@ -102,12 +100,14 @@ function LoginInterfaceComponent() {
     
 
   return (
-        <section className=" bg-white py-[1rem] px-[2rem] w-[80%] rounded-lg">
+        <section className=" bg-white py-[2rem] px-[2.3rem] w-[75%] rounded-lg bg-opacity-90">
             <form onSubmit={(e)=> Login(e)} className=" flex flex-col gap-y-3 ">
+
+                <p className='font-bold text-[2.9rem] mb-4'>Join us and become strong, be fast, be<span className='bg-gradient-to-r from-lime-400 to-lime-600 bg-clip-text text-transparent'> RUSH ―</span></p>
 
                 {/* Email input */}
                 <section>
-                    <label htmlFor="signup-useremail">*Email</label>
+                    <label htmlFor="signup-useremail" className='font-medium'>Email</label>
                     <input  type="text" 
                             id="signup-useremail" 
                             ref={refEmail}
@@ -120,7 +120,7 @@ function LoginInterfaceComponent() {
 
                 {/* Password input */}
                 <section>
-                    <label htmlFor="signup-userpassword">*Password</label>
+                    <label htmlFor="signup-userpassword" className='font-medium'>Password</label>
                     <div className=' relative'>
                         <input  type={togglePassword ? 'text' : 'password'} 
                                 id="signup-userpassword" 
@@ -137,9 +137,9 @@ function LoginInterfaceComponent() {
 
                 {/* Button */}
                 <section className=" flex justify-between py-[1rem] ">
-                    <button type='submit' className="btn  normal-case  w-[100px] h-[30px] ">Login</button>
-                    <Link to={'/forgotpassword'} className="self-center">Forgot password?</Link>
-                    <Link to={'/signup'} className="btn normal-case  w-[100px] h-[30px]">Sign up</Link>
+                    <button type='submit' className="btn btn-active btn-neutral normal-case hover:bg-gray-500 focus:outline-none w-[100px] h-[30px] ">Login</button>
+                    <Link to={'/forgotpassword'} className="self-center btn normal-case rounded-full px-8">Forgot Password?</Link>
+                    <Link to={'/signup'} className="btn btn-active btn-neutral normal-case hover:bg-gray-500 focus:outline-none w-[100px] h-[30px]">Sign up</Link>
                 </section>
             </form>
         </section>

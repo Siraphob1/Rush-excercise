@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 function Firstpagelayout ({image}) {
   return (
@@ -22,7 +23,7 @@ function Firstpagelayout ({image}) {
         <h2 className="text-[5.5rem] font-semibold bg-gradient-to-b from-gray-600 to-black bg-clip-text text-transparent -mt-10">can 
         <span className="text-lime-300 drop-shadow-lg"> achieve</span></h2>
 
-        <button className="btn btn-outline normal-case mt-8 ml-1 border-t-neutral-50 text-white">Let's get started</button>
+        <Link to={'/login'} className="btn btn-outline normal-case mt-8 ml-1 border-t-neutral-50 text-white">Let's get started</Link>
       </div>
     </div>
   </div>  
