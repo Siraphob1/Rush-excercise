@@ -10,6 +10,8 @@ const FormComponent = () => {
     const [emptyEmail , setEmptyEmail] = useState(false);
     const [sendsuccess , setSendsuccess] = useState(false);
 
+    const [isSending , setIsSending] = useState(false);
+
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -19,7 +21,18 @@ const FormComponent = () => {
 
     const sendEmail = (e)=>{
         e.preventDefault();
-        detectEmptyInput();
+        if(!userEmail){
+            refEmail.current.focus();
+            setEmptyEmail(true);
+            setSendsuccess(false);
+            return false
+        }
+
+        setIsSending(true)
+        
+
+        clearInput();
+        setSendsuccess(true);
     }
 
     const detectEmptyInput = ()=>{
@@ -27,10 +40,8 @@ const FormComponent = () => {
             refEmail.current.focus();
             setEmptyEmail(true);
             setSendsuccess(false);
-            return
-        }
-        clearInput();
-        setSendsuccess(true);
+            return false
+        }        
     }
 
     const clearInput = ()=>{
@@ -65,11 +76,16 @@ const FormComponent = () => {
                     <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                     <span>Email sent successfully</span>
                 </div>
+            }            
+            {isSending &&
+               <div className="w-full  flex justify-center mt-[2rem]">
+                    <span className="loading loading-spinner loading-lg"></span>
+               </div>
             }
             </div>
 
             {/* Button */}
-            <div className="py-[1rem] flex gap-x-[1rem] justify-center ">
+            <div className=" pt-[2rem] pb-[1rem] flex gap-x-[1rem] justify-center ">
                 <button type="button" className="btn  normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>Cancel</button>
                 <button type="submit" className="btn btn-neutral normal-case  w-[100px] h-[30px] ">Confirm</button>
             </div>
