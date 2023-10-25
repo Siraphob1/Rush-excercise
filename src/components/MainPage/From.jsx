@@ -5,7 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 export const From = (props) => {
-  const {API_URL , location} = props;
+  const {API_URL , location , toggleUpdate , setToggleUpdate } = props;
 
   const {auth} = useAuth();
   const navigate = useNavigate();
@@ -132,7 +132,8 @@ export const From = (props) => {
           const response = await axiosPrivate.post(API_URL,newCard, {
             headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
         });
-        console.log(response.data);
+        setToggleUpdate(!toggleUpdate);
+        console.log(`toggleUpdate:${toggleUpdate}`)
         // window.location.reload();
       } catch (error) {
         console.error(error.response);

@@ -26,7 +26,7 @@ export const MainPage = () => {
     // },
   ];
 
-  const {auth , activity , setActivity} = useAuth();
+  const {auth , activity , setActivity } = useAuth();
   const ACTIVITY_URL = `/api/activity/${auth?.userID}`
   const navigate = useNavigate();
   const location = useLocation();
@@ -34,6 +34,7 @@ export const MainPage = () => {
   const rawactivityList  = activity?.activityList || [];
   const [activitiesList , setActivityList] = useState([]);
   const [updateFinished , setUpdateFinished] = useState(false);
+  const [toggleUpdate ,setToggleUpdate] = useState(false);
   const onAddNewCard = (newItem) => {
     setItems((prevItems) => {
       return [newItem, ...prevItems];
@@ -52,7 +53,7 @@ export const MainPage = () => {
             setActivity({...activity , activityList:response.data.activitiesList})
             // isFecthing && setUsers(response.data);
             setUpdateFinished(true)
-            
+            setToggleUpdate(!toggleUpdate);              
         } catch (err) {
             console.error(err.response);
             // navigate('/login' , {state: {from:location} , replace:true})
@@ -64,12 +65,14 @@ export const MainPage = () => {
       
       
       
-  },[activity])
+  },[activity , toggleUpdate])
 
-  useEffect(()=>{
-    const filterActivity = rawactivityList.filter((e)=> e.status === "inprogress");
+  useEffect(()=>{    
+    console.log('activity')          
+    console.log(activity)
+    const filterActivity = activity.activityList ?  activity?.activityList.filter((e)=> e.status === "inprogress") : [];
     setActivityList(filterActivity);
-  },[])
+  },[toggleUpdate])
 
   return (
     <main className="w-full  main-screen" data-theme="light">
@@ -93,7 +96,7 @@ export const MainPage = () => {
             {/* กรอกข้อมูลและแสดงผล */}
             <div>
               <div className="flex justify-center my-5">
-                <From onAddItem={onAddNewCard} API_URL ={ACTIVITY_URL} location={location} />
+                <From onAddItem={onAddNewCard} API_URL ={ACTIVITY_URL} location={location} toggleUpdate={toggleUpdate} setToggleUpdate={setToggleUpdate}/>
               </div>
               <div className=" grid grid-cols-4 gap-4 mx-10">
                 {activitiesList.map((element) => {
