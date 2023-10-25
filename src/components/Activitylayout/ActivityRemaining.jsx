@@ -4,7 +4,7 @@ import NavBar from "../navBar";
 import useAuth from "../../hooks/useAuth";
 import { axiosPrivate } from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { FaRegEdit } from "react-icons/fa";
 
 function ActivityRemaining({image , topic , bgPos , activityID}) {
 
@@ -20,6 +20,11 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
 
   const [clickDetail , setClickDetail] = useState(false);
   const [isTimeout , SetIsTimeout] = useState(false);
+
+  const [editing , setEditing] = useState(false);
+  const [prevActivityName , setPrevActivityName] = useState(false);
+  const [prevActivityDescription , setPrevActivityDescription] = useState(false);
+  
 
   const {auth ,activity} = useAuth();
   const navigate = useNavigate();
@@ -139,6 +144,31 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
   }
   }
 
+  const updateActivity = async () =>{
+      if(!activityName) return alert("please enter NameActivity");
+      if(!activityDescriptio) return alert("please enter Description");
+
+      //check not update
+      if(activityName === prevActivityName && activityDescriptio === prevActivityDescription)  return setEditing(false);
+
+      //fotmat data
+      const updateData = {
+        name:activityName,
+        description:activityDescriptio
+      }
+
+      try {
+        const response = await axiosPrivate.put(API_URL , updateData ,{
+          headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
+        })
+        console.log(response)
+      } catch (error) {
+        console.error(error.response);
+      }
+
+
+  }
+
   // Start countdown when first render 
   useEffect(()=>{     
       const activityList= activity?.activityList
@@ -147,7 +177,9 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
 
     
       setActivityName(currentActivity.name);
+      setPrevActivityName(currentActivity.name);
       setActivityDescriptio(currentActivity.description);
+      setPrevActivityDescription(currentActivity.description);
       setActivityType(currentActivity.type);
       console.log(`sart:${currentActivity.startDate}`)
 
@@ -251,20 +283,22 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
           <section className={clickDetail ? 'flex flex-col  justify-center items-center bg-black bg-opacity-50 border border-black w-full min-h-[91.5vh] ' : 'hidden'}>
             
             <section className="bg-black bg-opacity-40 w-[60%] flex flex-col items-center py-[1rem] rounded-3xl">
-                <h2 className="text-center text-[1.5rem] text-white mb-[1rem]">Details</h2>
-                for
-                <form className=' text-white px-[2rem] py-[1rem] flex flex-col gap-y-[1rem] '>
-              
+                <h2 className="text-center text-[1.5rem] text-white mb-[1rem] border">Details</h2>                
+                {/* for */}
+                <form className='relative text-white px-[2rem] py-[1rem] flex flex-col gap-y-[1rem] '>
+                  {/* Edit */}
+                  <div className="absolute right-[2rem] top-[-3.5rem] text-white hover:cursor-pointer" onClick={()=>{setEditing(!editing)}}><FaRegEdit className="text-[2rem]"/></div>
+
                   {/* NameActivity  */}
                   <section  className="flex justify-between items-center  w-[40rem]">
                     <label>NameActivity</label>
-                    <input type="text" disabled={true} value={activityName}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
+                    <input type="text" disabled={!editing} value={activityName} onChange={(e)=>{setActivityName(e.target.value)}} className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
                   </section>
 
                   {/* Description */}
                   <section  className="flex justify-between items-center  w-[40rem]">
                     <label>Description</label>
-                    <input type="text" disabled={true} value={activityDescriptio}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
+                    <input type="text" disabled={!editing} value={activityDescriptio} onChange={(e)=>{setActivityDescriptio(e.target.value)}}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
                   </section>
 
                   {/* Activity type */}
@@ -282,7 +316,10 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
                   {/* Button */}
                   <section className="flex justify-between">
                     <button type="button" className="btn bg-black bg-opacity-10 text-white hover:bg-black hover:bg-opacity-100 w-[8rem] normal-case" onClick={deleteActivity} >Delete</button>
-                    <button type="button" className="btn  w-[8rem] normal-case mr-[1rem]" onClick={()=>setClickDetail(false)} >Back</button>
+                    <div>
+                      <button type="button" className="btn  w-[8rem] normal-case mr-[1rem]" onClick={()=>setClickDetail(false)} >Back</button>
+                      <button type="button" className="btn  w-[8rem] normal-case mr-[1rem]" onClick={updateActivity} >Update</button>
+                    </div>
                   </section>
                 </form>
 
