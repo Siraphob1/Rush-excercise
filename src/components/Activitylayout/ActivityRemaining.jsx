@@ -161,6 +161,8 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
         const response = await axiosPrivate.put(API_URL , updateData ,{
           headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
         })
+        
+        setEditing(false);
         console.log(response)
       } catch (error) {
         console.error(error.response);
