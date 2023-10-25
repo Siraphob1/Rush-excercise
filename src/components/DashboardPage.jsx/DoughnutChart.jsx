@@ -62,11 +62,11 @@ const DoughnutChart = ({countBiking , countHiking , countRunning , countSwimming
         <div className=' h-[100%]  flex items-center gap-x-[3rem]'>
             <Doughnut options={options} data={data}  />
             <div className=''>                
-                <DoughnutLabel bgcolor={`bg-[#000000] rounded-full w-[1rem] h-[1rem]`} type={'Biking'}  percent={pBikging}/>              
-                <DoughnutLabel bgcolor={`bg-[#BDFF00] rounded-full w-[1rem] h-[1rem]`} type={'Hiking'}  percent={pHikging}/>              
-                <DoughnutLabel bgcolor={`bg-[#CCCCCC] rounded-full w-[1rem] h-[1rem]`} type={'Running'}  percent={pRunning}/>              
-                <DoughnutLabel bgcolor={`bg-[#C6FCA5] rounded-full w-[1rem] h-[1rem]`} type={'Swimming'}  percent={pSwimming}/>              
-                <DoughnutLabel bgcolor={`bg-[#FFEBA3] rounded-full w-[1rem] h-[1rem]`} type={'Walking'}  percent={pWalking}/>     
+                <DoughnutLabel bgcolor={`bg-[#000000] rounded-full w-[1rem] h-[1rem]`} type={'Biking'}  percent={pBikging.toFixed(2)}/>              
+                <DoughnutLabel bgcolor={`bg-[#BDFF00] rounded-full w-[1rem] h-[1rem]`} type={'Hiking'}  percent={pHikging.toFixed(2)}/>              
+                <DoughnutLabel bgcolor={`bg-[#CCCCCC] rounded-full w-[1rem] h-[1rem]`} type={'Running'}  percent={pRunning.toFixed(2)}/>              
+                <DoughnutLabel bgcolor={`bg-[#C6FCA5] rounded-full w-[1rem] h-[1rem]`} type={'Swimming'}  percent={pSwimming.toFixed(2)}/>              
+                <DoughnutLabel bgcolor={`bg-[#FFEBA3] rounded-full w-[1rem] h-[1rem]`} type={'Walking'}  percent={pWalking.toFixed(2)}/>     
             </div>
         </div>
     </section>
