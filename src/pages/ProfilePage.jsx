@@ -1,23 +1,71 @@
 import NavBar from "../components/navBar";
 import imgProfile from '../assets/image/Desktop/Desktop_BgProfile.jpg'
 import { BiEditAlt } from "react-icons/bi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { axiosPrivate } from "../api/axios";
+import useAuth from "../hooks/useAuth";
 const ProfilePage = () => {
   const [editAble , setEditAble] = useState(false);
   const [name, setName] = useState('Piti');
-  const [fullname, setFullname] = useState('Likitwattanapaisarn')
+  const [displayName, setDisplayName] = useState('Likitwattanapaisarn')
   const [age , setAge] = useState(22);
   const [height , setHeight] = useState(175);
   const [weight , setWeight] = useState(67);
   const [caption ,setCaption] = useState('สวัสดีชาวโลก ชอบวิ่ง ชอบปีนเขา')
+
+  const [prevName , setPrevName] = useState('');
+  const [prevDisplayName , setPrevDisplayName] = useState('');
+  const [prevAge , setPrevAge] = useState('');
+  const [prevHeight , setPrevHeight] = useState('');
+  const [prevWeight , setPrevWeight] = useState('');
+  const [prevCaption , setPrevCaption] = useState('');
+
+  const {auth ,activity} = useAuth();
+  const API_URL = `/api/profile/${auth?.userID}`;
 
   const updateData = () =>{
 
     //send API to Backend
 
     setEditAble(!editAble);
+
     
   }
+
+  useEffect(()=>{
+    //get data first render
+    const getData = async () =>{
+      try {
+        const response = await axiosPrivate.get(API_URL, {
+          headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
+        })
+        console.log(response)  
+        //save to state
+        setName(response.data.userProfile.username); 
+        setPrevName(response.data.userProfile.username); 
+
+        setDisplayName(response.data.userProfile.displayName);   
+        setPrevDisplayName(response.data.userProfile.displayName);   
+
+        setAge(response.data.userProfile.age);   
+        setPrevAge(response.data.userProfile.age);   
+
+        setHeight(response.data.userProfile.height); 
+        setPrevHeight(response.data.userProfile.height); 
+
+        setWeight(response.data.userProfile.weight);   
+        setPrevWeight(response.data.userProfile.weight);
+
+        setCaption(response.data.userProfile.caption);   
+        setPrevCaption(response.data.userProfile.caption);   
+      } catch (error) {
+        console.log(error.response)
+      }
+    }
+
+    getData();
+
+  },[])
 
 
 
@@ -41,7 +89,7 @@ const ProfilePage = () => {
               
           </div>
           <div className="text-black text-4xl font-bold flex justify-center m-5">
-          <input type="text" className="bg-white border text-black w-auto text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={fullname} onChange={(e)=>setFullname(e.target.value)} disabled={!editAble}/>
+          <input type="text" className="bg-white border text-black w-auto text-center stat-value inline-block disabled:bg-transparent disabled:border-none" value={displayName} onChange={(e)=>setDisplayName(e.target.value)} disabled={!editAble}/>
               
           </div>
 
