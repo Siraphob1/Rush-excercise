@@ -19,7 +19,7 @@ const NavBar = () => {
 
 
     return (
-      <nav className='flex justify-between items-center text-white bg-black px-[20px] pr-[30px] py-[15px]' >
+      <nav className='flex justify-between items-center text-white w-full bg-black pl-[20px] pr-[30px] py-[15px]' >
         {/* Left */}
         {/* if login this button will navigate to mainpage */}
         {/* if not login this button will navigate to firstpage */}
@@ -29,7 +29,7 @@ const NavBar = () => {
         
 
         {/* Right */}
-        <div className='flex gap-x-6'>          
+        <div className='flex gap-x-6 '>          
           {
             auth?.accessToken ? <div className='flex gap-x-6'>
                                   <Link to={'/profilepage'}>Profile</Link>
