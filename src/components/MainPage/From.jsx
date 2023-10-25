@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export const From = (props) => {
   const {API_URL , location , toggleUpdate , setToggleUpdate } = props;
 
-  const {auth} = useAuth();
+  const {auth , persist} = useAuth();
   const navigate = useNavigate();
 
 
@@ -135,7 +135,8 @@ export const From = (props) => {
         navigate('/')
       } catch (error) {
         console.error(error.response);
-        navigate('/login' , {state: {from:location} , replace:true})
+        if(!persist) navigate('/login' , {state: {from:location} , replace:true})
+        navigate('/')
       }
       props.onAddItem(newCard);     
       clearInput(); 

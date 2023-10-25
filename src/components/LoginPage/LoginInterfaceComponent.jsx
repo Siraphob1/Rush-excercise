@@ -108,7 +108,7 @@ function LoginInterfaceComponent() {
     }
 
     useEffect(() => {
-        localStorage.setItem("persist" , persist);
+        localStorage.setItem("persist" , persist);        
     },[persist])
 
     

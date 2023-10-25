@@ -12,7 +12,7 @@ import useRefreshToken from '../hooks/useRefreshToken';
 
 const DashboardPage = () => {   
   const navigate = useNavigate();
-  const {auth , activity , setActivity} = useAuth();
+  const {auth , activity , setActivity , persist} = useAuth();
 
   const [countFinished , setCountFinished] = useState(0);
   const [countCancel , setCountCancel] = useState(0);
@@ -33,6 +33,7 @@ const DashboardPage = () => {
   const refresh = useRefreshToken();
 
   const filterData = () =>{
+    console.log(activity.activityList)
     const countBike = activity.activityList.filter((e)=> e.type === "Biking").length;
     const countHike = activity.activityList.filter((e)=> e.type === "Hiking").length;
     const countRun = activity.activityList.filter((e)=> e.type === "Running").length;
@@ -42,8 +43,8 @@ const DashboardPage = () => {
     const countfinish =  activity.activityList.filter((e)=> e.status === "finished").length;
     const countcancel =  activity.activityList.filter((e)=> e.status === "canceled").length;
     const countinprogress =  activity.activityList.filter((e)=> e.status === "inprogress").length;    
-     const countall = parseInt(countfinish) + parseInt(countcancel) + parseInt(countinprogress);
-    
+    const countall = parseInt(countfinish) + parseInt(countcancel) + parseInt(countinprogress);
+    console.log(countall)
     setCountBiking(countBike);
     setCountHiking(countHike);
     setCountRunning(countRun);
@@ -53,14 +54,16 @@ const DashboardPage = () => {
     setCountCancel(countcancel);
     setCountInprogress(countinprogress);
     setCountAll(countall);
+
+    calPercent(countall , countfinish , countcancel , countinprogress)
+
   }
 
-  const calPercent = () =>{
-    const numall = parseInt(countAll)
-    const pfinish = (100/numall) * parseInt(countFinished);
-    const pcancel = (100/numall) * parseInt(countCancel);
-    const pinprogress = (100/numall) * parseInt(countInprogress);
-
+  const calPercent = (countall , countfinish , countcancel , countinprogress) =>{
+    const numall = countall
+    const pfinish = (100/numall) * parseInt(countfinish);
+    const pcancel = (100/numall) * parseInt(countcancel);
+    const pinprogress = (100/numall) * parseInt(countinprogress);
     setPercenFinished(pfinish.toFixed(2));
     setPercenCancel(pcancel.toFixed(2));
     setInprogress(pinprogress.toFixed(2));
@@ -82,7 +85,8 @@ const DashboardPage = () => {
                 
             } catch (err) {
                 console.error(err.response);
-                navigate('/login' , {state: {from:location} , replace:true})
+                if(!persist) navigate('/login' , {state: {from:location} , replace:true})
+                navigate('/' , {state: {from:location} , replace:true})
             }
           }
           getActivities();
@@ -91,8 +95,10 @@ const DashboardPage = () => {
   },[])
 
   useEffect(()=>{
-    filterData();
-    calPercent(); 
+    if(activity.activityList){
+      filterData();
+      // calPercent();
+    } 
   },[firstRender])
 
   
