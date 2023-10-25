@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { axiosPrivate } from "../api/axios";
 import useAuth from "../hooks/useAuth";
 import { useLocation, useNavigate } from "react-router-dom";
+import useRefreshToken from "../hooks/useRefreshToken";
 const ProfilePage = () => {
   const [editAble , setEditAble] = useState(false);
   const [name, setName] = useState('Piti');
@@ -23,6 +24,7 @@ const ProfilePage = () => {
   
   const location = useLocation();
   const navigate = useNavigate();
+  const refresh = useRefreshToken();
   const {auth} = useAuth();
   const API_URL = `/api/profile/${auth?.userID}`;
 
@@ -51,6 +53,7 @@ const ProfilePage = () => {
         headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
       })
       // console.log(response);
+      await refresh();
       setEditAble(false);
     } catch (error) {
       console.log(error.response)
@@ -71,6 +74,7 @@ const ProfilePage = () => {
         })
         // console.log(response)  
         //save to state
+        await refresh();
         setName(response.data.userProfile.username); 
         setPrevName(response.data.userProfile.username); 
 

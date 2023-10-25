@@ -5,6 +5,7 @@ import useAuth from "../../hooks/useAuth";
 import { axiosPrivate } from "../../api/axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaRegEdit } from "react-icons/fa";
+import useRefreshToken from "../../hooks/useRefreshToken";
 
 function ActivityRemaining({image , topic , bgPos , activityID}) {
 
@@ -29,6 +30,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
   const {auth ,activity} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const refresh = useRefreshToken();
 
   const API_URL = `/api/activity/${auth?.userID}?activityID=${activityID}`;
 
@@ -134,10 +136,9 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
         const response = await axiosPrivate.delete(API_URL, {
           headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
       });
-      // console.log(response.data);
-      if(response.status === 200 ){
+      // console.log(response.data);      
         navigate('/mainpage');
-      }
+      
     } catch (error) {
       console.error(error.response);
       navigate('/login' , {state: {from:location} , replace:true})
@@ -161,7 +162,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
         const response = await axiosPrivate.put(API_URL , updateData ,{
           headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
         })
-        
+        await refresh();    
         setEditing(false);
         // console.log(response)
       } catch (error) {

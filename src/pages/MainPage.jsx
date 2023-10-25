@@ -42,7 +42,6 @@ export const MainPage = () => {
   const [selectRunning ,setSelectRunning] = useState(false);
   const [selectSwimming ,setSelectSwimming] = useState(false);
   const [selectWalking,setSelectWalking] = useState(false);
-  const [isrefresh , setIsrefresh] = useState(false);
   const [showData , setShowData] = useState([]);
   
   const refresh = useRefreshToken();
@@ -62,6 +61,7 @@ export const MainPage = () => {
                 headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
             });
             // console.log(response.data);
+            await refresh();
             setActivity({...activity , activityList:response.data.activitiesList})
             setRawactivityLies(response.data.activitiesList)
             setUpdateFinished(true)

@@ -28,6 +28,7 @@ function Newpass() {
   const [sendFinish , setSendFinish] = useState(false);
   const [errMessage ,setErrMessage] = useState('');
 
+  
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
   const API_URL = `/forgotpassword/reset?token=${token}`
@@ -88,8 +89,7 @@ function Newpass() {
     //send API
     try {
       
-      const response = await axiosPublic.put(API_URL ,newPasswordData);       
-
+      const response = await axiosPublic.put(API_URL ,newPasswordData);  
         setIsSending(false)
       
     } catch (error) {      

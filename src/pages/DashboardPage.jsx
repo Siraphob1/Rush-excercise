@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import useAuth from '../hooks/useAuth';
 import { axiosPrivate } from '../api/axios';
+import useRefreshToken from '../hooks/useRefreshToken';
 
 
 
@@ -29,6 +30,7 @@ const DashboardPage = () => {
 
   const [firstRender , setFirstRender] = useState(false);
   const location = useLocation();
+  const refresh = useRefreshToken();
 
   const filterData = () =>{
     const countBike = activity.activityList.filter((e)=> e.type === "Biking").length;
@@ -73,6 +75,7 @@ const DashboardPage = () => {
                 const response = await axiosPrivate.get(ACTIVITY_URL, {
                     headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
                 });
+                await refresh();
                 setActivity({...activity , activityList:response.data.activitiesList})     
                 setFirstRender(true)         
                 // console.log(response)
