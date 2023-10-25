@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link,useNavigate } from 'react-router-dom'
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
+import useAuth from '../../hooks/useAuth';
+
 
 //Axios
 import axiosPublic from "../../api/axios";
@@ -113,7 +115,7 @@ function LoginInterfaceComponent() {
 
   return (
         <section className=" bg-white py-[1rem] px-[2rem] w-[80%] rounded-lg">
-            <form onSubmit={(e)=> Login(e)} className=" flex flex-col gap-y-3 ">
+            <form onSubmit={(e)=> submitLogin(e)} className=" flex flex-col gap-y-3 ">
 
                 {/* Email input */}
                 <section>
