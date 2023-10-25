@@ -31,15 +31,26 @@ export const MainPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [items, setItems] = useState(initdata);
-  const rawactivityList  = activity?.activityList || [];
+  const [rawactivityList, setRawactivityLies] = useState([]);
   const [activitiesList , setActivityList] = useState([]);
   const [updateFinished , setUpdateFinished] = useState(false);
   const [toggleUpdate ,setToggleUpdate] = useState(false);
+
+  const [selectBiking ,setSelectBiking] = useState(false);
+  const [selectHiking ,setSelectHiking] = useState(false);
+  const [selectRunning ,setSelectRunning] = useState(false);
+  const [selectSwimming ,setSelectSwimming] = useState(false);
+  const [selectWalking,setSelectWalking] = useState(false);
+
+  const [showData , setShowData] = useState([]);
+
   const onAddNewCard = (newItem) => {
     setItems((prevItems) => {
       return [newItem, ...prevItems];
     });
   };
+
+
 
   useEffect(()=>{
       
@@ -49,11 +60,12 @@ export const MainPage = () => {
             const response = await axiosPrivate.get(ACTIVITY_URL, {
                 headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
             });
+            console.log("response")
             console.log(response.data);
             setActivity({...activity , activityList:response.data.activitiesList})
-            // isFecthing && setUsers(response.data);
+            setRawactivityLies(response.data.activitiesList)
             setUpdateFinished(true)
-            setToggleUpdate(!toggleUpdate);              
+            setToggleUpdate(!toggleUpdate);                
         } catch (err) {
             console.error(err.response);
             // navigate('/login' , {state: {from:location} , replace:true})
@@ -68,11 +80,24 @@ export const MainPage = () => {
   },[activity , toggleUpdate])
 
   useEffect(()=>{    
-    console.log('activity')          
-    console.log(activity)
+    console.log('activity inprogress')          
+    // console.log(activity)
     const filterActivity = activity.activityList ?  activity?.activityList.filter((e)=> e.status === "inprogress") : [];
     setActivityList(filterActivity);
   },[toggleUpdate])
+
+  useEffect(()=>{
+    // console.log(activitiesList)
+    const filterActivity =  rawactivityList.filter((e)=> e.status === "inprogress");
+    const filterBiking = selectBiking ? filterActivity.filter((e)=> e.type === "Biking") : filterActivity;
+    const filterHiking = selectHiking ? filterBiking.filter((e)=> e.type === "Hiking") :filterBiking
+    const filterRunning = selectRunning ? filterHiking.filter((e)=> e.type === "Running") :filterHiking
+    const filterSwimming = selectSwimming ? filterRunning.filter((e)=> e.type === "Swimming") :filterRunning
+    const filterWalking = selectWalking ? filterSwimming.filter((e)=> e.type === "Walking") :filterSwimming
+    setShowData(filterWalking);
+
+  },[selectBiking ,selectHiking , selectRunning , selectSwimming , selectWalking , rawactivityList , toggleUpdate , ])
+
 
   return (
     <main className="w-full  main-screen" data-theme="light">
@@ -82,7 +107,7 @@ export const MainPage = () => {
         <img src={DesktopMain} alt="DesktopMain" />
         <div className="absolute top-0  w-full h-full ">
           {/* navBarMainPage */}
-          <Nav />
+          <Nav setSelectBiking={setSelectBiking} setSelectHiking={setSelectHiking} setSelectRunning={setSelectRunning} setSelectSwimming={setSelectSwimming} setSelectWalking={setSelectWalking} />
 
           {/* Title */}
           <div className=" py-10 rounded-2xl mx-auto my-5 w-[97%] h-[97%] bg-black text-white  bg-stone-950/75 ">
@@ -99,8 +124,8 @@ export const MainPage = () => {
                 <From onAddItem={onAddNewCard} API_URL ={ACTIVITY_URL} location={location} toggleUpdate={toggleUpdate} setToggleUpdate={setToggleUpdate}/>
               </div>
               <div className=" grid grid-cols-4 gap-4 mx-10">
-                {activitiesList.map((element) => {
-                  return <Card {...element} key={element.activityID} />;
+                { showData?.length > 0 &&     showData?.map((element) => {
+                    return <Card {...element} key={element.activityID} />;
                 })}
               </div>
             </div>

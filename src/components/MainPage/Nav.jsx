@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import { CgProfile } from "react-icons/cg";
 import { Link } from 'react-router-dom'
 
-export const Nav = () => {
+export const Nav = ({setSelectBiking , setSelectHiking , setSelectRunning ,setSelectSwimming, setSelectWalking ,selectBiking ,selectHiking , selectRunning , selectSwimming , selectWalking}) => {
   return (
     <div className="navbar bg-base-100 ">
       {/* Left */}
@@ -36,22 +37,37 @@ export const Nav = () => {
             className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>All</a>
+              <div>All</div>
             </li>
             <li>
-              <a>Running</a>
+              <div>
+                <input type="checkbox" id="selectBiking"  className="checkbox" value={selectBiking} onChange={()=>{setSelectBiking(prev => !prev)}} />
+                <label htmlFor="selectBiking">Biking</label>
+              </div>
             </li>
             <li>
-              <a>Biking</a>
+              <div>
+                <input type="checkbox" id="selectHiking"  className="checkbox" value={selectHiking} onChange={()=>{setSelectHiking(prev => !prev)}} />
+                <label htmlFor="selectHiking">Hiking</label>
+              </div>
             </li>
             <li>
-              <a>Swimming</a>
+              <div>
+                <input type="checkbox" id="selectRunning"  className="checkbox" value={selectRunning} onChange={()=>{setSelectRunning(prev => !prev)}} />
+                <label htmlFor="selectRunning">Running</label>
+              </div>
             </li>
             <li>
-              <a>Hiking</a>
-            </li>
+              <div>
+                <input type="checkbox" id="selectSwimming"  className="checkbox" value={selectSwimming} onChange={()=>{setSelectSwimming(prev => !prev)}} />
+                <label htmlFor="selectSwimming">Swimming</label>
+              </div>
+            </li>            
             <li>
-              <a>Walking</a>
+              <div>
+                <input type="checkbox" id="selectWalking"  className="checkbox" value={selectWalking} onChange={()=>{setSelectWalking(prev => !prev)}} />
+                <label htmlFor="selectWalking">Walking</label>
+              </div>
             </li>
           </ul>
         </div>
