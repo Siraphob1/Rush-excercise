@@ -23,6 +23,10 @@ function LoginInterfaceComponent() {
     const [userPassword , setUserPassword] = useState('');
     const refPassword = useRef();
     const [togglePassword , setTogglePassword] = useState(false);
+
+    const [errMessage , setErrMessage] = useState('');
+
+    const [isSending , setIsSending] = useState(false);
     
     const detectEmptyInput = ()=>{
         if(!userEmail){
@@ -64,6 +68,7 @@ function LoginInterfaceComponent() {
         //generate signup data
         const loginData = createLoginData();  
 
+        setIsSending(true)
         // send obj data to Backend
         try {
             const response = await axiosPublic.post(LOGIN_URL ,loginData);  
@@ -82,24 +87,14 @@ function LoginInterfaceComponent() {
         } catch (error) {
             //this error cannot handle
             if(!error?.response){
-                console.log('No Server Response')
+                setErrMessage("No Server Response")
                 return
-            }
-            
-            //this error can handle 
-            else if(error.response?.status === 400){
-                //miss email or password
-                console.log(error.response.data.message)
             }            
-            else if(error.response?.status === 401){
-                //user is not verify email yet 
-                console.log(error.response.data.message)
-            }
-            else if(error.response?.status === 404){
-                //this email  is not signup 
-                console.log(error.response.data.message)
-            }
+            
+
+            setErrMessage(error.response.data.message)
         }
+        setIsSending(false)
         
     }
 
@@ -111,7 +106,9 @@ function LoginInterfaceComponent() {
         localStorage.setItem("persist" , persist);        
     },[persist])
 
-    
+    useEffect(()=>{
+        setErrMessage("")
+    },[userEmail , userPassword])    
 
     
 
@@ -154,6 +151,17 @@ function LoginInterfaceComponent() {
                     <input type="checkbox" name="" id="persist" checked={persist} className="checkbox mr-[1rem]" onChange={togglePersist} />
                     <label htmlFor="persist">remember my account</label>
                 </section>
+
+                {errMessage &&
+                    <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem]">    
+                    <span>{errMessage}</span>
+                    </div>
+                }
+                {isSending &&
+                    <div className='flex justify-center my-[1rem]'>
+                        <span className="loading loading-spinner loading-lg"></span>
+                    </div>
+                }
 
                 {/* Button */}
                 <section className=" flex justify-between py-[1rem] ">
