@@ -88,7 +88,7 @@ const DashboardPage = () => {
           getActivities();
           
 
-  },[activity])
+  },[])
 
   useEffect(()=>{
     filterData();
