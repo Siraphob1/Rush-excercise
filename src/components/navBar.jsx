@@ -29,13 +29,7 @@ const NavBar = () => {
         
 
         {/* Right */}
-        <div className='flex gap-x-6'>
-          {/* <Link to={'/profilepage'}>Profile</Link> */}
-          {/* <Link to={'/signup'}>Sign up</Link> */}
-          {/* {
-            auth?.accessToken ? <button onClick={signOut}>Log out</button>
-                              : <Link to={'/login'}>Log in</Link>
-          } */}
+        <div className='flex gap-x-6'>          
           {
             auth?.accessToken ? <div className='flex gap-x-6'>
                                   <Link to={'/profilepage'}>Profile</Link>
