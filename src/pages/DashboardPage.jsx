@@ -33,7 +33,7 @@ const DashboardPage = () => {
   const refresh = useRefreshToken();
 
   const filterData = () =>{
-    console.log(activity.activityList)
+    // console.log(activity.activityList)
     const countBike = activity.activityList.filter((e)=> e.type === "Biking").length;
     const countHike = activity.activityList.filter((e)=> e.type === "Hiking").length;
     const countRun = activity.activityList.filter((e)=> e.type === "Running").length;
@@ -44,7 +44,7 @@ const DashboardPage = () => {
     const countcancel =  activity.activityList.filter((e)=> e.status === "canceled").length;
     const countinprogress =  activity.activityList.filter((e)=> e.status === "inprogress").length;    
     const countall = parseInt(countfinish) + parseInt(countcancel) + parseInt(countinprogress);
-    console.log(countall)
+   
     setCountBiking(countBike);
     setCountHiking(countHike);
     setCountRunning(countRun);
@@ -71,7 +71,7 @@ const DashboardPage = () => {
   }
 
   useEffect(()=>{
-    const ACTIVITY_URL = `/api/activity/${auth?.userID}`
+    const ACTIVITY_URL = `/api/activity?userID=${auth?.userID}`
         const getActivities = async () => {
             try {
                 

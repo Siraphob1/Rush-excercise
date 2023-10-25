@@ -12,7 +12,7 @@ const useLogout = () => {
                 setAuth({});
                 setActivity({});
             } catch (error) {
-                console.error(error);
+                // console.error(error);
             }
     }
     return logout

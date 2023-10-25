@@ -20,7 +20,7 @@ function Firstpage() {
         // console.log(prevpage)
         navigate(prevpage , {replace:true});
       } catch (error) {
-        console.log(error.response)
+        // console.log(error.response)
       }
     }
     if(persist){

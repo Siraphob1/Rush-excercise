@@ -32,8 +32,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
   const location = useLocation();
   const refresh = useRefreshToken();
 
-  const API_URL = `/api/activity/${auth?.userID}?activityID=${activityID}`;
-
+  const API_URL = `/api/activity/?userID=${auth?.userID}&activityID=${activityID}`;
 
 
   let myCountdown;
@@ -140,7 +139,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
         navigate('/mainpage');
       
     } catch (error) {
-      console.error(error.response);
+      // console.error(error.response);
       if(!persist) navigate('/login' , {state: {from:location} , replace:true})
       await refresh();
       navigate('/')
@@ -168,7 +167,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
         setEditing(false);
         // console.log(response)
       } catch (error) {
-        console.error(error.response);
+        // console.error(error.response);
         if(!persist) navigate('/login' , {state: {from:location} , replace:true})
         navigate('/')
       }
@@ -192,7 +191,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
         navigate('/mainpage');
       }
     } catch (error) {
-      console.error(error.response);
+      // console.error(error.response);
       if(!persist) navigate('/login' , {state: {from:location} , replace:true})
       navigate('/')
     }
