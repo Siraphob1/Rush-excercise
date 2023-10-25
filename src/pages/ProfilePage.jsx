@@ -20,14 +20,40 @@ const ProfilePage = () => {
   const [prevWeight , setPrevWeight] = useState('');
   const [prevCaption , setPrevCaption] = useState('');
 
-  const {auth ,activity} = useAuth();
+  const {auth} = useAuth();
   const API_URL = `/api/profile/${auth?.userID}`;
 
-  const updateData = () =>{
+  const submitUpdate = async () =>{
+    //check data has update if not force exit
+    if(name === prevName && displayName === prevDisplayName && age === prevAge && height === prevHeight && weight === prevWeight && caption === prevCaption)
+    { 
+      setEditAble(false);
+      return false
+    }
+
+    //format new data
+    const updateData = {
+      imageURL:'',
+      username:name,
+      displayName:displayName,
+      age:age,
+      height:height,
+      weight:weight,
+      caption:caption
+    }
 
     //send API to Backend
+    try {
+      const response = await axiosPrivate.put(API_URL , updateData ,{
+        headers: {"Authorization" : `Bearer ${auth?.accessToken}`}
+      })
+      console.log(response);
+      setEditAble(false);
+    } catch (error) {
+      console.log(error.response)
+    }
 
-    setEditAble(!editAble);
+   
 
     
   }
@@ -136,7 +162,7 @@ const ProfilePage = () => {
           <textarea name="" id="" cols="10" rows="3" className="text-3xl font-bold text-black  bg-white border p-[1rem] stat-value inline-block  disabled:bg-transparent disabled:border-none" value={caption} onChange={(e)=>setCaption(e.target.value) } disabled={!editAble} ></textarea>
           <div className={editAble ? "flex justify-end gap-x-[1rem]" : "hidden"}>
             <button className="btn w-[6rem]" onClick={()=>{setEditAble(!editAble)}}>Cancel</button>
-            <button className="btn btn-neutral w-[6rem]" onClick={updateData}>Save</button>
+            <button className="btn btn-neutral w-[6rem]" onClick={submitUpdate}>Save</button>
           </div>
         </div>
       </div>
