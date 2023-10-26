@@ -26,6 +26,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
   const [prevActivityName , setPrevActivityName] = useState(false);
   const [prevActivityDescription , setPrevActivityDescription] = useState(false);
   
+  const [classText , setClassText] = useState('text-white')
 
   const {auth ,activity , persist} = useAuth();
   const navigate = useNavigate();
@@ -199,6 +200,10 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
 
   // Start countdown when first render 
   useEffect(()=>{     
+      if(activityType === "Walking"){
+        setClassText('text-black')
+      }
+
       const activityList= activity?.activityList
       const currentActivity = activityList.find((e)=> e.activityID === activityID);
       // console.log(currentActivity)
@@ -300,7 +305,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
 
               {/* Detail Button */}
               <div className="flex gap-x-[1rem]">
-                <button className="btn btn-outline w-[9rem] text-white text-[1.1rem] normal-case tracking-[0.09em] hover:bg-white hover:text-black" onClick={()=> setClickDetail(true)}>Detail</button>
+                <button className={`btn btn-outline w-[9rem] ${classText} text-[1.1rem] normal-case tracking-[0.09em] hover:bg-white hover:text-black`} onClick={()=> setClickDetail(true)}>Detail</button>
                 {!isTimeout ? null
                             : <button className="btn btn-outline w-[10rem] text-white text-[1.1rem] normal-case tracking-[0.09em] hover:bg-white hover:text-black" onClick={finishActivity}  >Finished</button>
                 }
