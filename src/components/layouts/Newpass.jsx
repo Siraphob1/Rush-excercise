@@ -183,7 +183,7 @@ function Newpass() {
                 <div className='bg-opacity-70 rounded-2xl  mx-auto bg-white gap-y-8 flex flex-col px-20 items-center h-[85%] w-[65%] justify-center rounded-4xl shadow-[0_3px_10px_rgb(0,0,0.2)] '>
                   {isSending  ? <span className="loading loading-spinner loading-lg text-black"></span>
                               : errMessage  ? <p className='font-bold text-3xl text-red-600'>{errMessage}</p>
-                                            : <p className='font-bold text-3xl'>You&apos; re successfully changed your password</p>
+                                            : <p className='font-bold text-3xl text-black'>You&apos; re successfully changed your password</p>
                   }                  
                   <Link to={'/login'} className='btn btn-active btn-neutral gap px-20 hover:opacity-60 mt-7'>Back to Login</Link>
                 </div>
