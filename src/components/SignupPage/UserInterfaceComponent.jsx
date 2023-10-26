@@ -36,7 +36,8 @@ const UserInterfaceComponent = () => {
     
     const [signupsuccess , setSingupsuccess] = useState(false);
 
-
+    const [errMessage , setErrMessage] = useState('');
+    const [isSending , setIsSending] = useState(false);
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -47,6 +48,10 @@ const UserInterfaceComponent = () => {
     useEffect(()=>{
         setValidPassword(regexPassword.test(password))        
     },[password])
+
+    useEffect(()=>{
+        setErrMessage('');
+    },[username , email ,password , confirmpassword])
     
     useEffect(()=>{
         const ismatch = validPassword && (password === confirmpassword)
@@ -125,13 +130,15 @@ const UserInterfaceComponent = () => {
         //generate signup data
         const signupData = createSignupData();    
         
+        setIsSending(true);
         // send obj data to Backend
         try {
             const response = await axiosPublic.post(SIGNUP_URL ,signupData);            
 
             if(response.status === 201){
                 
-                //show result text
+                setIsSending(false);
+                //show result text                
                 setSingupsuccess(true);
                 setEmailVerify(email)
 
@@ -144,20 +151,24 @@ const UserInterfaceComponent = () => {
         } catch (error) {
 
             //this error cannot handle
+            setIsSending(false);
             if(!error?.response){
-                console.log('No Server Response')
+                // console.log('No Server Response')
+                setErrMessage('No Server Response')
                 return
             }
+
+            setErrMessage(error.response.data.message)
             
             //this error can handle 
-            else if(error.response?.status === 400){
-                //miss username or email or password
-                console.log(error.response.data.message)
-            }            
-            else if(error.response?.status === 409){
-                //username or email  has already been signup
-                console.log(error.response.data.message)
-            }
+            // else if(error.response?.status === 400){
+            //     //miss username or email or password
+            //     console.log(error.response.data.message)
+            // }            
+            // else if(error.response?.status === 409){
+            //     //username or email  has already been signup
+            //     console.log(error.response.data.message)
+            // }
             
         }
 
@@ -275,16 +286,34 @@ const UserInterfaceComponent = () => {
             {/* Link Forgotpassword */}
             <Link to={'/forgotpassword'} className="self-center">Forgot Password?</Link>
 
+            {/* Err message */}
+            {isSending  ?    <div className='flex justify-center my-[1rem]'>
+                            <span className="loading loading-spinner loading-lg"></span>
+                        </div>
+                    :errMessage ?   <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem]">    
+                                        <span>{errMessage}</span>
+                                    </div>
+                                :   null
+                   
+            }
+
             {/* Button Cancel and Confirm */}
             <section className=" flex justify-center py-[1rem] gap-x-[1rem]">
                 <button type="button" className="btn normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>Cancel</button>
-                <button type="submit" className="btn btn-neutral normal-case hover:bg-gray-500 w-[100px] h-[30px] ">Confirm</button>
+                <button type="submit" className="btn btn-neutral normal-case hover:bg-gray-500 w-[100px] h-[30px] " onClick={()=>{errMessage('')}}>Confirm</button>
             </section>
         </form>
 
+        {/* {errMessage &&
+                    <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem]">    
+                    <span>{errMessage}</span>
+                    </div>
+         } */}
+        
+
         {/* Result signup successfully */}
         {signupsuccess && 
-            <div className="py-[1rem]">
+            <div className="py-[1rem]"> 
                 {/* Info  */}
                 <section className="alert rounded-lg drop-shadow-md text-lime-700  flex justify-center text-center">
                     <div className="flex flex-col items-center">
@@ -301,7 +330,7 @@ const UserInterfaceComponent = () => {
                 <section className="flex justify-center mt-[1rem]">
                 <Link to={'/'} className="btn btn-neutral normal-case">go to MainPage</Link>
                 </section>
-            </div>
+            </div> 
         }
     </section>
   )
