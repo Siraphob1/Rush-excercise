@@ -244,7 +244,7 @@ const UserInterfaceComponent = () => {
                 <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem]">                        
                     <div className=" flex flex-col">
                         <span>*at least 8 character</span>
-                        <span>*at least 1 uppercase character</span>
+                        <span>*at least 1 uppercase character such as  @#*$_</span>
                         <span>*at least 1 special character</span>
                     </div>
                 </div>
@@ -275,7 +275,7 @@ const UserInterfaceComponent = () => {
                         <div className=" flex flex-col">
                             <span>must enter the same as password</span>
                             <span>*at least 8 character</span>
-                            <span>*at least 1 uppercase character</span>
+                            <span>*at least 1 uppercase character such as  @#*$_</span>
                             <span>*at least 1 special character</span>
                         </div>
                     </div>
