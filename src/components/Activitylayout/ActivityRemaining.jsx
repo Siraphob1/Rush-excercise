@@ -310,8 +310,8 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
           {/* Detail Component */}
           <section className={clickDetail ? 'flex flex-col  justify-center items-center bg-black bg-opacity-50 border border-black w-full min-h-[91.5vh] ' : 'hidden'}>
             
-            <section className="bg-black bg-opacity-40 w-[60%] flex flex-col items-center py-[1rem] rounded-3xl">
-                <h2 className="text-center text-[1.5rem] text-white mb-[1rem] border">Details</h2>                
+            <section className="bg-black bg-opacity-60 w-[60%] flex flex-col items-center py-[1rem] rounded-3xl">
+                <h2 className="text-center text-[1.5rem] text-white mb-[1rem] ">Details</h2>                
                 {/* for */}
                 <form className='relative text-white px-[2rem] py-[1rem] flex flex-col gap-y-[1rem] '>
                   {/* Edit */}
@@ -320,25 +320,25 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
                   {/* NameActivity  */}
                   <section  className="flex justify-between items-center  w-[40rem]">
                     <label>NameActivity</label>
-                    <input type="text" disabled={!editing} value={activityName} onChange={(e)=>{setActivityName(e.target.value)}} className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
+                    <input type="text" disabled={!editing} value={activityName} onChange={(e)=>{setActivityName(e.target.value)}} className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90 disabled:text-gray-600"/>
                   </section>
 
                   {/* Description */}
                   <section  className="flex justify-between items-center  w-[40rem]">
                     <label>Description</label>
-                    <input type="text" disabled={!editing} value={activityDescriptio} onChange={(e)=>{setActivityDescriptio(e.target.value)}}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
+                    <input type="text" disabled={!editing} value={activityDescriptio} onChange={(e)=>{setActivityDescriptio(e.target.value)}}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90 disabled:text-gray-600"/>
                   </section>
 
                   {/* Activity type */}
                   <section  className="flex justify-between items-center  w-[40rem]">
                     <label>Activity type</label>
-                    <input type="text" disabled={true} value={activityType} className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
+                    <input type="text" disabled={true} value={activityType} className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90 disabled:text-gray-600"/>
                   </section>
                   
                   {/* Time remainning  */}
                   <section  className="flex justify-between items-center  w-[40rem]">
                     <label>Time remainning</label>
-                    <input type="text" disabled={true} value={activityduration}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90"/>
+                    <input type="text" disabled={true} value={activityduration}  className="input input-bordered input-sm w-full max-w-[30rem] h-[3rem] text-black disabled:bg-opacity-90 disabled:text-gray-600"/>
                   </section>
                   
                   {/* Button */}
