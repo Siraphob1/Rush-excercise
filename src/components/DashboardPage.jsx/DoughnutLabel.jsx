@@ -7,11 +7,11 @@ const DoughnutLabel = ({bgcolor, type , percent}) => {
         {/* Left */}
         <section className="flex items-center gap-x-[0.2rem]">
             <div className={`${bgcolor}`}></div>
-            <p>{type}</p>  
+            <p className="text-black">{type}</p>  
         </section>  
 
         {/* Right */}
-        <section>{percent}%</section>
+        <section className="text-black">{percent}%</section>
     </div>
   )
 }
