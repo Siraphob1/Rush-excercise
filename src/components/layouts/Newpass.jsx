@@ -136,7 +136,7 @@ function Newpass() {
              {focusPassword && !validPassword && 
                 <div className=" flex flex-col text-red-600">
                     <span>*at least 8 character</span>
-                    <span>*at least 1 uppercase character</span>
+                    <span>*at least 1 uppercase character such as  @#*$_</span>
                     <span>*at least 1 special character</span>
                 </div>
               }
@@ -158,7 +158,7 @@ function Newpass() {
               {focusConfirmPassword && !validConfirmPassword && 
                 <div className=" flex flex-col text-red-600">
                   <span>*at least 8 character</span>
-                  <span>*at least 1 uppercase character</span>
+                  <span>*at least 1 uppercase character such as  @#*$_</span>
                   <span>*at least 1 special character</span>
                 </div>
               }             
