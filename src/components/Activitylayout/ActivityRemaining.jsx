@@ -214,7 +214,7 @@ function ActivityRemaining({image , topic , bgPos , activityID}) {
       setActivityDescriptio(currentActivity.description);
       setPrevActivityDescription(currentActivity.description);
       setActivityType(currentActivity.type);
-      console.log(`sart:${currentActivity.startDate}`)
+      // console.log(`sart:${currentActivity.startDate}`)
 
       const startTime = convertTime(currentActivity.startDate).getTime();          
       const endTime = convertTime(currentActivity.endDate).getTime();    

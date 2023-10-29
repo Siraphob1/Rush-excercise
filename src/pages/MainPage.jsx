@@ -66,7 +66,7 @@ export const MainPage = () => {
             setUpdateFinished(true)
             setToggleUpdate(!toggleUpdate);                
         } catch (err) {
-            console.error(err.response);
+            // console.error(err.response);
             if(!persist) navigate('/login' , {state: {from:location} , replace:true})
             navigate('/')
         }
