@@ -3,15 +3,17 @@ import { Link, useNavigate } from "react-router-dom"
 
 //icon
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
-//Regex
+
 //Axios
 import axiosPublic from "../../api/axios";
+import userVerify from "../../hooks/userVerify";
 const SIGNUP_URL = '/signup';
 
-const regexName = /^\w.{7,}/;
-const regexPassword = /[@#*$_]+[A-Z]+.{6,}|[@#*$_]+.+[A-Z]+.{5,}|[A-Z]+.+[@#*$_]+.{5,}|[A-Z]+[@#*$_]+.{6,}|.+[@#*$_]+[A-Z]+.{5,}|.+[A-Z]+[@#*$_]+.{5,}/;
 
 const UserInterfaceComponent = () => {
+    const navigate = useNavigate();
+    const {verifyUsername ,verifyPassword} = userVerify();
+
     const [username , setUsername] = useState('');
     const [validName , setValidName] = useState(false);
     const [focusName , setFocusName] = useState(false);
@@ -38,28 +40,29 @@ const UserInterfaceComponent = () => {
 
     const [errMessage , setErrMessage] = useState('');
     const [isSending , setIsSending] = useState(false);
-    const navigate = useNavigate();
+    
+    // verify usernam
+    useEffect(()=>{ 
+        setValidName(verifyUsername(username))
+    },[username , verifyUsername])
 
+    // verify password
     useEffect(()=>{
-        const result = regexName.test(username)
-        setValidName(result);   
-    },[username])
+        setValidPassword(verifyPassword(password))       
+    },[password , verifyPassword])
+    
+    // verify Confirm password 
+    useEffect(()=>{           
+        setValidConfirmPassword(verifyPassword(confirmpassword))        
+    },[confirmpassword , verifyPassword])
 
-    useEffect(()=>{
-        setValidPassword(regexPassword.test(password))        
-    },[password])
 
+    // Clear Error message when update input
     useEffect(()=>{
         setErrMessage('');
     },[username , email ,password , confirmpassword])
-    
-    useEffect(()=>{
-        const ismatch = validPassword && (password === confirmpassword)
-        setValidConfirmPassword(ismatch)    
-    },[password,confirmpassword,validPassword])
 
-
-    // handle function
+    // toggle  function
     const switchTogglePassword = ()=>{
         const prevtoggle = togglePassword;
         setTogglePassword(!prevtoggle)
@@ -127,6 +130,9 @@ const UserInterfaceComponent = () => {
         const isEmptyinput = detectEmptyInput()
         if(isEmptyinput) return 
 
+        if(!validPassword || !validConfirmPassword || password !== confirmpassword)  return console.log('handle error input')
+       
+
         //generate signup data
         const signupData = createSignupData();    
         
@@ -153,22 +159,12 @@ const UserInterfaceComponent = () => {
             //this error cannot handle
             setIsSending(false);
             if(!error?.response){
-                // console.log('No Server Response')
                 setErrMessage('No Server Response')
                 return
             }
 
+            // error can handle
             setErrMessage(error.response.data.message)
-            
-            //this error can handle 
-            // else if(error.response?.status === 400){
-            //     //miss username or email or password
-            //     console.log(error.response.data.message)
-            // }            
-            // else if(error.response?.status === 409){
-            //     //username or email  has already been signup
-            //     console.log(error.response.data.message)
-            // }
             
         }
 
@@ -244,8 +240,8 @@ const UserInterfaceComponent = () => {
                 <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem]">                        
                     <div className=" flex flex-col">
                         <span>*at least 8 character</span>
-                        <span>*at least 1 uppercase character such as  @#*$_</span>
-                        <span>*at least 1 special character</span>
+                        <span>*at least 1 uppercase character</span>
+                        <span>*at least 1 special character  (@ # * $ _)</span>
                     </div>
                 </div>
                 }
@@ -273,34 +269,40 @@ const UserInterfaceComponent = () => {
                 {focusConfirmPassword && !validConfirmPassword&&                     
                      <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem] ">                        
                         <div className=" flex flex-col">
-                            <span>must enter the same as password</span>
                             <span>*at least 8 character</span>
-                            <span>*at least 1 uppercase character such as  @#*$_</span>
-                            <span>*at least 1 special character</span>
+                            <span>*at least 1 uppercase character</span>
+                            <span>*at least 1 special character  (@ # * $ _)</span>
                         </div>
                     </div>
                 }
             </section>
 
+            {password !== confirmpassword &&                     
+                     <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem] ">                        
+                        <div className=" flex flex-col">
+                            <span>confirm password must enter the same as password</span>
+                        </div>
+                    </div>
+            }
            
             {/* Link Forgotpassword */}
             <Link to={'/forgotpassword'} className="self-center">Forgot Password?</Link>
 
             {/* Err message */}
-            {isSending  ?    <div className='flex justify-center my-[1rem]'>
-                            <span className="loading loading-spinner loading-lg"></span>
-                        </div>
-                    :errMessage ?   <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem]">    
-                                        <span>{errMessage}</span>
-                                    </div>
-                                :   null
+            {isSending  ?   <div className='flex justify-center my-[1rem]'>
+                                <span className="loading loading-spinner loading-lg"></span>
+                            </div>
+                        :errMessage ?   <div className="alert drop-shadow-md text-red-600 text-[0.9rem] mt-[0.5rem]">    
+                                            <span>{errMessage}</span>
+                                        </div>
+                                    :   null
                    
             }
 
             {/* Button Cancel and Confirm */}
             <section className=" flex justify-center py-[1rem] gap-x-[1rem]">
                 <button type="button" className="btn normal-case  w-[100px] h-[30px] " onClick={()=>navigate(-1)}>Cancel</button>
-                <button type="submit" className="btn btn-neutral normal-case hover:bg-gray-500 w-[100px] h-[30px] " onClick={()=>{errMessage('')}}>Confirm</button>
+                <button type="submit" className="btn btn-neutral normal-case hover:bg-gray-500 w-[100px] h-[30px] " onClick={()=>{setErrMessage ('')}}>Confirm</button>
             </section>
         </form>
 
