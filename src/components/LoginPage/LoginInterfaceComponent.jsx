@@ -8,12 +8,14 @@ import useAuth from '../../hooks/useAuth';
 //Axios
 import axiosPublic from "../../api/axios";
 import jwtDecode from 'jwt-decode';
+import userVerify from '../../hooks/userVerify';
 const LOGIN_URL = '/login';
 function LoginInterfaceComponent() {
     const {setAuth , persist, setPersist} = useAuth();
 
     const navigate = useNavigate();
     const location = useLocation();
+    const {verifyPassword} = userVerify();
     const prevpage = location.state?.from?.pathname || "/mainpage"
 
     const [userEmail , setUserEmail] = useState('');
@@ -31,10 +33,12 @@ function LoginInterfaceComponent() {
     const detectEmptyInput = ()=>{
         if(!userEmail){
             refEmail.current.focus();
+            setErrMessage('please enter your email')
             return true;
         }
         if(!userPassword){
-            refPassword.current.focus();   
+            refPassword.current.focus(); 
+            setErrMessage('please enter your password')  
             return true;
         }
         return false
@@ -64,6 +68,9 @@ function LoginInterfaceComponent() {
         //check email and password not empty
         const isEmptyinput = detectEmptyInput();
         if(isEmptyinput) return
+
+        //verify format of password
+        if(!verifyPassword(userPassword)) return setErrMessage('please check your password')
 
         //generate signup data
         const loginData = createLoginData();  
