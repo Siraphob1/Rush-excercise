@@ -41,7 +41,7 @@ const UserInterfaceComponent = () => {
     const [errMessage , setErrMessage] = useState('');
     const [isSending , setIsSending] = useState(false);
     
-    // verify usernam
+    // verify username
     useEffect(()=>{ 
         setValidName(verifyUsername(username))
     },[username , verifyUsername])

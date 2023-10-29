@@ -5,12 +5,14 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { IoEyeOutline,IoEyeOffOutline } from "react-icons/io5";
 
 import axiosPublic from '../../api/axios';
-
-// Regex
-const regexPassword = /[@#*$_]+[A-Z]+.{6,}|[@#*$_]+.+[A-Z]+.{5,}|[A-Z]+.+[@#*$_]+.{5,}|[A-Z]+[@#*$_]+.{6,}|.+[@#*$_]+[A-Z]+.{5,}|.+[A-Z]+[@#*$_]+.{5,}/;
-
+import userVerify from '../../hooks/userVerify';
 
 function Newpass() {
+
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  const API_URL = `/forgotpassword/reset?token=${token}`
+  const {verifyPassword} = userVerify();
 
   const [password , setPassword] = useState('');
   const [validPassword , setValidPassword] = useState(false);
@@ -29,18 +31,17 @@ function Newpass() {
   const [errMessage ,setErrMessage] = useState('');
 
   
-  const [searchParams] = useSearchParams();
-  const token = searchParams.get("token");
-  const API_URL = `/forgotpassword/reset?token=${token}`
+  
 
+  // verify password
   useEffect(()=>{
-    // Check format of password
-    setValidPassword(regexPassword.test(password));
+    setValidPassword(verifyPassword(password));
+  },[password , verifyPassword])
 
-    // Check format of confirmpassword
-    setValidConfirmPassword(regexPassword.test(confirmpassword));
-  },[password , confirmpassword])
-
+  // verify confirm password
+  useEffect(()=>{
+    setValidConfirmPassword(verifyPassword(confirmpassword));
+  },[confirmpassword , verifyPassword])
 
   const canSendAPI = () =>{
       // password and confirmpassword not empty
@@ -136,8 +137,8 @@ function Newpass() {
              {focusPassword && !validPassword && 
                 <div className=" flex flex-col text-red-600">
                     <span>*at least 8 character</span>
-                    <span>*at least 1 uppercase character such as  @#*$_</span>
-                    <span>*at least 1 special character</span>
+                    <span>*at least 1 uppercase character</span>
+                    <span>*at least 1 special character  (@ # * $ _)</span>
                 </div>
               }
             </section>
@@ -154,12 +155,12 @@ function Newpass() {
               <button type="button" className=" absolute right-0 top-[1.7rem]  h-[40px] w-[40px] flex justify-center items-center "
                             onClick={()=>{setToggleConfirmPassword(!toggleConfirmPassword)}}>{toggleConfirmPassword ?<IoEyeOutline/>:<IoEyeOffOutline/>}</button> 
             
-              {focusConfirmPassword && password !== confirmpassword && <p className='text-red-600'>password not equal confirmpassword</p>}
+              {password !== confirmpassword && <p className='text-red-600'>password not equal confirmpassword</p>}
               {focusConfirmPassword && !validConfirmPassword && 
                 <div className=" flex flex-col text-red-600">
                   <span>*at least 8 character</span>
-                  <span>*at least 1 uppercase character such as  @#*$_</span>
-                  <span>*at least 1 special character</span>
+                  <span>*at least 1 uppercase character</span>
+                  <span>*at least 1 special character  (@ # * $ _)</span>
                 </div>
               }             
 
