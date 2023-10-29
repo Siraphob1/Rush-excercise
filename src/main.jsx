@@ -18,6 +18,8 @@ import DashboardPage from './pages/DashboardPage.jsx';
 import RequireAuth from './components/RequireAuth';
 import Reset from './pages/Forgotpassword/Reset'
 import Verify from './pages/Signup/Verify'
+import ErrorPage from './pages/ErrorPage';
+
 
 
 const router = createBrowserRouter([
@@ -25,7 +27,8 @@ const router = createBrowserRouter([
   // Public routes
   {
     path: "/",
-    element: <Firstpage />,         
+    element: <Firstpage />,  
+    errorElement: <ErrorPage />,    
   },
   {
     path: "/login",
